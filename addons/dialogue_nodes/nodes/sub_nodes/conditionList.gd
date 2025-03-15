@@ -9,6 +9,7 @@ signal modified
 const ConditionItemScene := preload('res://addons/dialogue_nodes/nodes/sub_nodes/ConditionItem.tscn')
 
 var undo_redo: EditorUndoRedoManager
+var last_variable_list: Array[String]
 
 
 func _to_dict() -> Array[Dictionary]:
@@ -16,7 +17,9 @@ func _to_dict() -> Array[Dictionary]:
 	
 	for child in get_children():
 		if child is Button: continue
-		dict.append(child._to_dict())
+		var child_dict = child._to_dict()
+		child_dict["value1"] = last_variable_list[child_dict.cur_variable]
+		dict.append(child_dict)
 	
 	return dict
 
@@ -45,6 +48,9 @@ func add_item(new_item: BoxContainer, to_idx := -1) -> void:
 	
 	new_item.modified.connect(_on_modified)
 	new_item.delete_requested.connect(_on_item_deleted.bind(new_item))
+
+	# Give new conditonal statement list of variables.
+	new_item._on_variables_updated(last_variable_list)
 
 
 func remove_item(item: BoxContainer) -> void:
@@ -93,3 +99,10 @@ func _on_item_deleted(item: BoxContainer) -> void:
 
 func _on_modified() -> void:
 	modified.emit()
+	
+	
+func update_variables(variable_list: Array[String]) -> void:
+	last_variable_list = variable_list
+	for child in get_children():
+		if child.has_method("_on_variables_updated"):
+			child._on_variables_updated(variable_list)
