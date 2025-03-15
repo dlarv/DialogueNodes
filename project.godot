@@ -24,10 +24,6 @@ project/assembly_name="DialogueNodes"
 naming/scene_name_casing=1
 naming/script_name_casing=1
 
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/dialogue_nodes/plugin.cfg")
-
 [filesystem]
 
 import/blender/enabled=false
