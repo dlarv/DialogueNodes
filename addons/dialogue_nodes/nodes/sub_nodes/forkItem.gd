@@ -66,3 +66,7 @@ func _on_condition_panel_hide() -> void:
 func _on_modified() -> void:
 	condition_panel.size.y = 0
 	modified.emit()
+
+func update_variables(variables_list: Array[String]) -> void:
+	condition_list.update_variables(variables_list)
+	

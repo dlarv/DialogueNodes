@@ -30,7 +30,7 @@ var cur_variable := -1
 
 func _to_dict() -> Dictionary:
 	if is_empty():
-		#print_rich('[color=yellow]Condition is empty![/color]')
+		print_rich('[color=yellow]Condition is empty![/color]')
 		return {}
 	
 	var dict:= {

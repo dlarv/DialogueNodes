@@ -132,11 +132,21 @@ as a fallback in case no other option is valid.",
 "fork_title": "Pills Fork",
 "forks": {
 0: {
-"condition": Array[Dictionary]([]),
+"condition": Array[Dictionary]([{
+"cur_variable": 1,
+"operator": 0,
+"value1": "red_pill",
+"value2": "true"
+}]),
 "link": &"1_7"
 },
 1: {
-"condition": Array[Dictionary]([]),
+"condition": Array[Dictionary]([{
+"cur_variable": 0,
+"operator": 0,
+"value1": "blue_pill",
+"value2": "true"
+}]),
 "link": &"1_6"
 }
 },

@@ -18,7 +18,10 @@ func _to_dict() -> Array[Dictionary]:
 	for child in get_children():
 		if child is Button: continue
 		var child_dict = child._to_dict()
-		child_dict["value1"] = last_variable_list[child_dict.cur_variable]
+		if child_dict.cur_variable != -1:
+			child_dict["value1"] = last_variable_list[child_dict.cur_variable]
+		else:
+			child_dict["value1"] = ""
 		dict.append(child_dict)
 	
 	return dict
