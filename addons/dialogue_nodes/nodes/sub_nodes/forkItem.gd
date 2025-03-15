@@ -19,7 +19,6 @@ var undo_redo : EditorUndoRedoManager :
 			condition_list.undo_redo = undo_redo
 var condition_popup_offset := 50
 
-
 func get_condition() -> Array[Dictionary]:
 	return condition_list._to_dict()
 
