@@ -179,6 +179,9 @@ func _process_set(dict: Dictionary) -> void:
 	
 	var type = typeof(variables[dict.variable])
 	var value = dict.value
+	if value.count("{{"):
+		value = _parse_variables(value)
+	
 	var operator = dict.type
 	
 	# set datatype of value
