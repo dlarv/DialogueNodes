@@ -1,5 +1,5 @@
 @tool
-extends GraphNode
+extends BaseDialogueNode
 ##
 ## Fork Node
 ##
@@ -7,7 +7,6 @@ extends GraphNode
 ## bottom) to be valid is used to exit, with a default option with no conditions always last.
 
 
-signal modified
 signal disconnection_from_request(from_node: String, from_port: int)
 signal connection_shift_request(from_node: String, old_port: int, new_port: int)
 
@@ -16,7 +15,6 @@ signal connection_shift_request(from_node: String, old_port: int, new_port: int)
 
 const ForkItemScene := preload('res://addons/dialogue_nodes/nodes/sub_nodes/ForkItem.tscn')
 
-var undo_redo: EditorUndoRedoManager
 var forks: Array[Control] = []
 var base_color: Color = Color.WHITE
 var last_variable_list: Array[String]

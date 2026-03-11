@@ -1,8 +1,5 @@
 @tool
-extends GraphNode
-
-
-signal modified
+extends BaseDialogueNode
 
 @onready var variable := $BoxContainer/Variable
 @onready var variable_timer := $VariableTimer
@@ -10,7 +7,6 @@ signal modified
 @onready var value := $BoxContainer/Value
 @onready var value_timer := $ValueTimer
 
-var undo_redo: EditorUndoRedoManager
 var last_variable: String
 var last_type: int
 var last_value: String
@@ -97,9 +93,6 @@ func _on_value_timer_timeout() -> void:
 	undo_redo.add_undo_method(self, 'set_value', last_value)
 	undo_redo.commit_action()
 
-
-func _on_modified() -> void:
-	modified.emit()
 
 func _on_variables_updated(variables_list: Array[String]) -> void:
 	variable.clear()
