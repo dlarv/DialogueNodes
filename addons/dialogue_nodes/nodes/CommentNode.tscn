@@ -23,16 +23,5 @@ script = ExtResource("1")
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ResizeTimer" type="Timer" parent="." unique_id=1476053621]
-wait_time = 0.5
-one_shot = true
-
-[node name="TextTimer" type="Timer" parent="." unique_id=1720987779]
-wait_time = 0.5
-one_shot = true
-
 [connection signal="resize_end" from="." to="." method="_on_resize_end"]
-[connection signal="resize_request" from="." to="." method="_on_resize"]
 [connection signal="text_changed" from="TextEdit" to="." method="_on_text_changed"]
-[connection signal="timeout" from="ResizeTimer" to="." method="_on_resize_timer_timeout"]
-[connection signal="timeout" from="TextTimer" to="." method="_on_text_timer_timeout"]

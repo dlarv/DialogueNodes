@@ -24,3 +24,23 @@ var undo_redo: EditorUndoRedoManager
 
 func _on_modified() -> void:
 	modified.emit()
+
+
+func _is_continuing_action(timer: Timer) -> bool:
+	if not timer.is_stopped():
+		timer.stop()
+		timer.start()
+		return true
+
+	if not undo_redo:
+		return true
+
+	return false
+
+
+func _get_new_timer() -> Timer:
+	var output := Timer.new()
+	output.wait_time = 0.5
+	output.one_shot = true
+	add_child(output)
+	return output
