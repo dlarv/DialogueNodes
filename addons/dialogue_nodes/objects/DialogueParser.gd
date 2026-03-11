@@ -118,6 +118,7 @@ func _proceed(node_name: String) -> void:
 			stop()
 		return
 	
+	# ADD NEW FUNCTIONS HERE
 	var process_functions := [
 		_process_start,
 		_process_dialogue,
