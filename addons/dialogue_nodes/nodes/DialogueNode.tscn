@@ -14,7 +14,7 @@ color_regions = {
 "[ ]": Color(0.647059, 0.937255, 0.67451, 1)
 }
 
-[node name="DialogueNode" type="GraphNode" unique_id=710966291 node_paths=PackedStringArray("resize_timer", "custom_speaker_timer", "dialogue_timer")]
+[node name="DialogueNode" type="GraphNode" unique_id=710966291]
 custom_minimum_size = Vector2(300, 240)
 offset_top = -1.0
 offset_right = 300.0
@@ -68,9 +68,6 @@ slot/4/right_color = Color(1, 1, 1, 1)
 slot/4/right_icon = null
 slot/4/draw_stylebox = true
 script = ExtResource("1")
-resize_timer = NodePath("DialogueContainer/ResizeTimer")
-custom_speaker_timer = NodePath("SpeakerContainer/CustomSpeakerTimer")
-dialogue_timer = NodePath("DialogueContainer/DialogueTimer")
 
 [node name="SpeakerLabel" type="Label" parent="." unique_id=1821729645]
 layout_mode = 2
@@ -96,10 +93,6 @@ unique_name_in_owner = true
 layout_mode = 2
 toggle_mode = true
 icon = ExtResource("2_n0qww")
-
-[node name="CustomSpeakerTimer" type="Timer" parent="SpeakerContainer" unique_id=717014119]
-wait_time = 0.5
-one_shot = true
 
 [node name="DialogueLabel" type="Label" parent="." unique_id=74173988]
 layout_mode = 2
@@ -155,25 +148,14 @@ layout_mode = 2
 layout_mode = 2
 text = "Close"
 
-[node name="DialogueTimer" type="Timer" parent="DialogueContainer" unique_id=163843085]
-wait_time = 0.5
-one_shot = true
-
-[node name="ResizeTimer" type="Timer" parent="DialogueContainer" unique_id=1284237921]
-wait_time = 0.5
-one_shot = true
-
 [node name="Option1" parent="." unique_id=1604330917 instance=ExtResource("4_y6bt4")]
 layout_mode = 2
 
-[connection signal="resize_request" from="." to="." method="_on_resize"]
+[connection signal="resize_end" from="." to="." method="_on_resize_end"]
 [connection signal="text_changed" from="SpeakerContainer/CustomSpeaker" to="." method="_on_custom_speaker_changed"]
 [connection signal="item_selected" from="SpeakerContainer/Speaker" to="." method="_on_speaker_selected"]
 [connection signal="toggled" from="SpeakerContainer/CharacterToggle" to="." method="_on_speaker_toggled"]
-[connection signal="timeout" from="SpeakerContainer/CustomSpeakerTimer" to="." method="_on_custom_speaker_timer_timeout"]
 [connection signal="text_changed" from="DialogueContainer/Dialogue" to="." method="_on_dialogue_text_changed"]
 [connection signal="pressed" from="DialogueContainer/ExpandButton" to="." method="_on_expand_button_pressed"]
 [connection signal="text_changed" from="DialogueContainer/DialoguePanel/VBoxContainer/DialogueExpanded" to="." method="_on_dialogue_text_changed"]
 [connection signal="pressed" from="DialogueContainer/DialoguePanel/VBoxContainer/CenterContainer/CloseButton" to="." method="_on_close_button_pressed"]
-[connection signal="timeout" from="DialogueContainer/DialogueTimer" to="." method="_on_dialogue_timer_timeout"]
-[connection signal="timeout" from="DialogueContainer/ResizeTimer" to="." method="_on_resize_timer_timeout"]

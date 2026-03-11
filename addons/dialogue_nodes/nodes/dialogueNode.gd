@@ -4,10 +4,9 @@ extends BaseDialogueNode
 signal character_list_requested(dialogue_node: GraphNode)
 
 @export var max_options := 4
-@export var resize_timer: Timer
-@export var custom_speaker_timer: Timer
-@export var dialogue_timer: Timer
 
+@onready var dialogue_timer := _get_new_timer()
+@onready var custom_speaker_timer := _get_new_timer()
 @onready var speaker := %Speaker
 @onready var custom_speaker := %CustomSpeaker
 @onready var character_toggle := %CharacterToggle
@@ -206,31 +205,9 @@ func update_slots() -> void:
 		set_slot(option.get_index(), false, 0, base_color, enabled, 0, base_color)
 
 
-func _on_resize(_new_size) -> void:
-	resize_timer.stop()
-	resize_timer.start()
-
-
-func _on_resize_timer_timeout() -> void:
-	if not undo_redo: return
-	
-	undo_redo.create_action('Set node size')
-	undo_redo.add_do_method(self, 'set_size', size)
-	undo_redo.add_do_property(self, 'last_size', size)
-	undo_redo.add_do_method(self, '_on_modified')
-	undo_redo.add_undo_method(self, '_on_modified')
-	undo_redo.add_undo_property(self, 'last_size', last_size)
-	undo_redo.add_undo_method(self, 'set_size', last_size)
-	undo_redo.commit_action()
-
-
-func _on_custom_speaker_changed(_new_text) -> void:
-	custom_speaker_timer.stop()
+func _on_custom_speaker_changed(text: String) -> void:
+	if _is_continuing_action(custom_speaker_timer): return
 	custom_speaker_timer.start()
-
-
-func _on_custom_speaker_timer_timeout() -> void:
-	if not undo_redo: return
 	
 	undo_redo.create_action('Set custom speaker')
 	undo_redo.add_do_method(self, 'set_custom_speaker', custom_speaker.text)
@@ -281,12 +258,8 @@ func _on_speaker_toggled(toggled_on: bool) -> void:
 
 
 func _on_dialogue_text_changed() -> void:
-	dialogue_timer.stop()
+	if _is_continuing_action(dialogue_timer): return
 	dialogue_timer.start()
-
-
-func _on_dialogue_timer_timeout() -> void:
-	if not undo_redo: return
 	
 	undo_redo.create_action('Set dialogue text')
 	if dialogue_panel.visible:
@@ -397,3 +370,17 @@ func _on_option_focus_exited(option: BoxContainer) -> void:
 func _on_variables_updated(variables_list: Array[String]) -> void:
 	for option in options:
 		option.update_variables(variables_list)
+
+
+func _on_resize_end(new_size: Vector2) -> void:
+	if not undo_redo: return
+	
+	undo_redo.create_action('Set node size')
+	undo_redo.add_do_method(self, 'set_size', size)
+	undo_redo.add_do_property(self, 'last_size', size)
+	undo_redo.add_do_method(self, '_on_modified')
+	undo_redo.add_undo_method(self, '_on_modified')
+	undo_redo.add_undo_property(self, 'last_size', last_size)
+	undo_redo.add_undo_method(self, 'set_size', last_size)
+	undo_redo.commit_action()
+

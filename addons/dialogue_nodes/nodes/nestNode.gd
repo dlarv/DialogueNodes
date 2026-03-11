@@ -6,8 +6,8 @@ extends BaseDialogueNode
 @onready var ID: LineEdit = $ID
 @onready var start_id: String = ID.text
 @onready var open_dialog: FileDialog = $OpenDialog
-@onready var path_timer: Timer = $PathTimer
-@onready var id_timer: Timer = $IDTimer
+@onready var path_timer := _get_new_timer()
+@onready var id_timer := _get_new_timer()
 
 func _to_dict(graph: GraphEdit) -> Dictionary:
 	var dict := {}
@@ -44,19 +44,9 @@ func _on_browse_button_pressed() -> void:
 
 
 func _on_file_selected(new_path: String) -> void:
-	path.text = new_path
-	_on_path_timer_timeout()
-
-
-func _on_file_path_changed(_path) -> void:
-	path_timer.stop()
+	if _is_continuing_action(path_timer): return
 	path_timer.start()
-
-
-func _on_path_timer_timeout() -> void:
-	if not undo_redo:
-		file_path = path.text
-		return
+	path.text = new_path
 	
 	undo_redo.create_action('Set file path')
 	undo_redo.add_do_method(self, 'set_path', path.text)
@@ -67,14 +57,8 @@ func _on_path_timer_timeout() -> void:
 
 
 func _on_ID_changed(_id) -> void:
-	id_timer.stop()
+	if _is_continuing_action(id_timer): return
 	id_timer.start()
-
-
-func _on_id_timer_timeout() -> void:
-	if not undo_redo:
-		start_id = ID.text
-		return
 	
 	undo_redo.create_action('Set start ID')
 	undo_redo.add_do_method(self, 'set_ID', ID.text)

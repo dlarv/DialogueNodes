@@ -7,7 +7,7 @@ signal run_requested
 @onready var ID := $HBoxContainer/ID
 @onready var start_id: String = ID.text
 @onready var timer := $Timer
-@onready var resize_timer: Timer = $ResizeTimer
+@onready var resize_timer := _get_new_timer()
 
 var last_size := size
 
@@ -90,14 +90,8 @@ func set_ID(new_id: String) -> void:
 
 
 func _on_ID_changed(_id) -> void:
-	timer.stop()
+	if _is_continuing_action(timer): return
 	timer.start()
-
-
-func _on_timer_timeout() -> void:
-	if not undo_redo:
-		start_id = ID.text
-		return
 	
 	undo_redo.create_action('Set start ID')
 	undo_redo.add_do_method(self, 'set_ID', ID.text)
@@ -115,15 +109,7 @@ func _on_run_pressed() -> void:
 		printerr(title, ' has no start_id!')
 
 
-func _on_resize(_new_size) -> void:
-	resize_timer.stop()
-	resize_timer.start()
-	
-	# FIXME: find a way to clamp node size along y axis without using _process()
-	size.y = 86
-
-
-func _on_resize_timer_timeout() -> void:
+func _on_resize_end(new_size: Vector2) -> void:
 	if not undo_redo:
 		print_rich('[shake][color="FF8866"]WOMP WOMP no undo_redo??[/color][/shake]')
 		return

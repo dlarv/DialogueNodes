@@ -2,7 +2,7 @@
 extends BaseDialogueNode
 
 @onready var value := $SignalValue
-@onready var timer := $Timer
+@onready var timer := _get_new_timer()
 
 var last_value := ''
 
@@ -31,12 +31,8 @@ func set_value(new_value: String) -> void:
 
 
 func _on_signal_value_changed(_new_text) -> void:
-	timer.stop()
+	if _is_continuing_action(timer): return
 	timer.start()
-
-
-func _on_timer_timeout() -> void:
-	if not undo_redo: return
 	
 	undo_redo.create_action('Set signal value')
 	undo_redo.add_do_method(self, 'set_value', value.text)
