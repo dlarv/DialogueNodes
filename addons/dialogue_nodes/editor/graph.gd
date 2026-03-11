@@ -138,20 +138,10 @@ func add_node(id: int, node_name := '', offset := cursor_pos) -> GraphElement:
 			disconnect_node(request_node, request_port, prev_connection[0]['to_node'], prev_connection[0]['to_port'])
 		connect_node(request_node, request_port, new_node.name, 0)
 	
-	match id:
-		0: # start node
-			add_to_starts(new_node.name)
-			new_node.set_ID('START' + new_node.name.split('_')[1])
-		1: # dialogue node
-			new_node._on_characters_updated(last_character_list)
-			new_node._on_variables_updated(last_variable_list)
-		4: # set node
-			new_node._on_variables_updated(last_variable_list)
-		5: # conditional node
-			new_node._on_variables_updated(last_variable_list)
-		7: # fork node
-			new_node._on_variables_updated(last_variable_list)
-
+	# Start Node
+	if id == 0:
+		add_to_starts(new_node.name)
+		new_node.set_ID('START' + new_node.name.split('_')[1])
 	
 	return new_node
 
@@ -161,24 +151,20 @@ func connect_node_signals(node: GraphElement) -> void:
 	
 	node.dragged.connect(_on_node_dragged.bind(node))
 	node.modified.connect(_on_modified)
-	
-	match id:
-		0: # start node
-			node.run_requested.connect(_on_run_requested.bind(node))
-		1: # dialogue node
-			characters_updated.connect(node._on_characters_updated)
-			node.disconnection_from_request.connect(_on_disconnection_from_request)
-			node.connection_shift_request.connect(_on_connection_shift_request)
-			variables_updated.connect(node._on_variables_updated)
-		4: # set node
-			variables_updated.connect(node._on_variables_updated)
-		5: # conditional node
-			variables_updated.connect(node._on_variables_updated)
-		7: # fork node
-			node.disconnection_from_request.connect(_on_disconnection_from_request)
-			node.connection_shift_request.connect(_on_connection_shift_request)
-			variables_updated.connect(node._on_variables_updated)
+	node.disconnection_from_request.connect(_on_disconnection_from_request)
+	node.connection_shift_request.connect(_on_connection_shift_request)
 
+	if node.has_method("_on_variables_updated"):
+		variables_updated.connect(node._on_variables_updated)
+		node._on_variables_updated(last_variable_list)
+
+	if node.has_method("_on_characters_updated"):
+		variables_updated.connect(node._on_characters_updated)
+		node._on_characters_updated(last_character_list)
+
+	# Start node
+	if id == 0:
+		node.run_requested.connect(_on_run_requested.bind(node))
 
 
 func disconnect_node_signals(node: GraphElement) -> void:
@@ -186,23 +172,18 @@ func disconnect_node_signals(node: GraphElement) -> void:
 	
 	node.dragged.disconnect(_on_node_dragged.bind(node))
 	node.modified.disconnect(_on_modified)
-	
-	match id:
-		0: # start node
-			node.run_requested.disconnect(_on_run_requested.bind(node))
-		1: # dialogue node
-			characters_updated.disconnect(node._on_characters_updated)
-			node.disconnection_from_request.disconnect(_on_disconnection_from_request)
-			node.connection_shift_request.disconnect(_on_connection_shift_request)
-			variables_updated.disconnect(node._on_variables_updated)
-		4: # set node
-			variables_updated.disconnect(node._on_variables_updated)
-		5: # conditional node
-			variables_updated.disconnect(node._on_variables_updated)
-		7: # fork node
-			node.disconnection_from_request.disconnect(_on_disconnection_from_request)
-			node.connection_shift_request.disconnect(_on_connection_shift_request)
-			variables_updated.disconnect(node._on_variables_updated)
+	node.disconnection_from_request.disconnect(_on_disconnection_from_request)
+	node.connection_shift_request.disconnect(_on_connection_shift_request)
+
+	if node.has_method("_on_variables_updated"):
+		variables_updated.disconnect(node._on_variables_updated)
+
+	if node.has_method("_on_characters_updated"):
+		variables_updated.disconnect(node._on_characters_updated)
+
+	# Start node
+	if id == 0:
+		node.run_requested.disconnect(_on_run_requested.bind(node))
 
 
 func show_add_menu(pos: Vector2) -> void:

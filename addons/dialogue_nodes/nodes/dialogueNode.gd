@@ -1,10 +1,7 @@
 @tool
 extends BaseDialogueNode
 
-
 signal character_list_requested(dialogue_node: GraphNode)
-signal disconnection_from_request(from_node: String, from_port: int)
-signal connection_shift_request(from_node: String, old_port: int, new_port: int)
 
 @export var max_options := 4
 @export var resize_timer: Timer

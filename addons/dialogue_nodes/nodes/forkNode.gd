@@ -7,9 +7,6 @@ extends BaseDialogueNode
 ## bottom) to be valid is used to exit, with a default option with no conditions always last.
 
 
-signal disconnection_from_request(from_node: String, from_port: int)
-signal connection_shift_request(from_node: String, old_port: int, new_port: int)
-
 @onready var fork_title: LineEdit = $ForkTitle
 @onready var add_button: Button = $AddButton
 
