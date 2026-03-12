@@ -159,7 +159,7 @@ func connect_node_signals(node: GraphElement) -> void:
 		node._on_variables_updated(last_variable_list)
 
 	if node.has_method("_on_characters_updated"):
-		variables_updated.connect(node._on_characters_updated)
+		characters_updated.connect(node._on_characters_updated)
 		node._on_characters_updated(last_character_list)
 
 	# Start node
@@ -179,7 +179,7 @@ func disconnect_node_signals(node: GraphElement) -> void:
 		variables_updated.disconnect(node._on_variables_updated)
 
 	if node.has_method("_on_characters_updated"):
-		variables_updated.disconnect(node._on_characters_updated)
+		characters_updated.disconnect(node._on_characters_updated)
 
 	# Start node
 	if id == 0:
