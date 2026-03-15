@@ -16,9 +16,10 @@ var cur_variable := -1
 func _to_dict(graph: GraphEdit) -> Dictionary:
 	var dict := {}
 	var connections: Array = graph.get_connections(name)
+	# var variables := graph.last_variable_list + StoryManager.get_variable_list()
 	
 	dict['cur_variable'] = cur_variable
-	dict['variable'] = graph.last_variable_list[cur_variable]
+	dict['variable'] = variable.text
 	dict['type'] = type.selected
 	dict['value'] = value.text
 	dict['link'] = connections[0]['to_node'] if connections.size() > 0 else 'END'

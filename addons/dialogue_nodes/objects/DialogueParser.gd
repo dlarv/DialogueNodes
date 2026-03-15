@@ -82,6 +82,7 @@ func start(start_id: String) -> void:
 ## Stops processing the dialogue tree.
 func stop() -> void:
 	_running = false
+	StoryManager.update_variables(variables)
 	dialogue_ended.emit()
 
 

@@ -48,3 +48,10 @@ func rename_variable(old_name: String, new_name: String) -> void:
 
 func get_variable_list() -> Array[String]:
 	return variables.keys()
+
+
+## Takes mixed local and global vars and updates global var values
+func update_variables(data: Dictionary) -> void:
+	for key in data:
+		if variables.has(key):
+			variables[key].value = data[key]
