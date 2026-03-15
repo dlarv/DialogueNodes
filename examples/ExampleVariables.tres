@@ -47,7 +47,7 @@ Like: You have {{COINS}} coins!",
 "text": "Nothing"
 }
 },
-"size": Vector2(300, 343),
+"size": Vector2(300, 343.00006),
 "speaker": "Greg"
 },
 &"1_3": {
@@ -62,7 +62,7 @@ Current value: {{COINS}}
 "text": ""
 }
 },
-"size": Vector2(300, 241),
+"size": Vector2(300.00024, 241),
 "speaker": "Greg"
 },
 &"1_4": {
@@ -75,7 +75,7 @@ Current value: {{COINS}}
 "text": ""
 }
 },
-"size": Vector2(300, 240),
+"size": Vector2(300, 240.00002),
 "speaker": "Greg"
 },
 &"1_5": {
@@ -88,7 +88,7 @@ Current value: {{COINS}}
 "text": ""
 }
 },
-"size": Vector2(300, 240),
+"size": Vector2(300.00012, 240.00014),
 "speaker": "Greg"
 },
 &"1_6": {
@@ -101,7 +101,7 @@ Current value: {{COINS}}
 "text": ""
 }
 },
-"size": Vector2(300, 241.00006),
+"size": Vector2(300.00024, 241.00015),
 "speaker": "Greg"
 },
 &"1_7": {
@@ -114,7 +114,7 @@ Current value: {{COINS}}
 "text": ""
 }
 },
-"size": Vector2(300, 241.00104),
+"size": Vector2(300, 241.00098),
 "speaker": "Greg"
 },
 &"1_8": {
@@ -145,13 +145,13 @@ Current value: {{COINS}}
 "text": "Bye"
 }
 },
-"size": Vector2(300, 308),
+"size": Vector2(300, 308.0003),
 "speaker": "Greg"
 },
 &"4_1": {
 "cur_variable": 0,
 "link": &"1_4",
-"offset": Vector2(1360, 140),
+"offset": Vector2(1380, 0),
 "type": 0,
 "value": "5",
 "variable": "COINS"
@@ -168,3 +168,9 @@ Current value: {{COINS}}
 "true": &"1_7"
 }
 }
+variables = Dictionary[String, Dictionary]({
+"COINS": {
+"type": 2,
+"value": 10
+}
+})

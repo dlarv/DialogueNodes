@@ -15,6 +15,7 @@
 [ext_resource type="Resource" uid="uid://bio6clng2q0ur" path="res://examples/ExampleVariableDropdowns.tres" id="11_48mo8"]
 [ext_resource type="Script" uid="uid://blmdt7v8bd0nl" path="res://addons/dialogue_nodes/objects/bbcodeGhost.gd" id="11_iuh66"]
 [ext_resource type="Script" uid="uid://bsoctnc26xumr" path="res://addons/dialogue_nodes/objects/bbcodeMatrix.gd" id="12_cnev0"]
+[ext_resource type="Resource" uid="uid://cxsbh8tnd8q4m" path="res://examples/ExampleGlobals.tres" id="12_yesu5"]
 
 [sub_resource type="Curve" id="1"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.67805, 0.0, 0, 0]
@@ -43,7 +44,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_qerq3")
 script = ExtResource("2_5ddyy")
-demos = Array[ExtResource("3_vce48")]([ExtResource("3_yex7d"), ExtResource("4_ay03t"), ExtResource("5_ifbb7"), ExtResource("6_arg21"), ExtResource("7_18syg"), ExtResource("8_4fu3f"), ExtResource("10_2mtm5"), ExtResource("11_48mo8")])
+demos = Array[ExtResource("3_vce48")]([ExtResource("3_yex7d"), ExtResource("4_ay03t"), ExtResource("5_ifbb7"), ExtResource("6_arg21"), ExtResource("7_18syg"), ExtResource("8_4fu3f"), ExtResource("10_2mtm5"), ExtResource("11_48mo8"), ExtResource("12_yesu5")])
 
 [node name="DemoSelector" type="OptionButton" parent="." unique_id=656082638]
 layout_mode = 1

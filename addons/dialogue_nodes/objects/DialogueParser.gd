@@ -58,6 +58,8 @@ func set_data(new_data: DialogueData) -> void:
 	variables.clear()
 	for var_name in data.variables:
 		variables[var_name] = data.variables[var_name].value
+	for var_name in StoryManager.variables:
+		variables[var_name] = StoryManager.variables[var_name].value
 	
 	characters = StoryManager.characters
 

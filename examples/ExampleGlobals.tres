@@ -1,0 +1,116 @@
+[gd_resource type="Resource" script_class="DialogueData" format=3 uid="uid://cxsbh8tnd8q4m"]
+
+[ext_resource type="Script" uid="uid://eit47g61t72a" path="res://addons/dialogue_nodes/objects/DialogueData.gd" id="1_lpax0"]
+
+[resource]
+script = ExtResource("1_lpax0")
+starts = {
+"START": &"0_1"
+}
+nodes = {
+&"0_1": {
+"link": &"5_1",
+"offset": Vector2(-100, 60),
+"start_id": "START"
+},
+&"1_1": {
+"dialogue": "This addon now has support for global variables!",
+"offset": Vector2(500, -40),
+"options": {
+0: {
+"condition": Array[Dictionary]([]),
+"link": &"1_3",
+"text": ""
+}
+},
+"size": Vector2(300, 240),
+"speaker": "Greg"
+},
+&"1_2": {
+"dialogue": "Huh, there seems to be an issue with the global variables...",
+"offset": Vector2(500, 240),
+"options": {
+0: {
+"condition": Array[Dictionary]([]),
+"link": "END",
+"text": ""
+}
+},
+"size": Vector2(300, 240),
+"speaker": "Greg"
+},
+&"1_3": {
+"dialogue": "These can be accessed like local variables, but are defined in their own tab.",
+"offset": Vector2(840, -40),
+"options": {
+0: {
+"condition": Array[Dictionary]([]),
+"link": &"1_4",
+"text": ""
+}
+},
+"size": Vector2(300, 240),
+"speaker": "Greg"
+},
+&"1_4": {
+"dialogue": "And, needless to say, they can be accessed from any dialog tree!",
+"offset": Vector2(1180, -40),
+"options": {
+0: {
+"condition": Array[Dictionary]([]),
+"link": &"5_2",
+"text": ""
+}
+},
+"size": Vector2(300.00012, 240),
+"speaker": "Greg"
+},
+&"1_5": {
+"dialogue": "For instance, I see you've already tried my dropdowns demo. Nice!",
+"offset": Vector2(1900, -160),
+"options": {
+0: {
+"condition": Array[Dictionary]([]),
+"link": "END",
+"text": ""
+}
+},
+"size": Vector2(300, 240.00008),
+"speaker": "Greg"
+},
+&"1_6": {
+"dialogue": "For instance, I see you haven't already tried my dropdowns demo. You should go take a look ;)",
+"offset": Vector2(1900, 100),
+"options": {
+0: {
+"condition": Array[Dictionary]([]),
+"link": "END",
+"text": ""
+}
+},
+"size": Vector2(300, 240),
+"speaker": "Greg"
+},
+&"5_1": {
+"condition": Array[Dictionary]([{
+"cur_variable": 0,
+"operator": 0,
+"value1": "has_globals",
+"value2": "true"
+}]),
+"false": &"1_2",
+"offset": Vector2(140, 0),
+"true": &"1_1"
+},
+&"5_2": {
+"condition": Array[Dictionary]([{
+"cur_variable": 1,
+"operator": 0,
+"value1": "visited_dropdowns",
+"value2": "true"
+}]),
+"false": &"1_6",
+"offset": Vector2(1520, -40),
+"true": &"1_5"
+}
+}

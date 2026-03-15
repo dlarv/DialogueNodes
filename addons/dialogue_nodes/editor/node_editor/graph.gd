@@ -40,6 +40,8 @@ func _ready() -> void:
 	editor_settings = EditorInterface.get_editor_settings()
 	editor_settings.settings_changed.connect(update_slots_color)
 
+	StoryManager.variable_list_updated.connect(_on_variables_updated.bind(true))
+
 
 func _input(_event) -> void:
 	if (not popup_menu.visible) and request_port > -1:
@@ -153,7 +155,8 @@ func connect_node_signals(node: GraphElement) -> void:
 
 	if node.has_method("_on_variables_updated"):
 		variables_updated.connect(node._on_variables_updated)
-		node._on_variables_updated(last_variable_list)
+		node._on_variables_updated(last_variable_list + StoryManager.get_variable_list())
+
 	if node.has_method("_on_characters_updated"):
 		StoryManager.character_list_updated.connect(node._on_characters_updated)
 		node._on_characters_updated()
@@ -504,11 +507,21 @@ func _on_connection_shift_request(from_node: String, old_port: int, new_port: in
 	connect_node(from_node, new_port, connections[0]['to_node'], connections[0]['to_port'])
 
 
-func _on_variables_updated(variable_list: Array[String]) -> void:
+func _on_variables_updated(variable_list: Array[String], is_globals:=false) -> void:
 	if not is_inside_tree(): return
+	var globals: Array[String]
+	var locals: Array[String]
+
+	if is_globals:
+		locals = last_variable_list
+		globals = variable_list
+	else:
+		locals = variable_list
+		globals = StoryManager.get_variable_list()
+
+		last_variable_list = locals
 	
-	last_variable_list = variable_list
-	variables_updated.emit(variable_list)
+	variables_updated.emit(locals + globals)
 
 func _on_run_requested(node: GraphElement) -> void:
 	var idx := starts.find(node.name)

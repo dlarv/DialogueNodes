@@ -123,3 +123,5 @@ func recreate_variable_list(dict: Array[Dictionary]) -> void:
 		if idx >= len(last_variable_list):
 			last_variable_list.resize(idx + 1)
 		last_variable_list[idx] = cond.value1
+	
+	last_variable_list += StoryManager.get_variable_list()

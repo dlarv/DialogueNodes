@@ -2,7 +2,7 @@
 extends Node
 
 signal character_list_updated
-signal variable_list_updated
+signal variable_list_updated(list: Array[String])
 
 @export var characters: Array[Character]
 @export var variables: Dictionary[String, Dictionary]
@@ -24,7 +24,7 @@ func new_variable(key: String) -> void:
 		push_error("Could not add var. '%s' already exists" % key)
 		return
 	variables[key] = {}
-	variable_list_updated.emit()
+	variable_list_updated.emit(get_variable_list())
 
 
 func remove_variable(key: String) -> void:
@@ -32,7 +32,7 @@ func remove_variable(key: String) -> void:
 		push_error("Could not remove var. '%s' not found" % key)
 		return
 	variables.erase(key)
-	variable_list_updated.emit()
+	variable_list_updated.emit(get_variable_list())
 
 
 func rename_variable(old_name: String, new_name: String) -> void:
@@ -44,5 +44,7 @@ func rename_variable(old_name: String, new_name: String) -> void:
 	variables.erase(old_name)
 	variables[new_name] = data
 
-	variable_list_updated.emit()
+	variable_list_updated.emit(get_variable_list())
 
+func get_variable_list() -> Array[String]:
+	return variables.keys()

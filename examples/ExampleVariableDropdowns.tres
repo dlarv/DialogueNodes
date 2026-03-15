@@ -9,8 +9,8 @@ starts = {
 }
 nodes = {
 &"0_1": {
-"link": &"1_1",
-"offset": Vector2(-482, -262),
+"link": &"4_6",
+"offset": Vector2(-780, -360),
 "start_id": "START"
 },
 &"1_1": {
@@ -28,7 +28,7 @@ nodes = {
 "text": "No"
 }
 },
-"size": Vector2(300, 308),
+"size": Vector2(300.00006, 308),
 "speaker": "Greg"
 },
 &"1_10": {
@@ -41,7 +41,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300.0005, 240),
+"size": Vector2(300.00098, 240),
 "speaker": "Greg"
 },
 &"1_11": {
@@ -59,7 +59,7 @@ nodes = {
 "text": "Try to leave"
 }
 },
-"size": Vector2(319.99976, 308),
+"size": Vector2(320.00024, 308.00024),
 "speaker": "Greg"
 },
 &"1_12": {
@@ -72,7 +72,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300.00098, 240.00012),
+"size": Vector2(300.00122, 240.00012),
 "speaker": "Greg"
 },
 &"1_13": {
@@ -85,7 +85,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300.00024, 240),
+"size": Vector2(300, 240),
 "speaker": ""
 },
 &"1_14": {
@@ -98,7 +98,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300.0005, 240),
+"size": Vector2(300.00024, 240.00024),
 "speaker": "Greg"
 },
 &"1_15": {
@@ -111,7 +111,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300.00024, 240.00006),
+"size": Vector2(300.00098, 240),
 "speaker": "Greg"
 },
 &"1_2": {
@@ -124,7 +124,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300.00006, 240.00003),
+"size": Vector2(300.00024, 240.00012),
 "speaker": "Greg"
 },
 &"1_3": {
@@ -147,7 +147,7 @@ nodes = {
 "text": "Pay the toll (10 coins)"
 }
 },
-"size": Vector2(300, 320),
+"size": Vector2(300.0003, 320),
 "speaker": "Greg"
 },
 &"1_4": {
@@ -173,7 +173,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240.00027),
+"size": Vector2(300, 240.00009),
 "speaker": "Greg"
 },
 &"1_6": {
@@ -191,7 +191,7 @@ nodes = {
 "text": "Neat"
 }
 },
-"size": Vector2(300.00012, 308.00003),
+"size": Vector2(300, 308),
 "speaker": "Greg"
 },
 &"1_7": {
@@ -204,7 +204,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240.00003),
+"size": Vector2(300.00012, 240.00018),
 "speaker": "Greg"
 },
 &"1_8": {
@@ -222,7 +222,7 @@ nodes = {
 "text": "Go left"
 }
 },
-"size": Vector2(300, 308),
+"size": Vector2(300, 307.99982),
 "speaker": "Greg"
 },
 &"1_9": {
@@ -277,6 +277,14 @@ nodes = {
 "type": 1,
 "value": "5",
 "variable": "COINS"
+},
+&"4_6": {
+"cur_variable": 5,
+"link": &"1_1",
+"offset": Vector2(-580, -360),
+"type": 0,
+"value": "true",
+"variable": "visited_dropdowns"
 },
 &"5_1": {
 "condition": Array[Dictionary]([{

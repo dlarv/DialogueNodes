@@ -7,6 +7,7 @@ extends BaseDialogueNode
 @onready var value_timer := _get_new_timer()
 @onready var variable_timer := _get_new_timer()
 
+var last_variable_list: Array[String]
 var last_variable: String
 var last_type: int
 var last_value: String
@@ -50,7 +51,9 @@ func set_value(new_value: String) -> void:
 
 
 func _on_variable_changed(_new_text) -> void:
-	if _is_continuing_action(variable_timer): return
+	if _is_continuing_action(variable_timer): 
+		set_variable(variable.text)
+		return
 	variable_timer.start()
 	
 	undo_redo.create_action('Set variable name')
@@ -98,6 +101,7 @@ func _on_variables_updated(variables_list: Array[String]) -> void:
 		variable.select(cur_variable)
 	else:
 		variable.select(-1)
+
 
 func _on_variable_selected(idx: int) -> void:
 	if not undo_redo: 
