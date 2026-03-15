@@ -101,7 +101,7 @@ Current value: {{COINS}}
 "text": ""
 }
 },
-"size": Vector2(300, 241),
+"size": Vector2(300, 241.00006),
 "speaker": "Greg"
 },
 &"1_7": {
@@ -114,7 +114,7 @@ Current value: {{COINS}}
 "text": ""
 }
 },
-"size": Vector2(300, 241.00098),
+"size": Vector2(300, 241.00104),
 "speaker": "Greg"
 },
 &"1_8": {
@@ -166,11 +166,5 @@ Current value: {{COINS}}
 "false": &"1_8",
 "offset": Vector2(1360, 380),
 "true": &"1_7"
-}
-}
-variables = {
-"COINS": {
-"type": 2,
-"value": 10
 }
 }

@@ -1,9 +1,11 @@
 @tool
 extends Control
 
-
 signal modified
 signal variable_list_updated(variable_list: Array[String])
+signal variable_removed(name: String)
+signal variable_added(name: String, data: Dictionary)
+signal variable_name_updated(old_name: String, new_name: String)
 
 @export var var_container: Control
 
@@ -13,7 +15,7 @@ var variable_list: Array[String] = []
 
 
 func get_data() -> Dictionary[String, Dictionary]:
-	var dict := {}
+	var dict: Dictionary[String, Dictionary] = {}
 	
 	for child in var_container.get_children():
 		if child is HBoxContainer:
@@ -24,17 +26,17 @@ func get_data() -> Dictionary[String, Dictionary]:
 	return dict
 
 
-func load_data(dict: Dictionary) -> void:
+func load_data(dict: Dictionary, no_signal:=false) -> void:
 	# remove old variables
 	clear()
 	
 	# add values
 	for var_name in dict:
-		add_variable(var_name, dict[var_name])
+		add_variable(var_name, dict[var_name], no_signal)
 
 
 ## add new variable item to the list
-func add_variable(new_name:= '', data:= {'type': TYPE_STRING, 'value': ''}, to_idx:= -1) -> HBoxContainer:
+func add_variable(new_name:= '', data:= {'type': TYPE_STRING, 'value': ''}, to_idx:= -1, no_signal:=false) -> HBoxContainer:
 	var new_variable := variable_item_scene.instantiate()
 	var_container.add_child(new_variable, true)
 	
@@ -48,7 +50,11 @@ func add_variable(new_name:= '', data:= {'type': TYPE_STRING, 'value': ''}, to_i
 	new_variable.name_updated.connect(_on_variable_name_updated)
 	
 	variable_list.append(new_name)
-	variable_list_updated.emit(variable_list)
+
+	if no_signal:
+		variable_list_updated.emit(variable_list)
+		variable_added.emit(new_name, data)
+		modified.emit()
 	
 	return new_variable
 
@@ -58,6 +64,8 @@ func remove_variable(idx: int) -> void:
 	var variable = var_container.get_child(idx)
 	variable.queue_free()
 	
+	variable_removed.emit(variable_list[idx])
+
 	variable_list.remove_at(idx)
 	variable_list_updated.emit(variable_list)
 	
@@ -89,6 +97,7 @@ func set_value(var_name: String, value) -> void:
 		return
 	var variable = get_variable(var_name)
 	if not variable: return
+
 	variable.set_value(value)
 
 
@@ -130,6 +139,8 @@ func _on_variable_name_updated(new_name: String, old_name: String) -> void:
 	if idx != -1:
 		variable_list[idx] = new_name
 		variable_list_updated.emit(variable_list)
+
+	variable_name_updated.emit(old_name, new_name)
 
 
 func _on_modified(_a= 0, _b= 0) -> void:

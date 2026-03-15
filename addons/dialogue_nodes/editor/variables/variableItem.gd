@@ -1,7 +1,6 @@
 @tool
 extends HBoxContainer
 
-
 signal modified
 signal delete_requested(node: BoxContainer)
 signal name_updated(new_name: String, old_name: String)
@@ -19,7 +18,7 @@ var last_set_name: String
 var last_set_type: int
 var last_shown_input: Control
 var last_value := ['', 0, 0.0, false]
-var new_text: String
+var new_value: Variant
 
 
 func _ready() -> void:
@@ -76,6 +75,7 @@ func set_value(new_value) -> void:
 	]
 
 
+
 func set_type(new_idx: int) -> void:
 	if last_shown_input:
 		last_shown_input.hide()
@@ -95,6 +95,7 @@ func set_type(new_idx: int) -> void:
 			last_shown_input = bool_value
 	
 	last_set_type = new_idx
+	_on_modified()
 
 
 func get_data() -> Dictionary:
@@ -144,17 +145,18 @@ func _on_type_changed(new_idx: int) -> void:
 
 
 func _on_value_changed(new_value) -> void:
-	new_text = new_value
+	self.new_value = new_value
 	$ValueTimer.stop()
 	$ValueTimer.start()
 
 
 func _on_value_timer_timeout() -> void:
 	if not undo_redo:
+		_on_modified()
 		return
 	
 	undo_redo.create_action('Set variable value')
-	undo_redo.add_do_method(self, 'set_value', new_text)
+	undo_redo.add_do_method(self, 'set_value', new_value)
 	undo_redo.add_do_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, 'set_value', last_value[type.selected])
@@ -167,6 +169,4 @@ func _on_delete_pressed() -> void:
 
 func _on_modified(_a= 0, _b= 0) -> void:
 	modified.emit()
-
-
 

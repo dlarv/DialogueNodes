@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://bxkrq875q6336"]
+
+[ext_resource type="Script" uid="uid://xsubre2isop7" path="res://addons/dialogue_nodes/editor/variables/globalVariable.gd" id="1_p7y0b"]
+[ext_resource type="Script" uid="uid://0vqly5bdopxr" path="res://addons/dialogue_nodes/editor/variables/variables.gd" id="2_kgdms"]
+
+[node name="GlobalVariables" type="PanelContainer" unique_id=1169841453]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_p7y0b")
+
+[node name="Variables" type="VBoxContainer" parent="." unique_id=1513831085 node_paths=PackedStringArray("var_container")]
+layout_mode = 2
+script = ExtResource("2_kgdms")
+var_container = NodePath("ScrollContainer/GridContainer")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Variables" unique_id=1448234680]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="Variables/ScrollContainer" unique_id=1555997296]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Variables" unique_id=1945496006]
+layout_mode = 2
+
+[node name="AddButton" type="Button" parent="Variables/HBoxContainer" unique_id=1952442398]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "New Variable"
+
+[node name="SaveButton" type="Button" parent="Variables/HBoxContainer" unique_id=1929016592]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save*"
+
+[connection signal="modified" from="Variables" to="." method="_on_variables_modified"]
+[connection signal="variable_added" from="Variables" to="." method="_on_variables_variable_added"]
+[connection signal="variable_name_updated" from="Variables" to="." method="_on_variables_variable_name_updated"]
+[connection signal="variable_removed" from="Variables" to="." method="_on_variables_variable_removed"]
+[connection signal="pressed" from="Variables/HBoxContainer/AddButton" to="Variables" method="_on_add_button_pressed"]
+[connection signal="pressed" from="Variables/HBoxContainer/SaveButton" to="." method="save_data"]

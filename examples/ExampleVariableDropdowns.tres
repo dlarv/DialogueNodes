@@ -41,7 +41,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300.00012, 240.00006),
+"size": Vector2(300.0005, 240),
 "speaker": "Greg"
 },
 &"1_11": {
@@ -111,12 +111,12 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240.00005),
+"size": Vector2(300.00024, 240.00006),
 "speaker": "Greg"
 },
 &"1_2": {
 "dialogue": "Okay, bye then",
-"offset": Vector2(78.59, -45.2401),
+"offset": Vector2(80, -100),
 "options": {
 0: {
 "condition": Array[Dictionary]([]),
@@ -124,7 +124,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300.00006, 240.00006),
+"size": Vector2(300.00006, 240.00003),
 "speaker": "Greg"
 },
 &"1_3": {
@@ -160,7 +160,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300.00006, 240),
+"size": Vector2(300, 240),
 "speaker": "Greg"
 },
 &"1_5": {
@@ -173,7 +173,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240.00029),
+"size": Vector2(300, 240.00027),
 "speaker": "Greg"
 },
 &"1_6": {
@@ -191,7 +191,7 @@ nodes = {
 "text": "Neat"
 }
 },
-"size": Vector2(300.00012, 308.00006),
+"size": Vector2(300.00012, 308.00003),
 "speaker": "Greg"
 },
 &"1_7": {
@@ -204,7 +204,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300.00006, 240.00003),
+"size": Vector2(300, 240.00003),
 "speaker": "Greg"
 },
 &"1_8": {
@@ -235,7 +235,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300.00012, 240),
+"size": Vector2(300, 240),
 "speaker": "Greg"
 },
 &"4_1": {
@@ -330,7 +330,7 @@ nodes = {
 "offset": Vector2(2260, 380)
 }
 }
-variables = {
+variables = Dictionary[String, Dictionary]({
 "COINS": {
 "type": 2,
 "value": 5
@@ -347,4 +347,4 @@ variables = {
 "type": 1,
 "value": false
 }
-}
+})

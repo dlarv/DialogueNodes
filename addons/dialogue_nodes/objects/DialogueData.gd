@@ -11,6 +11,6 @@ extends Resource
 @export var nodes: Dictionary = {}
 ## Contains the variable data including the variable name, data type and initial value.[br]
 ## Example: [code]{ "COINS": { "type": TYPE_INT, "value": 10 } }[/code]
-@export var variables: Dictionary = {}
+@export var variables: Dictionary[String, Dictionary] = {}
 ## Contains the node names of all the nodes not connected to a dialogue tree
 @export var strays: Array[String] = []

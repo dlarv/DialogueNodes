@@ -3,29 +3,30 @@
 [ext_resource type="Script" uid="uid://0vqly5bdopxr" path="res://addons/dialogue_nodes/editor/variables/variables.gd" id="1_0ltmm"]
 [ext_resource type="Texture2D" uid="uid://cj0m8q8hgm0ed" path="res://addons/dialogue_nodes/icons/Add.svg" id="2_vukkj"]
 
-[node name="Variables" type="VBoxContainer"]
+[node name="Variables" type="VBoxContainer" unique_id=1593551050 node_paths=PackedStringArray("var_container")]
 offset_right = 200.0
 offset_bottom = 100.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_0ltmm")
+var_container = NodePath("ScrollContainer/VBoxContainer")
 
-[node name="Title" type="Label" parent="."]
+[node name="Title" type="Label" parent="." unique_id=631629772]
 layout_mode = 2
 text = "Variables"
 
-[node name="AddButton" type="Button" parent="."]
+[node name="AddButton" type="Button" parent="." unique_id=485177794]
 layout_mode = 2
 tooltip_text = "Add a new variable."
 icon = ExtResource("2_vukkj")
 icon_alignment = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=402058182]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer" unique_id=333901058]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
