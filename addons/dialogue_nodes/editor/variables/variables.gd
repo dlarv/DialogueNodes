@@ -3,16 +3,16 @@ extends Control
 
 
 signal modified
-signal variables_updated(variable_list: Array[String])
+signal variable_list_updated(variable_list: Array[String])
 
-@onready var var_container := $ScrollContainer/VBoxContainer
+@export var var_container: Control
 
 var undo_redo: EditorUndoRedoManager
 var variable_item_scene := preload('res://addons/dialogue_nodes/editor/variables/VariableItem.tscn')
 var variable_list: Array[String] = []
 
 
-func get_data() -> Dictionary:
+func get_data() -> Dictionary[String, Dictionary]:
 	var dict := {}
 	
 	for child in var_container.get_children():
@@ -48,7 +48,7 @@ func add_variable(new_name:= '', data:= {'type': TYPE_STRING, 'value': ''}, to_i
 	new_variable.name_updated.connect(_on_variable_name_updated)
 	
 	variable_list.append(new_name)
-	variables_updated.emit(variable_list)
+	variable_list_updated.emit(variable_list)
 	
 	return new_variable
 
@@ -59,7 +59,7 @@ func remove_variable(idx: int) -> void:
 	variable.queue_free()
 	
 	variable_list.remove_at(idx)
-	variables_updated.emit(variable_list)
+	variable_list_updated.emit(variable_list)
 	
 	_on_modified()
 
@@ -129,7 +129,7 @@ func _on_variable_name_updated(new_name: String, old_name: String) -> void:
 	
 	if idx != -1:
 		variable_list[idx] = new_name
-		variables_updated.emit(variable_list)
+		variable_list_updated.emit(variable_list)
 
 
 func _on_modified(_a= 0, _b= 0) -> void:

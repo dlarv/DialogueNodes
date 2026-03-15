@@ -239,13 +239,13 @@ func switch_file(idx: int, ensure_path := '') -> void:
 			editor.add_menu.get_popup().id_pressed.disconnect(cur_metadata['graph']._on_add_menu_pressed)
 			workspace.remove_child(cur_metadata['graph'])
 		if data_container.has_node('Variables'):
-			data_container.get_node('Variables').variables_updated.disconnect(cur_metadata['graph']._on_variables_updated)
+			data_container.get_node('Variables').variable_list_updated.disconnect(cur_metadata['graph']._on_variables_updated)
 			data_container.remove_child(cur_metadata['variables'])
 
 		set_item_metadata(cur_idx, cur_metadata)
 	
 	# add new nodes
-	new_metadata['variables'].variables_updated.connect(new_metadata['graph']._on_variables_updated)
+	new_metadata['variables'].variable_list_updated.connect(new_metadata['graph']._on_variables_updated)
 	workspace.add_child(new_metadata['graph'])
 	
 	editor.add_menu.get_popup().id_pressed.connect(new_metadata['graph']._on_add_menu_pressed)
