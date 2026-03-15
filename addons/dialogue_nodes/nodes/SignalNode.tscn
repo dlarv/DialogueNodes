@@ -23,4 +23,3 @@ tooltip_text = "The String value passed in the signal parameter."
 placeholder_text = "Value"
 
 [connection signal="text_changed" from="SignalValue" to="." method="_on_node_modified"]
-[connection signal="text_changed" from="SignalValue" to="." method="_on_signal_value_changed"]

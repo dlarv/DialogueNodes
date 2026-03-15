@@ -2,10 +2,12 @@
 extends BaseDialogueNode
 
 @onready var text_edit := $TextEdit
-@onready var text_timer := _get_new_timer()
 
 var last_size := size
 var last_text := ''
+
+func _ready() -> void:
+	_register_timer(text_edit, "text_changed", _on_text_changed)
 
 
 func _to_dict(_graph) -> Dictionary:
@@ -35,9 +37,6 @@ func set_text(new_text : String) -> void:
 
 
 func _on_text_changed() -> void:
-	if _is_continuing_action(text_timer): return
-
-	text_timer.start()
 	undo_redo.create_action('Set comment text')
 	undo_redo.add_do_method(self, 'set_text', text_edit.text)
 	undo_redo.add_do_method(self, '_on_modified')

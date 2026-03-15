@@ -26,21 +26,18 @@ func _on_modified() -> void:
 	modified.emit()
 
 
-func _is_continuing_action(timer: Timer) -> bool:
-	if not timer.is_stopped():
+func _register_timer(node: Control, signal_name: String, fn: Callable) -> Timer:
+	var timer := Timer.new()
+	timer.wait_time = 0.5
+	timer.one_shot = true
+	add_child(timer)
+
+	var timer_func := func(_a=0,_b=0,_c=0) -> void: 
 		timer.stop()
 		timer.start()
-		return true
-
-	if not undo_redo:
-		return true
-
-	return false
+	
+	node.connect(signal_name, timer_func)
+	timer.timeout.connect(fn)
+	return timer
 
 
-func _get_new_timer() -> Timer:
-	var output := Timer.new()
-	output.wait_time = 0.5
-	output.one_shot = true
-	add_child(output)
-	return output

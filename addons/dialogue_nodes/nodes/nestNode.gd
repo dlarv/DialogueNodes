@@ -6,8 +6,12 @@ extends BaseDialogueNode
 @onready var ID: LineEdit = $ID
 @onready var start_id: String = ID.text
 @onready var open_dialog: FileDialog = $OpenDialog
-@onready var path_timer := _get_new_timer()
-@onready var id_timer := _get_new_timer()
+
+
+func _ready() -> void:
+	_register_timer(path, "text_changed", _on_file_selected)
+	_register_timer(ID, "text_changed", _on_ID_changed)
+
 
 func _to_dict(graph: GraphEdit) -> Dictionary:
 	var dict := {}
@@ -43,11 +47,11 @@ func _on_browse_button_pressed() -> void:
 	open_dialog.popup_centered()
 
 
-func _on_file_selected(new_path: String) -> void:
-	if _is_continuing_action(path_timer): return
-	path_timer.start()
-	path.text = new_path
-	
+func _on_file_selected() -> void:
+	if not undo_redo: 
+		set_path(path.text)
+		return
+
 	undo_redo.create_action('Set file path')
 	undo_redo.add_do_method(self, 'set_path', path.text)
 	undo_redo.add_do_method(self, '_on_modified')
@@ -56,9 +60,10 @@ func _on_file_selected(new_path: String) -> void:
 	undo_redo.commit_action()
 
 
-func _on_ID_changed(_id) -> void:
-	if _is_continuing_action(id_timer): return
-	id_timer.start()
+func _on_ID_changed() -> void:
+	if not undo_redo:
+		set_ID(ID.text)
+		return
 	
 	undo_redo.create_action('Set start ID')
 	undo_redo.add_do_method(self, 'set_ID', ID.text)

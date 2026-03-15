@@ -6,10 +6,11 @@ signal run_requested
 @onready var run_button := $HBoxContainer/RunButton
 @onready var ID := $HBoxContainer/ID
 @onready var start_id: String = ID.text
-@onready var timer := $Timer
-@onready var resize_timer := _get_new_timer()
 
 var last_size := size
+
+func _ready() -> void:
+	_register_timer(ID, "text_changed", _on_ID_changed)
 
 
 func _to_dict(graph: GraphEdit) -> Dictionary:
@@ -89,9 +90,10 @@ func set_ID(new_id: String) -> void:
 		ID.text = start_id
 
 
-func _on_ID_changed(_id) -> void:
-	if _is_continuing_action(timer): return
-	timer.start()
+func _on_ID_changed() -> void:
+	if not undo_redo:
+		set_ID(ID.text)
+		return
 	
 	undo_redo.create_action('Set start ID')
 	undo_redo.add_do_method(self, 'set_ID', ID.text)

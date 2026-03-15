@@ -2,9 +2,11 @@
 extends BaseDialogueNode
 
 @onready var value := $SignalValue
-@onready var timer := _get_new_timer()
 
 var last_value := ''
+
+func _ready() -> void:
+	_register_timer(value, "text_changed", _on_signal_value_changed)
 
 
 func _to_dict(graph: GraphEdit) -> Dictionary:
@@ -30,9 +32,9 @@ func set_value(new_value: String) -> void:
 	last_value = new_value
 
 
-func _on_signal_value_changed(_new_text) -> void:
-	if _is_continuing_action(timer): return
-	timer.start()
+func _on_signal_value_changed() -> void:
+	if not undo_redo:
+		set_value(value.text)
 	
 	undo_redo.create_action('Set signal value')
 	undo_redo.add_do_method(self, 'set_value', value.text)

@@ -5,8 +5,6 @@ signal character_list_requested(dialogue_node: GraphNode)
 
 @export var max_options := 4
 
-@onready var dialogue_timer := _get_new_timer()
-@onready var custom_speaker_timer := _get_new_timer()
 @onready var speaker := %Speaker
 @onready var custom_speaker := %CustomSpeaker
 @onready var character_toggle := %CharacterToggle
@@ -26,6 +24,9 @@ var base_color: Color = Color.WHITE
 
 
 func _ready() -> void:
+	_register_timer(dialogue, "text_changed", _on_dialogue_text_changed)
+	_register_timer(custom_speaker, "text_changed", _on_custom_speaker_changed)
+
 	options.clear()
 	for idx in range(get_child_count() - 1, -1, -1):
 		var child = get_child(idx)
@@ -207,9 +208,10 @@ func update_slots() -> void:
 		set_slot(option.get_index(), false, 0, base_color, enabled, 0, base_color)
 
 
-func _on_custom_speaker_changed(text: String) -> void:
-	if _is_continuing_action(custom_speaker_timer): return
-	custom_speaker_timer.start()
+func _on_custom_speaker_changed() -> void:
+	if not undo_redo: 
+		set_custom_speaker(custom_speaker.text)
+		return
 	
 	undo_redo.create_action('Set custom speaker')
 	undo_redo.add_do_method(self, 'set_custom_speaker', custom_speaker.text)
@@ -261,9 +263,10 @@ func _on_speaker_toggled(toggled_on: bool) -> void:
 
 
 func _on_dialogue_text_changed() -> void:
-	if _is_continuing_action(dialogue_timer): return
-	dialogue_timer.start()
-	
+	if not undo_redo: 
+		set_dialogue_text(dialogue.text)
+		return
+
 	undo_redo.create_action('Set dialogue text')
 	if dialogue_panel.visible:
 		undo_redo.add_do_method(self, 'set_dialogue_text', dialogue_expanded.text)

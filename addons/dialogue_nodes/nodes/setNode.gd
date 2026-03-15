@@ -4,14 +4,16 @@ extends BaseDialogueNode
 @onready var variable := $BoxContainer/Variable
 @onready var type := $BoxContainer/Type
 @onready var value := $BoxContainer/Value
-@onready var value_timer := _get_new_timer()
-@onready var variable_timer := _get_new_timer()
 
 var last_variable_list: Array[String]
 var last_variable: String
 var last_type: int
 var last_value: String
 var cur_variable := -1
+
+func _ready() -> void:
+	_register_timer(value, "text_changed", _on_value_changed)
+
 
 func _to_dict(graph: GraphEdit) -> Dictionary:
 	var dict := {}
@@ -52,10 +54,9 @@ func set_value(new_value: String) -> void:
 
 
 func _on_variable_changed(_new_text) -> void:
-	if _is_continuing_action(variable_timer): 
+	if not undo_redo: 
 		set_variable(variable.text)
 		return
-	variable_timer.start()
 	
 	undo_redo.create_action('Set variable name')
 	undo_redo.add_do_method(self, 'set_variable', variable.text)
@@ -78,10 +79,11 @@ func _on_type_selected(idx: int) -> void:
 	undo_redo.commit_action()
 
 
-func _on_value_changed(_new_text) -> void:
-	if _is_continuing_action(value_timer): return
-	value_timer.start()
-	
+func _on_value_changed() -> void:
+	if not undo_redo:
+		set_value(value.text)
+		return
+
 	undo_redo.create_action('Set value')
 	undo_redo.add_do_method(self, 'set_value', value.text)
 	undo_redo.add_do_method(self, '_on_modified')

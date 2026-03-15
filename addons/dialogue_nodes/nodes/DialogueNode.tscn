@@ -152,10 +152,8 @@ text = "Close"
 layout_mode = 2
 
 [connection signal="resize_end" from="." to="." method="_on_resize_end"]
-[connection signal="text_changed" from="SpeakerContainer/CustomSpeaker" to="." method="_on_custom_speaker_changed"]
 [connection signal="item_selected" from="SpeakerContainer/Speaker" to="." method="_on_speaker_selected"]
 [connection signal="toggled" from="SpeakerContainer/CharacterToggle" to="." method="_on_speaker_toggled"]
-[connection signal="text_changed" from="DialogueContainer/Dialogue" to="." method="_on_dialogue_text_changed"]
 [connection signal="pressed" from="DialogueContainer/ExpandButton" to="." method="_on_expand_button_pressed"]
 [connection signal="text_changed" from="DialogueContainer/DialoguePanel/VBoxContainer/DialogueExpanded" to="." method="_on_dialogue_text_changed"]
 [connection signal="pressed" from="DialogueContainer/DialoguePanel/VBoxContainer/CenterContainer/CloseButton" to="." method="_on_close_button_pressed"]

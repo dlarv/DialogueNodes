@@ -50,4 +50,3 @@ placeholder_text = "Value"
 
 [connection signal="item_selected" from="BoxContainer/Variable" to="." method="_on_variable_selected"]
 [connection signal="item_selected" from="BoxContainer/Type" to="." method="_on_type_selected"]
-[connection signal="text_changed" from="BoxContainer/Value" to="." method="_on_value_changed"]
