@@ -1,7 +1,6 @@
 @tool
 extends Control
 
-
 @onready var file_menu := $Main/ToolBar/FileMenu
 @onready var debug_menu := $Main/ToolBar/DebugMenu
 @onready var add_menu := $Main/ToolBar/AddMenu
@@ -9,7 +8,6 @@ extends Control
 @onready var workspace := $Main/Workspace
 @onready var side_panel := $Main/Workspace/SidePanel
 @onready var files := $Main/Workspace/SidePanel/Files
-@onready var characters := $Main/Workspace/SidePanel/Data/Characters
 @onready var panel_toggle := $Main/Statusbar/PanelToggle
 @onready var version_number := $Main/Statusbar/VersionNumber
 @onready var dialogue_background := $DialogueBackground
@@ -44,7 +42,6 @@ func run_tree(start_node_idx: int) -> void:
 	var start_node := graph.get_node(NodePath(graph.starts[start_node_idx]))
 	var data := DialogueData.new()
 	data = start_node.tree_to_data(graph, data)
-	data.characters = characters.get_data()
 	data.variables = variables.get_data()
 	
 	dialogue_box.data = data

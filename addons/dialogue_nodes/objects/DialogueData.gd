@@ -14,5 +14,3 @@ extends Resource
 @export var variables: Dictionary = {}
 ## Contains the node names of all the nodes not connected to a dialogue tree
 @export var strays: Array[String] = []
-## Path to the [param CharacterList] resource file.
-@export var characters := ''

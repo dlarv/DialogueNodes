@@ -12,3 +12,7 @@ func add_character(character: Character) -> void:
 	character_list_updated.emit()
 
 
+func remove_character(character: Character) -> void:
+	var idx: int = StoryManager.characters.find(character)
+	StoryManager.characters.remove_at(idx)
+	character_list_updated.emit()

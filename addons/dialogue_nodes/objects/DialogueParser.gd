@@ -37,7 +37,6 @@ var characters: Array[Character]
 var _running := false
 var _option_links := []
 var _data: Array[DialogueData] = []
-var _characters: Array[Array] = []
 var _nest_links: Array[String] = []
 
 
@@ -54,18 +53,13 @@ func set_data(new_data: DialogueData) -> void:
 	data = new_data
 	if not data: return
 	_data.clear()
-	_characters.clear()
 	_nest_links.clear()
 	
 	variables.clear()
 	for var_name in data.variables:
 		variables[var_name] = data.variables[var_name].value
 	
-	characters.clear()
-	if not data.characters.ends_with('.tres'): return
-	var character_list = ResourceLoader.load(data.characters, '', ResourceLoader.CACHE_MODE_IGNORE)
-	if not character_list is CharacterList: return
-	characters = character_list.characters
+	characters = StoryManager.characters
 
 
 ## Starts processing the dialogue data set in [member data], starting with the Start Node with its ID set to [param start_id].
@@ -112,7 +106,6 @@ func _proceed(node_name: String) -> void:
 		if _nest_links.size() > 0:
 			# resume from previous data
 			data = _data.pop_back()
-			characters = _characters.pop_back()
 			_proceed(_nest_links.pop_back())
 		else:
 			stop()
@@ -308,19 +301,12 @@ func _process_nest(dict: Dictionary) -> void:
 		_proceed(dict.link)
 		return
 	_data.push_back(data)
-	_characters.push_back(characters.duplicate())
 	_nest_links.push_back(dict.link)
 	data = new_data
 	
 	for var_name in data.variables:
 		if variables.has(var_name): continue
 		variables[var_name] = data.variables[var_name].value
-	
-	characters.clear()
-	if data.characters.ends_with('.tres'):
-		var character_list = ResourceLoader.load(data.characters, '', ResourceLoader.CACHE_MODE_IGNORE)
-		if character_list is CharacterList:
-			characters = character_list.characters
 	
 	start(dict.start_id)
 

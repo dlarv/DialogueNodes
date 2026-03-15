@@ -37,6 +37,7 @@ func _ready() -> void:
 	reset_size()
 
 
+
 func _to_dict(graph: GraphEdit) -> Dictionary:
 	var dict := {}
 	var empty_condition: Array[Dictionary] = []
@@ -94,6 +95,7 @@ func _from_dict(dict: Dictionary) -> Array[String]:
 		last_custom_speaker = custom_speaker.text
 	elif dict['speaker'] is int:
 		cur_speaker = dict['speaker']
+		speaker.selected = dict['speaker']
 		character_toggle.set_pressed_no_signal(true)
 		toggle_speaker_input(true)
 	dialogue.text = dict['dialogue']
@@ -217,8 +219,9 @@ func _on_custom_speaker_changed(text: String) -> void:
 	undo_redo.commit_action()
 
 
-func _on_characters_updated(character_list: Array[Character]) -> void:
+func _on_characters_updated() -> void:
 	speaker.clear()
+	var character_list := StoryManager.characters
 	
 	for character in character_list:
 		speaker.add_item(character.name)
@@ -383,4 +386,3 @@ func _on_resize_end(new_size: Vector2) -> void:
 	undo_redo.add_undo_property(self, 'last_size', last_size)
 	undo_redo.add_undo_method(self, 'set_size', last_size)
 	undo_redo.commit_action()
-

@@ -37,8 +37,8 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 275),
-"speaker": -1
+"size": Vector2(300.00012, 275),
+"speaker": 0
 },
 &"1_3": {
 "dialogue": "What's more you can even put character profiles to spice up the dialogue.",
@@ -50,8 +50,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 275),
-"speaker": -1
+"size": Vector2(300.00024, 275),
+"speaker": 1
 }
 }
-characters = "res://examples/Characters.tres"

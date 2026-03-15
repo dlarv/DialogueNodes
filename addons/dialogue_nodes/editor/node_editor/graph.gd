@@ -1,9 +1,7 @@
 @tool
 extends GraphEdit
 
-
 signal modified
-signal characters_updated(character_list: Array[Character])
 signal variables_updated(variable_list: Array[String])
 signal run_requested(start_node_idx: int)
 
@@ -30,7 +28,6 @@ var cursor_pos := Vector2.ZERO
 var selected_nodes := []
 var request_node := ''
 var request_port := -1
-var last_character_list: Array[Character] = []
 var last_variable_list: Array[String] = []
 
 var editor_settings: EditorSettings
@@ -157,10 +154,9 @@ func connect_node_signals(node: GraphElement) -> void:
 	if node.has_method("_on_variables_updated"):
 		variables_updated.connect(node._on_variables_updated)
 		node._on_variables_updated(last_variable_list)
-
 	if node.has_method("_on_characters_updated"):
-		variables_updated.connect(node._on_characters_updated)
-		node._on_characters_updated(last_character_list)
+		StoryManager.character_list_updated.connect(node._on_characters_updated)
+		node._on_characters_updated()
 
 	# Start node
 	if id == 0:
@@ -177,9 +173,8 @@ func disconnect_node_signals(node: GraphElement) -> void:
 
 	if node.has_method("_on_variables_updated"):
 		variables_updated.disconnect(node._on_variables_updated)
-
 	if node.has_method("_on_characters_updated"):
-		variables_updated.disconnect(node._on_characters_updated)
+		StoryManager.character_list_updated.disconnect(node._on_characters_updated)
 
 	# Start node
 	if id == 0:
@@ -356,7 +351,6 @@ func _on_duplicate_nodes_request() -> void:
 		clone_node._from_dict(node._to_dict(self))
 		clone_node.position_offset = node.position_offset + _duplicate_offset
 		if clone_id == 1:
-			clone_node._on_characters_updated(last_character_list)
 			clone_node._on_variables_updated(last_variable_list)
 		elif clone_id == 4 or clone_id == 5 or clone_id == 7:
 			clone_node._on_variables_updated(last_variable_list)
@@ -509,12 +503,6 @@ func _on_connection_shift_request(from_node: String, old_port: int, new_port: in
 	disconnect_node(from_node, old_port, connections[0]['to_node'], connections[0]['to_port'])
 	connect_node(from_node, new_port, connections[0]['to_node'], connections[0]['to_port'])
 
-
-func _on_characters_updated(character_list: Array[Character]) -> void:
-	if not is_inside_tree(): return
-	
-	last_character_list = character_list
-	characters_updated.emit(character_list)
 
 func _on_variables_updated(variable_list: Array[String]) -> void:
 	if not is_inside_tree(): return
