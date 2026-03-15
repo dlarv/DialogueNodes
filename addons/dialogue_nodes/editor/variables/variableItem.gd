@@ -19,6 +19,7 @@ var last_set_name: String
 var last_set_type: int
 var last_shown_input: Control
 var last_value := ['', 0, 0.0, false]
+var new_text: String
 
 
 func _ready() -> void:
@@ -40,7 +41,6 @@ func set_var_name(new_name: String) -> void:
 		var_name.text = new_name
 	name_updated.emit(new_name, last_set_name)
 	last_set_name = var_name.text
-
 
 
 func get_value():
@@ -111,18 +111,22 @@ func load_data(new_name: String, data: Dictionary) -> void:
 
 
 func _on_name_changed(new_text: String) -> void:
+	$NameTimer.stop()
+	$NameTimer.start()
+
+
+func _on_name_timer_timeout() -> void:
 	if not undo_redo:
-		set_var_name(new_text)
+		set_var_name($Name.text)
 		return
 	
 	undo_redo.create_action('Set variable name')
-	undo_redo.add_do_method(self, 'set_var_name', new_text)
+	undo_redo.add_do_method(self, 'set_var_name', $Name.text)
 	undo_redo.add_do_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, 'set_var_name', last_set_name)
 	undo_redo.commit_action()
-	
-
+	pass # Replace with function body.
 
 func _on_type_changed(new_idx: int) -> void:
 	if not undo_redo:
@@ -140,11 +144,17 @@ func _on_type_changed(new_idx: int) -> void:
 
 
 func _on_value_changed(new_value) -> void:
+	new_text = new_value
+	$ValueTimer.stop()
+	$ValueTimer.start()
+
+
+func _on_value_timer_timeout() -> void:
 	if not undo_redo:
 		return
 	
 	undo_redo.create_action('Set variable value')
-	undo_redo.add_do_method(self, 'set_value', new_value)
+	undo_redo.add_do_method(self, 'set_value', new_text)
 	undo_redo.add_do_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, 'set_value', last_value[type.selected])
@@ -157,3 +167,6 @@ func _on_delete_pressed() -> void:
 
 func _on_modified(_a= 0, _b= 0) -> void:
 	modified.emit()
+
+
+
