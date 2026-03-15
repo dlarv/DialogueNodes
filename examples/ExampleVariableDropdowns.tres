@@ -41,7 +41,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
+"size": Vector2(300, 240.00006),
 "speaker": "Greg"
 },
 &"1_11": {
@@ -72,7 +72,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
+"size": Vector2(300.00073, 240.00012),
 "speaker": "Greg"
 },
 &"1_13": {
@@ -85,7 +85,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
+"size": Vector2(300, 240.00006),
 "speaker": ""
 },
 &"1_14": {
@@ -98,7 +98,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
+"size": Vector2(300.00024, 240),
 "speaker": "Greg"
 },
 &"1_15": {
@@ -124,7 +124,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
+"size": Vector2(300, 240.00009),
 "speaker": "Greg"
 },
 &"1_3": {
@@ -173,7 +173,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
+"size": Vector2(300, 240.00021),
 "speaker": "Greg"
 },
 &"1_6": {
@@ -191,7 +191,7 @@ nodes = {
 "text": "Neat"
 }
 },
-"size": Vector2(300, 308),
+"size": Vector2(300, 307.99985),
 "speaker": "Greg"
 },
 &"1_7": {
@@ -204,7 +204,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
+"size": Vector2(300, 240.00003),
 "speaker": "Greg"
 },
 &"1_8": {

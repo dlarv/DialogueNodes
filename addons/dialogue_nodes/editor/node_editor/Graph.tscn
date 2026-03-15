@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c77r4qmw3a416"]
 
-[ext_resource type="Script" uid="uid://bq3nf71nxg68u" path="res://addons/dialogue_nodes/editor/graph.gd" id="1_7isyk"]
+[ext_resource type="Script" uid="uid://bq3nf71nxg68u" path="res://addons/dialogue_nodes/editor/node_editor/graph.gd" id="1_7isyk"]
 
 [node name="Graph" type="GraphEdit" unique_id=2061932758]
 custom_minimum_size = Vector2(400, 0)

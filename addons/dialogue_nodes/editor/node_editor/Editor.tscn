@@ -1,10 +1,7 @@
 [gd_scene format=3 uid="uid://bqscglixmr4bd"]
 
 [ext_resource type="Script" uid="uid://cqgf3n60ju4vf" path="res://addons/dialogue_nodes/editor/node_editor/editor.gd" id="1_3rdab"]
-[ext_resource type="Script" uid="uid://siwktbrhha2i" path="res://addons/dialogue_nodes/editor/node_editor/characters.gd" id="1_k6kh1"]
-[ext_resource type="Texture2D" uid="uid://cf5ef41yo6jl6" path="res://addons/dialogue_nodes/icons/Reload.svg" id="2_1rash"]
 [ext_resource type="Script" uid="uid://o2us2dv8xby4" path="res://addons/dialogue_nodes/editor/node_editor/files.gd" id="2_7c672"]
-[ext_resource type="Texture2D" uid="uid://buayifvickq2l" path="res://addons/dialogue_nodes/icons/Folder.svg" id="3_lyina"]
 [ext_resource type="Texture2D" uid="uid://cc1ufhyvste6m" path="res://addons/dialogue_nodes/icons/Forward.svg" id="5_x76rf"]
 [ext_resource type="Texture2D" uid="uid://bnlg07ckbg0w" path="res://addons/dialogue_nodes/icons/Back.svg" id="6_onucw"]
 [ext_resource type="FontFile" uid="uid://dv4rnn0ml62q3" path="res://addons/dialogue_nodes/themes/Poppins-Bold.ttf" id="8_bfbn1"]
@@ -179,41 +176,6 @@ visible = false
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Characters" type="VBoxContainer" parent="Main/Workspace/SidePanel/Data" unique_id=1359072775]
-layout_mode = 2
-script = ExtResource("1_k6kh1")
-editor_path = NodePath("../../../../..")
-
-[node name="Title" type="Label" parent="Main/Workspace/SidePanel/Data/Characters" unique_id=1616378993]
-layout_mode = 2
-text = "Characters"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Main/Workspace/SidePanel/Data/Characters" unique_id=1514161418]
-layout_mode = 2
-
-[node name="ResetButton" type="Button" parent="Main/Workspace/SidePanel/Data/Characters/HBoxContainer" unique_id=2029116131]
-visible = false
-layout_mode = 2
-icon = ExtResource("2_1rash")
-flat = true
-
-[node name="FilePath" type="TextEdit" parent="Main/Workspace/SidePanel/Data/Characters/HBoxContainer" unique_id=2138549946]
-layout_mode = 2
-size_flags_horizontal = 3
-scroll_fit_content_height = true
-
-[node name="LoadButton" type="Button" parent="Main/Workspace/SidePanel/Data/Characters/HBoxContainer" unique_id=531195719]
-layout_mode = 2
-icon = ExtResource("3_lyina")
-
-[node name="OpenDialog" type="FileDialog" parent="Main/Workspace/SidePanel/Data/Characters" unique_id=1340800947]
-title = "Open a File"
-initial_position = 1
-size = Vector2i(600, 400)
-ok_button_text = "Open"
-file_mode = 0
-filters = PackedStringArray("*.tres; CharacterList resource")
-
 [node name="Statusbar" type="HBoxContainer" parent="Main" unique_id=2131479590]
 custom_minimum_size = Vector2(0, 38)
 layout_mode = 2
@@ -231,7 +193,7 @@ layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 4
 theme_override_colors/font_color = Color(0.533333, 0.533333, 0.533333, 1)
-text = "1.3.0"
+text = "1.4.0"
 underline = 1
 
 [node name="DialogueBackground" type="Panel" parent="." unique_id=1342131754]
@@ -274,10 +236,6 @@ custom_effects = Array[RichTextEffect]([SubResource("RichTextEffect_ogokn"), Sub
 [connection signal="file_selected" from="Main/Workspace/SidePanel/Files/SaveDialog" to="Main/Workspace/SidePanel/Files" method="save_as"]
 [connection signal="canceled" from="Main/Workspace/SidePanel/Files/ConfirmationDialog" to="Main/Workspace/SidePanel/Files" method="_on_confirm_dialog_canceled"]
 [connection signal="custom_action" from="Main/Workspace/SidePanel/Files/ConfirmationDialog" to="Main/Workspace/SidePanel/Files" method="_on_confirm_dialog_action"]
-[connection signal="pressed" from="Main/Workspace/SidePanel/Data/Characters/HBoxContainer/ResetButton" to="Main/Workspace/SidePanel/Data/Characters" method="_on_reset_button_pressed"]
-[connection signal="text_changed" from="Main/Workspace/SidePanel/Data/Characters/HBoxContainer/FilePath" to="Main/Workspace/SidePanel/Data/Characters" method="_on_file_path_text_changed"]
-[connection signal="pressed" from="Main/Workspace/SidePanel/Data/Characters/HBoxContainer/LoadButton" to="Main/Workspace/SidePanel/Data/Characters" method="_on_load_button_pressed"]
-[connection signal="file_selected" from="Main/Workspace/SidePanel/Data/Characters/OpenDialog" to="Main/Workspace/SidePanel/Data/Characters" method="_on_file_selected"]
 [connection signal="pressed" from="Main/Statusbar/PanelToggle" to="." method="_on_files_toggle_button_pressed"]
 [connection signal="pressed" from="Main/Statusbar/VersionNumber" to="." method="_on_version_number_pressed"]
 [connection signal="gui_input" from="DialogueBackground" to="." method="_on_dialogue_background_input"]

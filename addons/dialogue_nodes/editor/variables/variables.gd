@@ -8,7 +8,7 @@ signal variables_updated(variable_list: Array[String])
 @onready var var_container := $ScrollContainer/VBoxContainer
 
 var undo_redo: EditorUndoRedoManager
-var variable_item_scene := preload('res://addons/dialogue_nodes/editor/VariableItem.tscn')
+var variable_item_scene := preload('res://addons/dialogue_nodes/editor/variables/VariableItem.tscn')
 var variable_list: Array[String] = []
 
 

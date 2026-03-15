@@ -35,6 +35,7 @@ func _enter_tree() -> void:
 		DialogueBubbleIcon
 	)
 	
+	# add_autoload_singleton("StoryManager", "res://addons/dialogue_nodes/objects/StoryManager.tscn")
 	print_debug('Plugin Enabled')
 
 
@@ -45,6 +46,7 @@ func _exit_tree() -> void:
 	
 	remove_custom_type('DialogueBox')
 	
+	# remove_autoload_singleton("StoryManager")
 	print_debug('Plugin Disabled')
 
 
