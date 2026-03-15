@@ -2,7 +2,7 @@
 extends EditorPlugin
 
 
-const EditorScene := preload('res://addons/dialogue_nodes/Editor.tscn')
+const EditorScene := preload('res://addons/dialogue_nodes/StoryEditor.tscn')
 const DialogueBoxScene := preload('res://addons/dialogue_nodes/objects/DialogueBox.gd')
 const DialogueBubbleScene := preload('res://addons/dialogue_nodes/objects/DialogueBubble.gd')
 const DialogueBoxIcon := preload('res://addons/dialogue_nodes/icons/DialogueBox.svg')
@@ -35,7 +35,7 @@ func _enter_tree() -> void:
 		DialogueBubbleIcon
 	)
 	
-	# add_autoload_singleton("StoryManager", "res://addons/dialogue_nodes/objects/StoryManager.tscn")
+	add_autoload_singleton("StoryManager", "res://addons/dialogue_nodes/objects/StoryManager.tscn")
 	print_debug('Plugin Enabled')
 
 
@@ -46,7 +46,7 @@ func _exit_tree() -> void:
 	
 	remove_custom_type('DialogueBox')
 	
-	# remove_autoload_singleton("StoryManager")
+	remove_autoload_singleton("StoryManager")
 	print_debug('Plugin Disabled')
 
 
