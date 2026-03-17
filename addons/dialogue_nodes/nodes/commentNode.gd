@@ -1,19 +1,17 @@
 @tool
 extends BaseDialogueNode
 
-@onready var text_edit := $TextEdit
-
 var last_size := size
 var last_text := ''
 
 func _ready() -> void:
-	_register_timer(text_edit, "text_changed", _on_text_changed)
+	_register_timer($TextEdit, "text_changed", _on_text_changed)
 
 
 func _to_dict(_graph) -> Dictionary:
 	var dict = {}
 	
-	dict['comment'] = text_edit.text
+	dict['comment'] = $TextEdit.text
 	dict['size'] = size
 	
 	return dict
@@ -24,21 +22,21 @@ func _from_dict(dict : Dictionary) -> Array[String]:
 		size = dict['size']
 		last_size = size
 	
-	text_edit.text = dict['comment']
-	last_text = text_edit.text
+	$TextEdit.text = dict['comment']
+	last_text = $TextEdit.text
 	
 	return []
 
 
 func set_text(new_text : String) -> void:
-	if text_edit.text != new_text:
-		text_edit.text = new_text
+	if $TextEdit.text != new_text:
+		$TextEdit.text = new_text
 	last_text = new_text
 
 
 func _on_text_changed() -> void:
 	undo_redo.create_action('Set comment text')
-	undo_redo.add_do_method(self, 'set_text', text_edit.text)
+	undo_redo.add_do_method(self, 'set_text', $TextEdit.text)
 	undo_redo.add_do_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, 'set_text', last_text)

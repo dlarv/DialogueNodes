@@ -1,28 +1,19 @@
 @tool
 extends BoxContainer
 
-
 signal modified
 signal delete_requested
 
 @export var is_last := false :
 	set(value):
 		is_last = value
-		if is_instance_valid(combiner):
-			combiner.visible = not is_last
+		if is_instance_valid(%Combiner):
+			%Combiner.visible = not is_last
 @export var show_delete := false :
 	set(value):
 		show_delete = value
-		if is_instance_valid(delete_button):
-			delete_button.visible = show_delete
-
-@onready var value1: OptionButton = $MainContainer/Value1
-@onready var operator: OptionButton = $MainContainer/Operator
-@onready var value2: LineEdit = $MainContainer/Value2
-@onready var timer: Timer = $Timer
-@onready var combiner: OptionButton = $SideContainer/Combiner
-@onready var reset_button: Button = $SideContainer/ResetButton
-@onready var delete_button: Button = $SideContainer/DeleteButton
+		if is_instance_valid(%DeleteButton):
+			%DeleteButton.visible = show_delete
 
 var undo_redo: EditorUndoRedoManager
 var cur_condition := {}
@@ -34,14 +25,14 @@ func _to_dict() -> Dictionary:
 		return {}
 	
 	var dict:= {
-		'cur_variable': value1.selected,
-		'operator': operator.selected,
-		'value2': value2.text
+		'cur_variable': %Value1.selected,
+		'%Operator': %Operator.selected,
+		'%Value2': %Value2.text
 	}
 
 	
 	if not is_last:
-		dict['combiner'] = combiner.selected
+		dict['%Combiner'] = %Combiner.selected
 	
 	return dict
 
@@ -50,33 +41,33 @@ func _from_dict(dict: Dictionary) -> void:
 	cur_condition = dict
 	if dict.is_empty():
 		dict = {
-			'value1': '',
-			'operator': 0,
-			'value2': '',
-			'combiner': 0
+			'%Value1': '',
+			'%Operator': 0,
+			'%Value2': '',
+			'%Combiner': 0
 		}
-		reset_button.hide()
+		%ResetButton.hide()
 	else:
-		reset_button.show()
+		%ResetButton.show()
 	
 	if cur_variable != int(dict['cur_variable']):
 		cur_variable = int(dict['cur_variable'])
-		value1.selected = cur_variable
-	if operator.selected != dict['operator']:
-		operator.selected = dict['operator']
-	if value2.text != dict['value2']:
-		value2.text = dict['value2']
-	if dict.has('combiner'):
-		combiner.selected = dict['combiner']
+		%Value1.selected = cur_variable
+	if %Operator.selected != dict['%Operator']:
+		%Operator.selected = dict['%Operator']
+	if %Value2.text != dict['%Value2']:
+		%Value2.text = dict['%Value2']
+	if dict.has('%Combiner'):
+		%Combiner.selected = dict['%Combiner']
 
 
 func is_empty() -> bool:
-	return (value1.selected == -1) and (operator.selected == 0) and (value2.text == '')
+	return (%Value1.selected == -1) and (%Operator.selected == 0) and (%Value2.text == '')
 
 
 func _on_condition_changing(_a=0) -> void:
-	timer.stop()
-	timer.start()
+	%Timer.stop()
+	%Timer.start()
 
 
 func _on_condition_changed() -> void:
@@ -114,14 +105,14 @@ func _on_modified() -> void:
 
 
 func _on_variables_updated(variable_list: Array) -> void:
-	value1.clear()
+	%Value1.clear()
 		
 	for variable_name in variable_list:
-		value1.add_item(variable_name)
+		%Value1.add_item(variable_name)
 	
 	if variable_list.size() > 0:
 		if cur_variable > variable_list.size():
 			cur_variable = 0
-		value1.select(cur_variable)
+		%Value1.select(cur_variable)
 	else:
-		value1.select(-1)
+		%Value1.select(-1)

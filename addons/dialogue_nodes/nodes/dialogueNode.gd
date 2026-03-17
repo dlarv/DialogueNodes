@@ -5,13 +5,6 @@ signal character_list_requested(dialogue_node: GraphNode)
 
 @export var max_options := 4
 
-@onready var speaker := %Speaker
-@onready var custom_speaker := %CustomSpeaker
-@onready var character_toggle := %CharacterToggle
-@onready var dialogue := %Dialogue
-@onready var dialogue_panel := %DialoguePanel
-@onready var dialogue_expanded := %DialogueExpanded
-
 var last_size := size
 var last_custom_speaker := ''
 var cur_speaker := -1
@@ -24,8 +17,8 @@ var base_color: Color = Color.WHITE
 
 
 func _ready() -> void:
-	_register_timer(dialogue, "text_changed", _on_dialogue_text_changed)
-	_register_timer(custom_speaker, "text_changed", _on_custom_speaker_changed)
+	_register_timer(%Dialogue, "text_changed", _on_dialogue_text_changed)
+	_register_timer(%CustomSpeaker, "text_changed", _on_custom_speaker_changed)
 
 	options.clear()
 	for idx in range(get_child_count() - 1, -1, -1):
@@ -43,16 +36,16 @@ func _to_dict(graph: GraphEdit) -> Dictionary:
 	var dict := {}
 	var empty_condition: Array[Dictionary] = []
 	
-	if custom_speaker.visible:
-		custom_speaker.text = custom_speaker.text.replace('{', '').replace('}', '')
-		dict['speaker'] = custom_speaker.text
-	elif speaker.visible:
+	if %CustomSpeaker.visible:
+		%CustomSpeaker.text = %CustomSpeaker.text.replace('{', '').replace('}', '')
+		dict['%Speaker'] = %CustomSpeaker.text
+	elif %Speaker.visible:
 		var speaker_idx := -1
-		if speaker.item_count > 0:
+		if %Speaker.item_count > 0:
 			speaker_idx = cur_speaker
-		dict['speaker'] = speaker_idx
+		dict['%Speaker'] = speaker_idx
 	
-	dict['dialogue'] = dialogue.text
+	dict['%Dialogue'] = %Dialogue.text
 	dict['size'] = size
 	
 	# get options connected to other nodes
@@ -91,17 +84,17 @@ func _from_dict(dict: Dictionary) -> Array[String]:
 	var next_nodes: Array[String] = []
 	
 	# set values
-	if dict['speaker'] is String:
-		custom_speaker.text = dict['speaker']
-		last_custom_speaker = custom_speaker.text
-	elif dict['speaker'] is int:
-		cur_speaker = dict['speaker']
-		speaker.selected = dict['speaker']
-		character_toggle.set_pressed_no_signal(true)
+	if dict['%Speaker'] is String:
+		%CustomSpeaker.text = dict['%Speaker']
+		last_custom_speaker = %CustomSpeaker.text
+	elif dict['%Speaker'] is int:
+		cur_speaker = dict['%Speaker']
+		%Speaker.selected = dict['%Speaker']
+		%CharacterToggle.set_pressed_no_signal(true)
 		toggle_speaker_input(true)
-	dialogue.text = dict['dialogue']
-	dialogue_expanded.text = dialogue.text
-	last_dialogue = dialogue.text
+	%Dialogue.text = dict['%Dialogue']
+	%DialogueExpanded.text = %Dialogue.text
+	last_dialogue = %Dialogue.text
 	
 	# remove any existing options (if any)
 	for option in options:
@@ -134,7 +127,7 @@ func _from_dict(dict: Dictionary) -> Array[String]:
 		var new_size: Vector2
 		if dict['size'] is Vector2:
 			new_size = dict['size']
-		else: # for dialogue files created before v1.0.2
+		else: # for %Dialogue files created before v1.0.2
 			new_size = Vector2( float(dict['size']['x']), float(dict['size']['y']) )
 		size = new_size
 		last_size = size
@@ -143,22 +136,22 @@ func _from_dict(dict: Dictionary) -> Array[String]:
 
 
 func set_custom_speaker(new_custom_speaker: String) -> void:
-	if custom_speaker.text != new_custom_speaker:
-		custom_speaker.text = new_custom_speaker
-	last_custom_speaker = custom_speaker.text
+	if %CustomSpeaker.text != new_custom_speaker:
+		%CustomSpeaker.text = new_custom_speaker
+	last_custom_speaker = %CustomSpeaker.text
 
 
 func toggle_speaker_input(use_speaker_list: bool) -> void:
-	custom_speaker.visible = not use_speaker_list
-	speaker.visible = use_speaker_list
+	%CustomSpeaker.visible = not use_speaker_list
+	%Speaker.visible = use_speaker_list
 
 
 func set_dialogue_text(new_text: String) -> void:
-	if dialogue.text != new_text:
-		dialogue.text = new_text
-	if dialogue_expanded.text != new_text:
-		dialogue_expanded.text = dialogue.text
-	last_dialogue = dialogue.text
+	if %Dialogue.text != new_text:
+		%Dialogue.text = new_text
+	if %DialogueExpanded.text != new_text:
+		%DialogueExpanded.text = %Dialogue.text
+	last_dialogue = %Dialogue.text
 
 
 func add_option(option: BoxContainer, to_idx := -1) -> void:
@@ -210,11 +203,11 @@ func update_slots() -> void:
 
 func _on_custom_speaker_changed() -> void:
 	if not undo_redo: 
-		set_custom_speaker(custom_speaker.text)
+		set_custom_speaker(%CustomSpeaker.text)
 		return
 	
-	undo_redo.create_action('Set custom speaker')
-	undo_redo.add_do_method(self, 'set_custom_speaker', custom_speaker.text)
+	undo_redo.create_action('Set custom %Speaker')
+	undo_redo.add_do_method(self, 'set_custom_speaker', %CustomSpeaker.text)
 	undo_redo.add_do_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, 'set_custom_speaker', last_custom_speaker)
@@ -222,30 +215,30 @@ func _on_custom_speaker_changed() -> void:
 
 
 func _on_characters_updated() -> void:
-	speaker.clear()
+	%Speaker.clear()
 	var character_list := StoryManager.characters
 	
 	for character in character_list:
-		speaker.add_item(character.name)
+		%Speaker.add_item(character.name)
 	
 	if character_list.size() > 0:
 		if cur_speaker > character_list.size():
 			cur_speaker = 0
-		speaker.select(cur_speaker)
+		%Speaker.select(cur_speaker)
 	else:
-		speaker.select(-1)
+		%Speaker.select(-1)
 
 
 func _on_speaker_selected(idx: int) -> void:
 	if not undo_redo: return
 	
-	undo_redo.create_action('Set speaker')
+	undo_redo.create_action('Set %Speaker')
 	undo_redo.add_do_property(self, 'cur_speaker', idx)
-	undo_redo.add_do_method(speaker, 'select', idx)
+	undo_redo.add_do_method(%Speaker, 'select', idx)
 	undo_redo.add_do_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, '_on_modified')
 	undo_redo.add_undo_property(self, 'cur_speaker', cur_speaker)
-	undo_redo.add_undo_method(speaker, 'select', cur_speaker)
+	undo_redo.add_undo_method(%Speaker, 'select', cur_speaker)
 	undo_redo.commit_action()
 
 
@@ -253,39 +246,39 @@ func _on_speaker_toggled(toggled_on: bool) -> void:
 	if not undo_redo: return
 	
 	undo_redo.create_action('Toggle character list')
-	undo_redo.add_do_method(character_toggle, 'set_pressed_no_signal', toggled_on)
+	undo_redo.add_do_method(%CharacterToggle, 'set_pressed_no_signal', toggled_on)
 	undo_redo.add_do_method(self, 'toggle_speaker_input', toggled_on)
 	undo_redo.add_do_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, 'toggle_speaker_input', not toggled_on)
-	undo_redo.add_undo_method(character_toggle, 'set_pressed_no_signal', not toggled_on)
+	undo_redo.add_undo_method(%CharacterToggle, 'set_pressed_no_signal', not toggled_on)
 	undo_redo.commit_action()
 
 
 func _on_dialogue_text_changed() -> void:
 	if not undo_redo: 
-		set_dialogue_text(dialogue.text)
+		set_dialogue_text(%Dialogue.text)
 		return
 
-	undo_redo.create_action('Set dialogue text')
-	if dialogue_panel.visible:
-		undo_redo.add_do_method(self, 'set_dialogue_text', dialogue_expanded.text)
+	undo_redo.create_action('Set %Dialogue text')
+	if %DialoguePanel.visible:
+		undo_redo.add_do_method(self, 'set_dialogue_text', %DialogueExpanded.text)
 	else:
-		undo_redo.add_do_method(self, 'set_dialogue_text', dialogue.text)
+		undo_redo.add_do_method(self, 'set_dialogue_text', %Dialogue.text)
 	undo_redo.add_do_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, '_on_modified')
-	undo_redo.add_undo_method(dialogue_expanded, 'release_focus')
+	undo_redo.add_undo_method(%DialogueExpanded, 'release_focus')
 	undo_redo.add_undo_method(self, 'set_dialogue_text', last_dialogue)
 	undo_redo.commit_action()
 
 
 func _on_expand_button_pressed() -> void:
-	dialogue_panel.popup_centered()
-	dialogue_expanded.grab_focus()
+	%DialoguePanel.popup_centered()
+	%DialogueExpanded.grab_focus()
 
 
 func _on_close_button_pressed() -> void:
-	dialogue_panel.hide()
+	%DialoguePanel.hide()
 
 
 func _on_option_text_changed(new_text: String, option: BoxContainer) -> void:
