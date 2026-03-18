@@ -25,14 +25,15 @@ func _to_dict() -> Dictionary:
 		return {}
 	
 	var dict:= {
-		'cur_variable': %Value1.selected,
-		'%Operator': %Operator.selected,
-		'%Value2': %Value2.text
+		# 'cur_variable': %Value1.selected,
+		'value1': %Value1.curr_variable,
+		'operator': %Operator.selected,
+		'value2': %Value2.text
 	}
 
 	
 	if not is_last:
-		dict['%Combiner'] = %Combiner.selected
+		dict['combiner'] = %Combiner.selected
 	
 	return dict
 
@@ -41,24 +42,25 @@ func _from_dict(dict: Dictionary) -> void:
 	cur_condition = dict
 	if dict.is_empty():
 		dict = {
-			'%Value1': '',
-			'%Operator': 0,
-			'%Value2': '',
-			'%Combiner': 0
+			'value1': '',
+			'operator': 0,
+			'value2': '',
+			'combiner': 0
 		}
 		%ResetButton.hide()
 	else:
 		%ResetButton.show()
-	
-	if cur_variable != int(dict['cur_variable']):
-		cur_variable = int(dict['cur_variable'])
-		%Value1.selected = cur_variable
-	if %Operator.selected != dict['%Operator']:
-		%Operator.selected = dict['%Operator']
-	if %Value2.text != dict['%Value2']:
-		%Value2.text = dict['%Value2']
-	if dict.has('%Combiner'):
-		%Combiner.selected = dict['%Combiner']
+
+	%Value1.setup(dict['value1'])
+
+	if %Operator.selected != dict['operator']:
+		%Operator.selected = dict['operator']
+	if %Value2.text != dict['value2']:
+		%Value2.text = dict['value2']
+	if dict.has('combiner'):
+		%Combiner.selected = dict['combiner']
+
+	%Value1.undo_redo = undo_redo
 
 
 func is_empty() -> bool:
@@ -104,15 +106,5 @@ func _on_modified() -> void:
 	modified.emit()
 
 
-func _on_variables_updated(variable_list: Array) -> void:
-	%Value1.clear()
-		
-	for variable_name in variable_list:
-		%Value1.add_item(variable_name)
-	
-	if variable_list.size() > 0:
-		if cur_variable > variable_list.size():
-			cur_variable = 0
-		%Value1.select(cur_variable)
-	else:
-		%Value1.select(-1)
+func _on_variables_updated(variable_list: Array[String]) -> void:
+	%Value1.update_variables(variable_list)

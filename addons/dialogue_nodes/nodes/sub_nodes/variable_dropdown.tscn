@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://choa2kbovexdq"]
+
+[ext_resource type="Script" uid="uid://cpar5emvf6pk6" path="res://addons/dialogue_nodes/nodes/sub_nodes/variableDropdown.gd" id="1_ey6ws"]
+
+[node name="VariableDropdown" type="OptionButton" unique_id=1965668128]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ey6ws")
+
+[connection signal="item_selected" from="." to="." method="_on_item_selected"]

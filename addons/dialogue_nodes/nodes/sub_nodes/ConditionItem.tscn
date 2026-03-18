@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bf83fu6tw7p1e"]
 
 [ext_resource type="Script" uid="uid://c6oe558f361v0" path="res://addons/dialogue_nodes/nodes/sub_nodes/conditionItem.gd" id="1_ycxn0"]
+[ext_resource type="PackedScene" uid="uid://choa2kbovexdq" path="res://addons/dialogue_nodes/nodes/sub_nodes/variable_dropdown.tscn" id="2_oqav4"]
 [ext_resource type="Texture2D" uid="uid://cf5ef41yo6jl6" path="res://addons/dialogue_nodes/icons/Reload.svg" id="3_miu01"]
 [ext_resource type="Texture2D" uid="uid://b8o81rn8q8a43" path="res://addons/dialogue_nodes/icons/Remove.svg" id="4_ve0so"]
 
@@ -16,12 +17,9 @@ script = ExtResource("1_ycxn0")
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Value1" type="OptionButton" parent="MainContainer" unique_id=528151906]
+[node name="Value1" parent="MainContainer" unique_id=1965668128 instance=ExtResource("2_oqav4")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-tooltip_text = "The property to set the value of."
-metadata/last_value = ""
 
 [node name="Operator" type="OptionButton" parent="MainContainer" unique_id=735443544]
 unique_name_in_owner = true
@@ -89,7 +87,6 @@ unique_name_in_owner = true
 wait_time = 0.5
 one_shot = true
 
-[connection signal="item_selected" from="MainContainer/Value1" to="." method="_on_condition_changing"]
 [connection signal="item_selected" from="MainContainer/Operator" to="." method="_on_condition_changing"]
 [connection signal="text_changed" from="MainContainer/Value2" to="." method="_on_condition_changing"]
 [connection signal="item_selected" from="SideContainer/Combiner" to="." method="_on_condition_changing"]

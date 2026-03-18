@@ -38,14 +38,14 @@ func _to_dict(graph: GraphEdit) -> Dictionary:
 	
 	if %CustomSpeaker.visible:
 		%CustomSpeaker.text = %CustomSpeaker.text.replace('{', '').replace('}', '')
-		dict['%Speaker'] = %CustomSpeaker.text
+		dict['speaker'] = %CustomSpeaker.text
 	elif %Speaker.visible:
 		var speaker_idx := -1
 		if %Speaker.item_count > 0:
 			speaker_idx = cur_speaker
-		dict['%Speaker'] = speaker_idx
+		dict['speaker'] = speaker_idx
 	
-	dict['%Dialogue'] = %Dialogue.text
+	dict['dialogue'] = %Dialogue.text
 	dict['size'] = size
 	
 	# get options connected to other nodes
@@ -84,15 +84,15 @@ func _from_dict(dict: Dictionary) -> Array[String]:
 	var next_nodes: Array[String] = []
 	
 	# set values
-	if dict['%Speaker'] is String:
-		%CustomSpeaker.text = dict['%Speaker']
+	if dict['speaker'] is String:
+		%CustomSpeaker.text = dict['speaker']
 		last_custom_speaker = %CustomSpeaker.text
-	elif dict['%Speaker'] is int:
-		cur_speaker = dict['%Speaker']
-		%Speaker.selected = dict['%Speaker']
+	elif dict['speaker'] is int:
+		cur_speaker = dict['speaker']
+		%Speaker.selected = dict['speaker']
 		%CharacterToggle.set_pressed_no_signal(true)
 		toggle_speaker_input(true)
-	%Dialogue.text = dict['%Dialogue']
+	%Dialogue.text = dict['dialogue']
 	%DialogueExpanded.text = %Dialogue.text
 	last_dialogue = %Dialogue.text
 	
@@ -127,7 +127,7 @@ func _from_dict(dict: Dictionary) -> Array[String]:
 		var new_size: Vector2
 		if dict['size'] is Vector2:
 			new_size = dict['size']
-		else: # for %Dialogue files created before v1.0.2
+		else: # for Dialogue files created before v1.0.2
 			new_size = Vector2( float(dict['size']['x']), float(dict['size']['y']) )
 		size = new_size
 		last_size = size
@@ -206,7 +206,7 @@ func _on_custom_speaker_changed() -> void:
 		set_custom_speaker(%CustomSpeaker.text)
 		return
 	
-	undo_redo.create_action('Set custom %Speaker')
+	undo_redo.create_action('Set custom Speaker')
 	undo_redo.add_do_method(self, 'set_custom_speaker', %CustomSpeaker.text)
 	undo_redo.add_do_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, '_on_modified')
@@ -232,7 +232,7 @@ func _on_characters_updated() -> void:
 func _on_speaker_selected(idx: int) -> void:
 	if not undo_redo: return
 	
-	undo_redo.create_action('Set %Speaker')
+	undo_redo.create_action('Set Speaker')
 	undo_redo.add_do_property(self, 'cur_speaker', idx)
 	undo_redo.add_do_method(%Speaker, 'select', idx)
 	undo_redo.add_do_method(self, '_on_modified')
@@ -260,7 +260,7 @@ func _on_dialogue_text_changed() -> void:
 		set_dialogue_text(%Dialogue.text)
 		return
 
-	undo_redo.create_action('Set %Dialogue text')
+	undo_redo.create_action('Set Dialogue text')
 	if %DialoguePanel.visible:
 		undo_redo.add_do_method(self, 'set_dialogue_text', %DialogueExpanded.text)
 	else:

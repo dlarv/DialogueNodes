@@ -16,10 +16,6 @@ func _to_dict() -> Array[Dictionary]:
 	for child in get_children():
 		if child is Button: continue
 		var child_dict = child._to_dict()
-		if child_dict.cur_variable != -1:
-			child_dict["value1"] = last_variable_list[child_dict.cur_variable]
-		else:
-			child_dict["value1"] = ""
 		dict.append(child_dict)
 	
 	return dict
@@ -40,6 +36,7 @@ func is_empty() -> bool:
 
 func add_item(new_item: BoxContainer, to_idx := -1) -> void:
 	if new_item.get_parent() != self: add_child(new_item, true)
+	new_item.undo_redo = undo_redo
 	move_child(new_item, to_idx)
 	
 	new_item.undo_redo = undo_redo
