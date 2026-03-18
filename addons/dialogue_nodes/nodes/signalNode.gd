@@ -34,7 +34,7 @@ func _on_signal_value_changed() -> void:
 	if not undo_redo:
 		set_value($SignalValue.text)
 	
-	undo_redo.create_action('Set signal $SignalValue')
+	undo_redo.create_action('Set signal SignalValue')
 	undo_redo.add_do_method(self, 'set_value', $SignalValue.text)
 	undo_redo.add_do_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, '_on_modified')

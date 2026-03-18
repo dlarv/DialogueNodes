@@ -93,7 +93,7 @@ func _on_ID_changed() -> void:
 		set_ID(%ID.text)
 		return
 	
-	undo_redo.create_action('Set start %ID')
+	undo_redo.create_action('Set start ID')
 	undo_redo.add_do_method(self, 'set_ID', %ID.text)
 	undo_redo.add_do_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, '_on_modified')

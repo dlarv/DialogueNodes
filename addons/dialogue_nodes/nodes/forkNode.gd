@@ -17,7 +17,7 @@ var last_variable_list: Array[String]
 func _to_dict(graph: GraphEdit) -> Dictionary:
 	var dict := {}
 	
-	dict['$ForkTitle'] = $ForkTitle.text
+	dict['fork_title'] = $ForkTitle.text
 	
 	# get forks connected to other nodes
 	var forks_dict := {}
@@ -51,7 +51,7 @@ func _from_dict(dict: Dictionary) -> Array[String]:
 	# The sequence of links is very important
 	var next_nodes: Array[String] = []
 	
-	$ForkTitle.text = dict['$ForkTitle']
+	$ForkTitle.text = dict['fork_title']
 	
 	for idx in dict['forks']:
 		var new_item := ForkItemScene.instantiate()
