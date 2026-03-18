@@ -84,6 +84,9 @@ func stop() -> void:
 	_running = false
 	StoryManager.update_variables(variables)
 	dialogue_ended.emit()
+	# This way, user can do `await dialogue_box.dialogue_signal` in their code and it'll work even
+	# if there is no other signal emitted
+	dialogue_signal.emit('ended')
 
 
 ## Continues processing the dialogue tree from the node connected to the option at [param idx].
