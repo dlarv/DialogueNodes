@@ -52,6 +52,7 @@ func _from_dict(dict: Dictionary) -> void:
 		%ResetButton.show()
 
 	%Value1.setup(dict['value1'])
+	%Value1.undo_redo = undo_redo
 
 	if %Operator.selected != dict['operator']:
 		%Operator.selected = dict['operator']
