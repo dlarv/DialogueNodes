@@ -32,6 +32,10 @@ func update_variables(list: Array[String]) -> void:
 
 
 func _on_item_selected(idx: int) -> void:
+	if not undo_redo:
+		set_variable(idx)
+		select(idx)
+		return
 	undo_redo.create_action('Set Variable')
 	undo_redo.add_do_method(self, 'select', idx)
 	undo_redo.add_do_method(self, 'set_variable', idx)
