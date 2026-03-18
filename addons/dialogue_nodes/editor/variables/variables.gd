@@ -36,12 +36,9 @@ func load_data(dict: Dictionary, no_signal:=false) -> void:
 
 
 ## add new variable item to the list
-func add_variable(new_name:= '', data:= {'type': TYPE_STRING, 'value': ''}, to_idx:= -1, no_signal:=false) -> HBoxContainer:
+func add_variable(new_name:= '', data:= {'type': TYPE_STRING, 'value': ''}, no_signal:=false) -> HBoxContainer:
 	var new_variable := variable_item_scene.instantiate()
 	var_container.add_child(new_variable, true)
-	
-	if to_idx > -1:
-		var_container.move_child(new_variable, to_idx)
 	
 	new_variable.load_data(new_name, data)
 	new_variable.undo_redo = undo_redo
