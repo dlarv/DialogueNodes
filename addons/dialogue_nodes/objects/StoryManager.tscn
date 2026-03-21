@@ -22,7 +22,7 @@ name = "Dlarv"
 _sprite_images = Array[Texture2D]([ExtResource("4_2pu75"), ExtResource("5_arf5u")])
 _sprite_names = Array[String](["happy", "sad"])
 
-[node name="StoryManager" type="Control" unique_id=540173602]
+[node name="StoryManager" type="Control" unique_id=1823878688]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_1ty53")

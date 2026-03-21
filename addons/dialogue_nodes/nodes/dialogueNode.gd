@@ -263,13 +263,23 @@ func _on_speaker_selected(idx: int) -> void:
 
 
 func _select_speaker(idx: int) -> void:
+	if _character != null:
+		_character.sprite_list_updated.disconnect(_on_sprite_list_updated)
 	cur_speaker = idx
 
+	_character = StoryManager.characters[idx]
+	_on_sprite_list_updated()
+
+	_character.sprite_list_updated.connect(_on_sprite_list_updated)
+
+
+func _on_sprite_list_updated() -> void:
 	%SpriteSelector.clear()
-	var character = StoryManager.characters[idx]
-	_character = character
-	for i in character.get_sprite_count():
-		%SpriteSelector.add_item(character.get_sprite_name(i))
+	for i in _character.get_sprite_count():
+		%SpriteSelector.add_item(_character.get_sprite_name(i))
+	
+	if cur_sprite:
+		%SpriteSelector.selected = cur_sprite
 
 
 func _on_speaker_toggled(toggled_on: bool) -> void:
@@ -432,4 +442,5 @@ func _on_resize_end(new_size: Vector2) -> void:
 	undo_redo.add_undo_property(self, 'last_size', last_size)
 	undo_redo.add_undo_method(self, 'set_size', last_size)
 	undo_redo.commit_action()
+
 
