@@ -14,6 +14,8 @@ const MAX_SIZE := Vector2i(32, 32)
 @export var _sprite_names: Array[String]
 @export var color: Color = Color.WHITE
 
+var active_sprite := -1
+
 func add_sprite(n: String, tex: Texture2D) -> void:
 	_sprite_images.append(tex)
 	_sprite_names.append(n)
@@ -55,3 +57,8 @@ func remove_sprite(idx: int) -> void:
 	_sprite_names.remove_at(idx)
 	sprite_removed.emit(idx)
 	sprite_list_updated.emit()
+
+
+func get_active_sprite() -> Texture2D:
+	if active_sprite == -1: return null
+	return _sprite_images[active_sprite]

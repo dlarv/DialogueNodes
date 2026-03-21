@@ -147,6 +147,7 @@ func _process_dialogue(dict: Dictionary) -> void:
 		speaker = dict.speaker
 	elif dict.speaker is int and characters.size() > 0 and dict.speaker < characters.size():
 		speaker = characters[dict.speaker]
+		speaker.active_sprite = dict.sprite
 	
 	var dialogue_text = _parse_variables(dict.dialogue)
 	dialogue_text = tr(dialogue_text)

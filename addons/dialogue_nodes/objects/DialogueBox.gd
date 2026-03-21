@@ -293,8 +293,8 @@ func _on_dialogue_processed(speaker: Variant, dialogue: String, options: Array[S
 	if speaker is Character:
 		speaker_label.text = speaker.name
 		speaker_label.modulate = speaker.color
-		portrait.texture = speaker.image
-		if not speaker.image: portrait.hide()
+		portrait.texture = speaker.get_active_sprite()
+		if not portrait.texture: portrait.hide()
 	elif speaker is String:
 		speaker_label.text = speaker
 		speaker_label.modulate = Color.WHITE
