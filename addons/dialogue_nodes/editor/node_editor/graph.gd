@@ -150,16 +150,18 @@ func connect_node_signals(node: GraphElement) -> void:
 	
 	node.dragged.connect(_on_node_dragged.bind(node))
 	node.modified.connect(_on_modified)
-	node.disconnection_from_request.connect(_on_disconnection_from_request)
-	node.connection_shift_request.connect(_on_connection_shift_request)
 
-	if node.has_method("_on_variables_updated"):
-		variables_updated.connect(node._on_variables_updated)
-		node._on_variables_updated(last_variable_list + StoryManager.get_variable_list())
+	if node is BaseDialogueNode:
+		node.disconnection_from_request.connect(_on_disconnection_from_request)
+		node.connection_shift_request.connect(_on_connection_shift_request)
 
-	if node.has_method("_on_characters_updated"):
-		StoryManager.character_list_updated.connect(node._on_characters_updated)
-		node._on_characters_updated()
+		if node.has_method("_on_variables_updated"):
+			variables_updated.connect(node._on_variables_updated)
+			node._on_variables_updated(last_variable_list + StoryManager.get_variable_list())
+
+		if node.has_method("_on_characters_updated"):
+			StoryManager.character_list_updated.connect(node._on_characters_updated)
+			node._on_characters_updated()
 
 	# Start node
 	if id == 0:

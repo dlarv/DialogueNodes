@@ -11,14 +11,20 @@ func _to_dict(graph: GraphEdit) -> Dictionary:
 	var dict := {}
 	var connections: Array = graph.get_connections(name)
 	
-	dict['signalValue'] = $SignalValue.text
+	# To preserve backwards compatibility
+	dict['signal_value'] = $SignalValue.text
 	dict['link'] = connections[0]['to_node'] if connections.size() > 0 else 'END'
 	
 	return dict
 
 
 func _from_dict(dict: Dictionary) -> Array[String]:
-	$SignalValue.text = dict['signalValue']
+	# To preserve backwards compatibility
+	if dict.has('signalValue'):
+		$SignalValue.text = dict['signalValue']
+	elif dict.has('signal_value'):
+		$SignalValue.text = dict['signal_value']
+
 	last_value = $SignalValue.text
 	
 	return [dict['link']]

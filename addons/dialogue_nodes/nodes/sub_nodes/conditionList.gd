@@ -22,8 +22,8 @@ func _to_dict() -> Array[Dictionary]:
 
 
 func _from_dict(dict: Array[Dictionary]) -> void:
-	if len(last_variable_list) == 0:
-		recreate_variable_list(dict)
+	# if len(last_variable_list) == 0:
+	# 	recreate_variable_list(dict)
 	for idx in range(dict.size()):
 		var new_item = ConditionItemScene.instantiate()
 		add_item(new_item, idx)
