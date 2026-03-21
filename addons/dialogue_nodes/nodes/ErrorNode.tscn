@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://cu0qbd5esra0k"]
+
+[ext_resource type="Script" uid="uid://dhqd8c5ypbfgg" path="res://addons/dialogue_nodes/nodes/errorNode.gd" id="1_7e08g"]
+
+[node name="ErrorNode" type="GraphNode" unique_id=20686485]
+offset_right = 61.0
+offset_bottom = 78.0
+title = "ERROR"
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+script = ExtResource("1_7e08g")
+
+[node name="Label" type="Label" parent="." unique_id=1811477848]
+custom_minimum_size = Vector2(30, 10)
+layout_mode = 2
+autowrap_mode = 2

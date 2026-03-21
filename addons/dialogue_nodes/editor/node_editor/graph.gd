@@ -5,6 +5,9 @@ signal modified
 signal variables_updated(variable_list: Array[String])
 signal run_requested(start_node_idx: int)
 
+## Replaces unknown custom nodes with informational box
+const ErrorNode := preload('res://addons/dialogue_nodes/nodes/ErrorNode.tscn')
+
 @export var NodeScenes: Array[PackedScene] = [
 	preload('res://addons/dialogue_nodes/nodes/StartNode.tscn'),
 	preload('res://addons/dialogue_nodes/nodes/DialogueNode.tscn'),
@@ -116,16 +119,22 @@ func add_node(id: int, node_name := '', offset := cursor_pos) -> GraphElement:
 	deselect_all_nodes()
 	
 	# create new node
-	var new_node := NodeScenes[id].instantiate()
+	var new_node
+	if id < len(NodeScenes):
+		new_node = NodeScenes[id].instantiate()
+	else:
+		new_node = ErrorNode.instantiate()
+
+	new_node.name = (str(id)+'_1') if node_name == '' else node_name
+	new_node.title += ' #' + new_node.name.split('_')[1]
+
 	new_node.position_offset = offset
 	new_node.undo_redo = undo_redo
 	new_node.selected = true
 	selected_nodes.append(new_node)
 	
 	# set nodeId and add to graph
-	new_node.name = (str(id)+'_1') if node_name == '' else node_name
 	add_child(new_node, true)
-	new_node.title += ' #' + new_node.name.split('_')[1]
 	
 	# connect signals
 	connect_node_signals(new_node)
