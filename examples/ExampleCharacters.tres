@@ -33,12 +33,13 @@ nodes = {
 "options": {
 0: {
 "condition": Array[Dictionary]([]),
-"link": &"1_3",
+"link": "END",
 "text": ""
 }
 },
-"size": Vector2(300.00003, 275.00006),
-"speaker": 0
+"size": Vector2(300, 275.00006),
+"speaker": 0,
+"sprite": -1
 },
 &"1_3": {
 "dialogue": "What's more you can even put character profiles to spice up the dialogue.",
@@ -51,6 +52,8 @@ nodes = {
 }
 },
 "size": Vector2(300.00024, 275.00006),
-"speaker": 1
+"speaker": 1,
+"sprite": 0
 }
 }
+strays = Array[String](["1_3"])

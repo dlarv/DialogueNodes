@@ -37,7 +37,7 @@ func set_sprite_image(idx: int, tex: Texture2D) -> void:
 
 
 func get_sprite_image(idx: int) -> Texture2D:
-	if idx >= len(_sprite_images): return null
+	if idx >= len(_sprite_images) or idx == -1: return null
 	return _sprite_images[idx]
 
 

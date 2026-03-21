@@ -15,7 +15,7 @@ name = "Alice"
 _sprite_images = Array[Texture2D]([ExtResource("3_2u0f3"), ExtResource("4_2pu75")])
 _sprite_names = Array[String](["Defaultasdasdf", "123"])
 
-[node name="StoryManager" type="Control" unique_id=836331700]
+[node name="StoryManager" type="Control" unique_id=1078966020]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_1ty53")
