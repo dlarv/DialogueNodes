@@ -7,11 +7,16 @@ signal image_pressed
 
 var character: Character = Character.new()
 
-func set_character(chara: Character) -> void:
+func set_character(chara: Character, file_dialog: FileDialog) -> void:
 	character = chara
 	$Name.text = chara.name
-	$TextureRect.texture = chara.image
+	$TextureRect.texture = chara.get_sprite_image(0)
 	$ColorPickerButton.color = chara.color
+
+	%Popup.setup(chara, file_dialog)
+	%Popup.icon_updated.connect(func() -> void:
+		$TextureRect.texture = chara.get_sprite_image(0)
+	)
 
 
 func _on_name_text_changed(new_text: String) -> void:
@@ -34,10 +39,10 @@ func _on_delete_button_pressed() -> void:
 
 
 func _on_image_button_pressed() -> void:
-	image_pressed.emit()
+	%Popup.show()
 
 
-func set_image(tex: Texture2D) -> void:
-	character.image = tex
-	$TextureRect.texture = tex
-
+# func set_image(tex: Texture2D) -> void:
+# 	character.set_sprite_image(0, tex)
+# 	$TextureRect.texture = tex
+#

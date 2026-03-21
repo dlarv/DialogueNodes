@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bb7i7ps13046t" path="res://addons/dialogue_nodes/editor/character_manager/characterItem.gd" id="1_bjx7a"]
 [ext_resource type="Texture2D" uid="uid://b8o81rn8q8a43" path="res://addons/dialogue_nodes/icons/Remove.svg" id="2_norif"]
+[ext_resource type="PackedScene" uid="uid://dj1lgl261sar0" path="res://addons/dialogue_nodes/editor/character_manager/spriteSelectWindow.tscn" id="3_7lb72"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_norif"]
 
@@ -46,6 +47,9 @@ one_shot = true
 [node name="DeleteButton" type="Button" parent="." unique_id=1587750488]
 layout_mode = 2
 icon = ExtResource("2_norif")
+
+[node name="Popup" parent="." unique_id=311481687 instance=ExtResource("3_7lb72")]
+unique_name_in_owner = true
 
 [connection signal="text_changed" from="Name" to="." method="_on_name_text_changed"]
 [connection signal="pressed" from="TextureRect/ImageButton" to="." method="_on_image_button_pressed"]

@@ -51,7 +51,7 @@ func get_variable_list() -> Array[String]:
 
 
 ## Takes mixed local and global vars and updates global var values
-func update_variables(data: Dictionary) -> void:
+func update_variables(data: Dictionary[String, Variant]) -> void:
 	for key in data:
 		if variables.has(key):
 			variables[key].value = data[key]

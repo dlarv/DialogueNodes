@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://bul22qg4vulmc"]
+
+[ext_resource type="Texture2D" uid="uid://b8o81rn8q8a43" path="res://addons/dialogue_nodes/icons/Remove.svg" id="1_m645c"]
+[ext_resource type="Script" uid="uid://c75s16pn7le3k" path="res://addons/dialogue_nodes/editor/character_manager/spriteItem.gd" id="1_ukiwi"]
+
+[node name="SpriteItem" type="VBoxContainer" unique_id=1394747598]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ukiwi")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=141735738]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_vertical = 3
+expand_mode = 1
+
+[node name="SelectButton" type="Button" parent="TextureRect" unique_id=1958643948]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NameInput" type="LineEdit" parent="." unique_id=505847499]
+layout_mode = 2
+placeholder_text = "Sprite Name"
+
+[node name="DeleteButton" type="Button" parent="." unique_id=320617175]
+layout_mode = 2
+icon = ExtResource("1_m645c")
+icon_alignment = 1
+
+[node name="NameTimer" type="Timer" parent="." unique_id=2014803469]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="pressed" from="TextureRect/SelectButton" to="." method="_on_select_button_pressed"]
+[connection signal="text_changed" from="NameInput" to="." method="_on_line_edit_text_changed"]
+[connection signal="pressed" from="DeleteButton" to="." method="_on_delete_button_pressed"]
+[connection signal="timeout" from="NameTimer" to="." method="_on_name_timer_timeout"]

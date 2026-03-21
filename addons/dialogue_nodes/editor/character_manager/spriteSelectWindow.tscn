@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://dj1lgl261sar0"]
+
+[ext_resource type="Script" uid="uid://b1nj6nj4kxqpw" path="res://addons/dialogue_nodes/editor/character_manager/spriteSelectWindow.gd" id="1_m5i4e"]
+
+[node name="SpriteSelectWindow" type="PopupPanel" unique_id=311481687]
+oversampling_override = 1.0
+size = Vector2i(640, 640)
+visible = true
+script = ExtResource("1_m5i4e")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1856438477]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 636.0
+offset_bottom = 636.0
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=1496179518]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer" unique_id=129518090]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+columns = 3
+
+[node name="AddButton" type="Button" parent="VBoxContainer" unique_id=1709809386]
+layout_mode = 2
+text = "+"
+
+[connection signal="pressed" from="VBoxContainer/AddButton" to="." method="_on_add_button_pressed"]

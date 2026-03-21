@@ -52,7 +52,8 @@ func _create_entry(character: Character=null) -> Character:
 	if character == null:
 		character = Character.new()
 	var item := CharacterItem.instantiate()
-	item.set_character(character)
+	item.set_character(character, $FileDialog)
+	
 	item.delete_requested.connect(_on_delete_requested.bind(item))
 	item.image_pressed.connect(_on_character_image_pressed.bind(item))
 	%GridContainer.add_child(item)
@@ -68,7 +69,9 @@ func _on_item_modified() -> void:
 
 func _on_character_image_pressed(character_item: Control) -> void:
 	$FileDialog.show()
-	var path: String = await $FileDialog.file_selected
+	await $FileDialog.visibility_changed
+	var path: String = $FileDialog.current_path
+	if path.is_empty(): return
 	var image := ResourceLoader.load(path)
 	if image is Texture2D:
 		character_item.set_image(image)
