@@ -14,6 +14,8 @@ const MAX_SIZE := Vector2i(32, 32)
 @export var _sprite_names: Array[String]
 @export var color: Color = Color.WHITE
 
+# Here to provide backwards compatibility
+@export var image: Texture2D
 var active_sprite := -1
 
 func add_sprite(n: String, tex: Texture2D) -> void:

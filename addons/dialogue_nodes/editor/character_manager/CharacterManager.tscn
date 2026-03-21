@@ -42,9 +42,21 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Reload"
 
+[node name="ImportButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=2068356124]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Import"
+
+[node name="ExportButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1326038716]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Export"
+
 [node name="FileDialog" type="FileDialog" parent="." unique_id=1768605575]
 title = "Open a File"
 file_mode = 0
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/NewCharacterButton" to="." method="_on_new_character_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/ReloadButton" to="." method="_on_reload_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/ImportButton" to="." method="_on_import_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/ExportButton" to="." method="_on_export_button_pressed"]

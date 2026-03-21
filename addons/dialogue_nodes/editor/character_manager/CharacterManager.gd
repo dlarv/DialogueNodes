@@ -51,6 +51,9 @@ func save() -> void:
 func _create_entry(character: Character=null) -> Character:
 	if character == null:
 		character = Character.new()
+	elif character.image != null:
+		character.add_sprite("", character.image)
+		character.image = null
 	var item := CharacterItem.instantiate()
 	item.set_character(character, $FileDialog)
 	
@@ -77,3 +80,40 @@ func _on_character_image_pressed(character_item: Control) -> void:
 		character_item.set_image(image)
 		save()
 
+
+func _on_import_button_pressed() -> void:
+	$FileDialog.show()
+	await $FileDialog.visibility_changed
+	var path: String = $FileDialog.current_path
+	if path.is_empty() or path == "res://": return
+
+	var list: Resource = ResourceLoader.load(path)
+	if not "characters" in list: return
+
+	StoryManager.characters = []
+	for child in %GridContainer.get_children(): %GridContainer.remove_child(child)
+
+	for chara in list.characters:
+		var ch := _create_entry(chara)
+		StoryManager.add_character(ch)
+
+	save()
+	
+
+func _on_export_button_pressed() -> void:
+	$FileDialog.file_mode = FileDialog.FileMode.FILE_MODE_SAVE_FILE
+	$FileDialog.show()
+	await $FileDialog.visibility_changed
+	$FileDialog.file_mode = FileDialog.FileMode.FILE_MODE_OPEN_FILE
+	var path: String = $FileDialog.current_path
+	if path.is_empty() or path == "res://": return
+
+	var list := CharacterList.new()
+	list.characters = []
+
+	for ch in StoryManager.characters:
+		list.characters.append(ch)
+
+	if not path.find(".tres"):
+		path += ".tres"
+	ResourceSaver.save(list, path)
