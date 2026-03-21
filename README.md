@@ -30,3 +30,5 @@ Dialogue Nodes is distributed under the MIT license. It is completely free forev
 However, if you want to support this work, you can buy NaviDev a Ko-fi (or send them cat pictures).
 <p align='center'><a href='https://ko-fi.com/nagidev'><img src='https://ko-fi.com/img/githubbutton_sm.svg'/></a></p>
 
+<a href='https://openmoji.org/library/emoji-1F642/'>"Slightly Smiling Face" by Emily Jager is licensed under CC BY-SA 4.0</a>
+<a href='https://openmoji.org/library/emoji-2639/'>"Frowning Face" by Mariella Steeb is licensed under CC BY-SA 4.0</a>

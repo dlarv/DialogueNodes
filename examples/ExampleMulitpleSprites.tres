@@ -1,0 +1,44 @@
+[gd_resource type="Resource" script_class="DialogueData" format=3 uid="uid://bl4j4vwmeks8q"]
+
+[ext_resource type="Script" uid="uid://eit47g61t72a" path="res://addons/dialogue_nodes/objects/DialogueData.gd" id="1_hjars"]
+
+[resource]
+script = ExtResource("1_hjars")
+starts = {
+"START": &"0_1"
+}
+nodes = {
+&"0_1": {
+"link": &"1_1",
+"offset": Vector2(-20, 80),
+"start_id": "START"
+},
+&"1_1": {
+"dialogue": "Characters can also have multiple sprites/profiles. ",
+"offset": Vector2(200, 20),
+"options": {
+0: {
+"condition": Array[Dictionary]([]),
+"link": &"1_2",
+"text": ""
+}
+},
+"size": Vector2(300, 340),
+"speaker": 2,
+"sprite": 0
+},
+&"1_2": {
+"dialogue": "I'm not an artist, so you'll have to make do with these royalty free emojis",
+"offset": Vector2(554.26385, 47.62769),
+"options": {
+0: {
+"condition": Array[Dictionary]([]),
+"link": "END",
+"text": ""
+}
+},
+"size": Vector2(300.00012, 300),
+"speaker": 2,
+"sprite": 1
+}
+}
