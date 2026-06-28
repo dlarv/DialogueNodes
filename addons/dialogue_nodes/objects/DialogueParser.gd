@@ -126,7 +126,8 @@ func _proceed(node_name: String) -> void:
 		_process_set,
 		_process_condition,
 		_process_nest,
-		_process_fork
+		_process_fork,
+		func(): pass, # graph frame
 	]
 	
 	var id := int(node_name.split('_')[0])
