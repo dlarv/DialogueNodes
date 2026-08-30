@@ -20,11 +20,7 @@ func setup(v: String) -> void:
 func update_variables(list: Array[String]) -> void:
 	clear()
 	for v in list:
-		if len(v) > MAX_CHAR_LENGTH:
-			add_item(v.substr(0, MAX_CHAR_LENGTH) + "...")
-		else:
-			add_item(v)
-
+		add_item(v)
 
 	var index := list.find(curr_variable)
 	select(index)
