@@ -20,8 +20,10 @@ var _character: Character = null
 
 
 func _ready() -> void:
-	_register_timer(%Dialogue, "text_changed", _on_dialogue_text_changed)
-	_register_timer(%CustomSpeaker, "text_changed", _on_custom_speaker_changed)
+	var timer := _register_timer(%Dialogue, "text_changed", _on_dialogue_text_changed)
+	move_child(timer, 0)
+	timer = _register_timer(%CustomSpeaker, "text_changed", _on_custom_speaker_changed)
+	move_child(timer, 0)
 
 	options.clear()
 	for idx in range(get_child_count() - 1, -1, -1):
@@ -342,10 +344,7 @@ func _on_close_button_pressed() -> void:
 
 
 func _on_option_text_changed(new_text: String, option: BoxContainer) -> void:
-	if not undo_redo: 
-		option.set_text(new_text)
-		update_slots()
-		return
+	if not undo_redo: return
 	
 	var idx := option.get_index()
 	
@@ -445,5 +444,3 @@ func _on_resize_end(new_size: Vector2) -> void:
 	undo_redo.add_undo_property(self, 'last_size', last_size)
 	undo_redo.add_undo_method(self, 'set_size', last_size)
 	undo_redo.commit_action()
-
-
