@@ -20,10 +20,8 @@ var _character: Character = null
 
 
 func _ready() -> void:
-	var timer := _register_timer(%Dialogue, "text_changed", _on_dialogue_text_changed)
-	move_child(timer, 0)
-	timer = _register_timer(%CustomSpeaker, "text_changed", _on_custom_speaker_changed)
-	move_child(timer, 0)
+	_register_timer(%Dialogue, "text_changed", _on_dialogue_text_changed, %TimerParent)
+	_register_timer(%CustomSpeaker, "text_changed", _on_custom_speaker_changed, %TimerParent)
 
 	options.clear()
 	for idx in range(get_child_count() - 1, -1, -1):
