@@ -342,7 +342,10 @@ func _on_close_button_pressed() -> void:
 
 
 func _on_option_text_changed(new_text: String, option: BoxContainer) -> void:
-	if not undo_redo: return
+	if not undo_redo: 
+		option.set_text(new_text)
+		update_slots()
+		return
 	
 	var idx := option.get_index()
 	
