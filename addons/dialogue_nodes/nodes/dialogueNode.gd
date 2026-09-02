@@ -232,9 +232,10 @@ func _on_custom_speaker_changed() -> void:
 	undo_redo.commit_action()
 
 
+# DLARV: Change to use param
 func _on_characters_updated() -> void:
 	%Speaker.clear()
-	var character_list := StoryManager.characters
+	var character_list := StoryEditor.characters
 	
 	for character in character_list:
 		%Speaker.add_item(character.name)
@@ -267,7 +268,7 @@ func _select_speaker(idx: int) -> void:
 		_character.sprite_list_updated.disconnect(_on_sprite_list_updated)
 	cur_speaker = idx
 
-	_character = StoryManager.characters[idx]
+	_character = StoryEditor.characters[idx]
 	_on_sprite_list_updated()
 
 	_character.sprite_list_updated.connect(_on_sprite_list_updated)

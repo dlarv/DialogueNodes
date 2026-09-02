@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="StoryState" format=3 uid="uid://ddppllyhj2gwy"]
+
+[ext_resource type="Script" uid="uid://42coc6buijm5" path="res://addons/dialogue_nodes/objects/Character.gd" id="1_8f0mk"]
+[ext_resource type="Script" uid="uid://p2xk5plmxiiy" path="res://addons/dialogue_nodes/objects/StoryState.gd" id="2_nv0g2"]
+[ext_resource type="Texture2D" uid="uid://b2hbqv3slgfxt" path="res://examples/profile0.png" id="2_wj7bc"]
+[ext_resource type="Texture2D" uid="uid://cp0s2v238egix" path="res://examples/happy.svg" id="3_8svwn"]
+[ext_resource type="Texture2D" uid="uid://cq8kbohtge8d4" path="res://examples/sad.svg" id="4_huv5q"]
+
+[sub_resource type="Resource" id="Resource_2pu75"]
+script = ExtResource("1_8f0mk")
+name = "Greg"
+
+[sub_resource type="Resource" id="Resource_tfq5e"]
+script = ExtResource("1_8f0mk")
+name = "Alice"
+_sprite_images = Array[Texture2D]([ExtResource("2_wj7bc")])
+_sprite_names = Array[String]([""])
+
+[sub_resource type="Resource" id="Resource_arf5u"]
+script = ExtResource("1_8f0mk")
+name = "Dlarv"
+_sprite_images = Array[Texture2D]([ExtResource("3_8svwn"), ExtResource("4_huv5q")])
+_sprite_names = Array[String](["happy", "sad"])
+
+[resource]
+script = ExtResource("2_nv0g2")
+characters = Array[ExtResource("1_8f0mk")]([SubResource("Resource_2pu75"), SubResource("Resource_tfq5e"), SubResource("Resource_arf5u")])
+variables = Dictionary[String, Dictionary]({
+"has_globals": {
+"type": 1,
+"value": false
+},
+"visited_dropdowns": {
+"type": 1,
+"value": false
+}
+})
+metadata/_custom_type_script = "uid://p2xk5plmxiiy"

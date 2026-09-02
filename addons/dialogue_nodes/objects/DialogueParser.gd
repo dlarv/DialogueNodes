@@ -58,10 +58,11 @@ func set_data(new_data: DialogueData) -> void:
 	variables.clear()
 	for var_name in data.variables:
 		variables[var_name] = data.variables[var_name].value
-	for var_name in StoryManager.variables:
-		variables[var_name] = StoryManager.variables[var_name].value
-	
-	characters = StoryManager.characters
+	#DLARV
+	# for var_name in StoryManager.variables:
+	# 	variables[var_name] = StoryManager.variables[var_name].value
+	#
+	# characters = StoryManager.characters
 
 
 ## Starts processing the dialogue data set in [member data], starting with the Start Node with its ID set to [param start_id].

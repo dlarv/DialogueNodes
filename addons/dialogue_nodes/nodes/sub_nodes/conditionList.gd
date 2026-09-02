@@ -119,4 +119,4 @@ func recreate_variable_list(dict: Array[Dictionary]) -> void:
 			last_variable_list.resize(idx + 1)
 		last_variable_list[idx] = cond.value1
 	
-	last_variable_list += StoryManager.get_variable_list()
+	last_variable_list += StoryEditor.get_variable_list()

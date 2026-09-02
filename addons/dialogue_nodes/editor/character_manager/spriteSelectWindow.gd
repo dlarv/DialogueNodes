@@ -50,17 +50,18 @@ func _add_entry(item: Control, idx: int) -> void:
 
 
 func save() -> void:
+	StoryEditor.save_data()
 	# Determines whether scene should be opened or closed after saving sequence
-	var _already_opened := PATH in EditorInterface.get_open_scenes()
-
-	var scene := PackedScene.new()
-	scene.pack(StoryManager)
-	ResourceSaver.save(scene, PATH)
-
-	# even though we know if it was open, we don't know if its active, hence this line
-	EditorInterface.open_scene_from_path(PATH)
-	# Scene will not officially save until it is closed and opened again.
-	EditorInterface.close_scene()
-	if _already_opened:
-		EditorInterface.open_scene_from_path(PATH)
+	# var _already_opened := PATH in EditorInterface.get_open_scenes()
+	#
+	# var scene := PackedScene.new()
+	# scene.pack(StoryManager)
+	# ResourceSaver.save(scene, PATH)
+	#
+	# # even though we know if it was open, we don't know if its active, hence this line
+	# EditorInterface.open_scene_from_path(PATH)
+	# # Scene will not officially save until it is closed and opened again.
+	# EditorInterface.close_scene()
+	# if _already_opened:
+	# 	EditorInterface.open_scene_from_path(PATH)
 

@@ -42,8 +42,9 @@ func _ready() -> void:
 	if not Engine.is_editor_hint(): return
 	editor_settings = EditorInterface.get_editor_settings()
 	editor_settings.settings_changed.connect(update_slots_color)
+	StoryEditor.subscribe_to_variables(_on_variables_updated.bind(true))
 
-	StoryManager.variable_list_updated.connect(_on_variables_updated.bind(true))
+	# StoryManager.variable_list_updated.connect(_on_variables_updated.bind(true))
 
 
 func _input(_event) -> void:
@@ -166,10 +167,10 @@ func connect_node_signals(node: GraphElement) -> void:
 
 		if node.has_method("_on_variables_updated"):
 			variables_updated.connect(node._on_variables_updated)
-			node._on_variables_updated(last_variable_list + StoryManager.get_variable_list())
+			node._on_variables_updated(last_variable_list + StoryEditor.get_variable_list())
 
 		if node.has_method("_on_characters_updated"):
-			StoryManager.character_list_updated.connect(node._on_characters_updated)
+			StoryEditor.subscribe_to_characters(node._on_characters_updated)
 			node._on_characters_updated()
 
 	# Start node
@@ -188,7 +189,7 @@ func disconnect_node_signals(node: GraphElement) -> void:
 	if node.has_method("_on_variables_updated"):
 		variables_updated.disconnect(node._on_variables_updated)
 	if node.has_method("_on_characters_updated"):
-		StoryManager.character_list_updated.disconnect(node._on_characters_updated)
+		StoryEditor.unsubscribe_to_characters(node._on_characters_updated)
 
 	# Start node
 	if id == 0:
@@ -528,7 +529,7 @@ func _on_variables_updated(variable_list: Array[String], is_globals:=false) -> v
 		globals = variable_list
 	else:
 		locals = variable_list
-		globals = StoryManager.get_variable_list()
+		globals = StoryEditor.get_variable_list()
 
 		last_variable_list = locals
 	
