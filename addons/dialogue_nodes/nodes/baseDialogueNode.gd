@@ -45,4 +45,5 @@ func _register_timer(node: Control, signal_name: String, fn: Callable, parent_ov
 	timer.timeout.connect(fn)
 	return timer
 
-# @abstract func process(parser: DialogueParser, data: Dictionary);
+
+static func process(parser: DialogueParser, dict: Dictionary): pass

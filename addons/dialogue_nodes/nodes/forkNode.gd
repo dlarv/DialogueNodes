@@ -162,3 +162,14 @@ func _on_variables_updated(variables_list: Array[String]) -> void:
 	last_variable_list = variables_list
 	for fork in forks:
 		fork.update_variables(variables_list)
+
+
+static func process(parser: DialogueParser, dict: Dictionary):
+	var result = dict.default
+	var forks = dict.forks
+	# index traversal to ensure they're checked in order
+	for i in range(0, forks.size()):
+		if parser.check_condition(forks[i].condition):
+			result = forks[i].link
+			break
+	parser.roceed(result)

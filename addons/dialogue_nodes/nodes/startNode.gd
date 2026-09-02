@@ -123,3 +123,7 @@ func _on_resize_end(new_size: Vector2) -> void:
 	undo_redo.add_undo_property(self, 'last_size', last_size)
 	undo_redo.add_undo_method(self, 'set_size', last_size)
 	undo_redo.commit_action()
+
+
+static func process(parser: DialogueParser, dict: Dictionary):
+	parser.proceed(dict.link)

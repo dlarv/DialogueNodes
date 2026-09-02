@@ -11,7 +11,6 @@ func _to_dict(graph: GraphEdit) -> Dictionary:
 	var dict := {}
 	var connections: Array = graph.get_connections(name)
 	
-	# To preserve backwards compatibility
 	dict['signal_value'] = $SignalValue.text
 	dict['link'] = connections[0]['to_node'] if connections.size() > 0 else 'END'
 	
@@ -47,3 +46,7 @@ func _on_signal_value_changed() -> void:
 	undo_redo.add_undo_method(self, 'set_value', last_value)
 	undo_redo.commit_action()
 
+
+static func process(parser: DialogueParser, dict: Dictionary):
+	parser.dialogue_signal.emit(dict.signal_value)
+	parser.proceed(dict.link)

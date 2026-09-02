@@ -38,6 +38,7 @@ var _running := false
 var _option_links := []
 var _data: Array[DialogueData] = []
 var _nest_links: Array[String] = []
+var _process_functions: Array[Callable]
 
 
 ## Loads the [param DialogueData] resource from the given [param path]. The loaded resource can be accessed using [member data].
@@ -65,6 +66,23 @@ func set_data(new_data: DialogueData) -> void:
 	characters = StoryManager.characters
 
 
+func init_process_functions(custom: Array[Callable]) -> void:
+	var root := "res://addons/dialogue_nodes/nodes"
+	_process_functions = [
+		load("%s/startNode.gd" % root).process,
+		_process_dialogue,
+		func(): pass, # Comment
+		load("%s/signalNode.gd" % root).process,
+		load("%s/setNode.gd" % root).process,
+		load("%s/conditionNode.gd" % root).process,
+		_process_nest,
+		load("%s/forkNode.gd" % root).process,
+		func(): pass, # graph frame
+	]
+
+	_process_functions += custom
+
+
 ## Starts processing the dialogue data set in [member data], starting with the Start Node with its ID set to [param start_id].
 func start(start_id: String) -> void:
 	if not data:
@@ -77,7 +95,7 @@ func start(start_id: String) -> void:
 	_running = true
 	if _nest_links.size() == 0:
 		dialogue_started.emit(start_id)
-	_proceed(data.starts[start_id])
+	proceed(data.starts[start_id])
 
 
 ## Stops processing the dialogue tree.
@@ -99,7 +117,7 @@ func select_option(idx: int) -> void:
 		return
 	
 	option_selected.emit(idx)
-	_proceed(_option_links[idx])
+	proceed(_option_links[idx])
 
 
 ## Returns [code]true[/code] if the [DialogueParser] is processing a dialogue tree.
@@ -107,42 +125,29 @@ func is_running() -> bool: return _running
 
 
 # Proceeds the parser to the next node and runs its corresponding _process_* function.
-func _proceed(node_name: String) -> void:
+func proceed(node_name: String) -> void:
 	if not _running: return
 	if node_name == 'END':
 		if _nest_links.size() > 0:
 			# resume from previous data
 			data = _data.pop_back()
-			_proceed(_nest_links.pop_back())
+			proceed(_nest_links.pop_back())
 		else:
 			stop()
 		return
 	
 	# ADD NEW FUNCTIONS HERE
-	var process_functions := [
-		_process_start,
-		_process_dialogue,
-		func(): pass, # comment
-		_process_signal,
-		_process_set,
-		_process_condition,
-		_process_nest,
-		_process_fork,
-		func(): pass, # graph frame
-	]
+	# var process_functions := [
+	# ]
 	
 	var id := int(node_name.split('_')[0])
 	
-	process_functions[id].call(data.nodes[node_name])
-
-
-# Processes the start node data (dict).
-func _process_start(dict: Dictionary) -> void:
-	_proceed(dict.link)
+	_process_functions[id].call(self, data.nodes[node_name])
 
 
 # Processes the dialogue node data (dict).
-func _process_dialogue(dict: Dictionary) -> void:
+# I'm comfortable with this being the exception (not declared in dialogueNode.gd), since it is already kinda different (doesn't recursively call process())
+func _process_dialogue(_parser: DialogueParser, dict: Dictionary) -> void:
 	var speaker = ''
 	
 	if dict.speaker is String:
@@ -151,14 +156,14 @@ func _process_dialogue(dict: Dictionary) -> void:
 		speaker = characters[dict.speaker]
 		speaker.active_sprite = dict.sprite
 	
-	var dialogue_text = _parse_variables(dict.dialogue)
+	var dialogue_text = parse_variables(dict.dialogue)
 	dialogue_text = tr(dialogue_text)
 	
 	var option_texts: Array[String] = []
 	_option_links.clear()
 	for option in dict.options.values():
 		if option.condition.is_empty() or _check_condition(option.condition) or skip_options_condition_checks:
-			option_texts.append(_parse_variables(option.text))
+			option_texts.append(parse_variables(option.text))
 			_option_links.append(option.link)
 	if option_texts.size() == 0:
 		option_texts.append('')
@@ -167,84 +172,63 @@ func _process_dialogue(dict: Dictionary) -> void:
 	dialogue_processed.emit(speaker, dialogue_text, option_texts)
 
 
-# Processes the signal node data (dict).
-func _process_signal(dict: Dictionary) -> void:
-	dialogue_signal.emit(dict.signalValue)
-	_proceed(dict.link)
-
-
-# Processes the set node data (dict).
-func _process_set(dict: Dictionary) -> void:
-	if not variables.has(dict.variable):
-		printerr('Variable ', dict.variable, ' not found in variables list')
-		_proceed(dict.link)
+# Processes the nest node data (dict).
+func _process_nest(_parser: DialogueParser, dict: Dictionary) -> void:
+	if not dict.file_path.ends_with('.tres'):
+		printerr('Invalid file: ', dict.file_path)
+		proceed(dict.link)
 		return
 	
-	var type = typeof(variables[dict.variable])
-	var value = dict.value
-	if value.count("{{"):
-		value = _parse_variables(value)
+	var new_data := ResourceLoader.load(dict.file_path, '', ResourceLoader.CACHE_MODE_IGNORE)
+	if not new_data is DialogueData:
+		printerr('Invalid resource type: resource must be DialogueData')
+		proceed(dict.link)
+		return
+	_data.push_back(data)
+	_nest_links.push_back(dict.link)
+	data = new_data
 	
-	var operator = dict.type
+	for var_name in data.variables:
+		if variables.has(var_name): continue
+		variables[var_name] = data.variables[var_name].value
 	
-	# set datatype of value
-	match typeof(variables[dict.variable]):
-		TYPE_STRING:
-			value = str(value)
+	start(dict.start_id)
 
-			# check for invalid operators
-			if operator > 2:
-				printerr('Invalid operator for type: String')
-				_proceed(dict.link)
-				return
-		TYPE_INT:
-			value = int(value)
-		TYPE_FLOAT:
-			value = float(value)
-		TYPE_BOOL:
-			value = (value == 'true') if value is String else bool(value)
 
-			# check for invalid operators
-			if operator > 0:
-				printerr('Invalid operator for type: Boolean')
-				_proceed(dict.link)
-				return
-
-	# perform operation
-	match operator:
-		0:
-			variables[dict.variable] = value
-		1:
-			variables[dict.variable] += value
-		2:
-			variables[dict.variable] -= value
-		3:
-			variables[dict.variable] *= value
-		4:
-			variables[dict.variable] /= value
+# Replaces all {{}} variables with their corresponding values in the value string.
+# If variable is not found in [member DialogueParse.variables], it is substituted with an empty string along with a console error.
+func parse_variables(value: String) -> String:
+	# check for missing }}
+	if value.count('{{') != value.count('}}'):
+		printerr('Failed to parse variables. Missing {{ or }}.')
+		return value
 	
-	variable_changed.emit(dict.variable, variables[dict.variable])
-	_proceed(dict.link)
-
-# Processes the condition node data (dict).
-func _process_condition(dict: Dictionary) -> void:
-	var result = _check_condition(dict['condition'])
-	_proceed(dict[str(result).to_lower()])
-
-
-# Processes the fork node data (dict).
-func _process_fork(dict : Dictionary) -> void:
-	var result = dict.default
-	var forks = dict.forks
-	# index traversal to ensure they're checked in order
-	for i in range(0, forks.size()):
-		if _check_condition(forks[i].condition):
-			result = forks[i].link
-			break
-	_proceed(result)
+	# format floats to display properly
+	var formatted_variables := {}
+	for key in variables.keys():
+		if variables[key] is float:
+			formatted_variables[key] = '%0.2f' % variables[key]
+		else:
+			formatted_variables[key] = variables[key]
+	
+	# add invalid variables as '' in formatted_variables
+	for key in _parse_variable_names(value):
+		if not variables.has(key):
+			printerr('Unknown variable ', key, ' in string.')
+			formatted_variables[key] = ''
+	
+	return value.format(formatted_variables, '{{_}}')
 
 
-# Checks the condition based on dict.value1, dict.value2 and dict.operator
+# Returns a list of all the variables in a string denoted in {{}}.
+func _parse_variable_names(value: String) -> Array:
+	var regex := RegEx.new()
+	regex.compile('{{([^{}]+)}}')
+	var results = regex.search_all(value)
+	results = results.map(func(val): return val.get_string(1))
+	return results
+
+
 func _check_condition(conditions: Array) -> bool:
 	var result := true
 	var combiner := 1
@@ -258,7 +242,7 @@ func _check_condition(conditions: Array) -> bool:
 		# get variables if needed
 		value1 = str(variables[value1])
 		if value2.count('{{') > 0:
-			value2 = _parse_variables(value2)
+			value2 = parse_variables(value2)
 		
 		# evaluate values if neither values contain any alphabets (otherwise treat them as strings)
 		var regex := RegEx.new()
@@ -295,64 +279,6 @@ func _check_condition(conditions: Array) -> bool:
 			combiner = dict.combiner
 	
 	return result
-
-
-# Processes the nest node data (dict).
-func _process_nest(dict: Dictionary) -> void:
-	if not dict.file_path.ends_with('.tres'):
-		printerr('Invalid file: ', dict.file_path)
-		_proceed(dict.link)
-		return
-	
-	var new_data := ResourceLoader.load(dict.file_path, '', ResourceLoader.CACHE_MODE_IGNORE)
-	if not new_data is DialogueData:
-		printerr('Invalid resource type: resource must be DialogueData')
-		_proceed(dict.link)
-		return
-	_data.push_back(data)
-	_nest_links.push_back(dict.link)
-	data = new_data
-	
-	for var_name in data.variables:
-		if variables.has(var_name): continue
-		variables[var_name] = data.variables[var_name].value
-	
-	start(dict.start_id)
-
-
-# Replaces all {{}} variables with their corresponding values in the value string.
-# If variable is not found in [member DialogueParse.variables], it is substituted with an empty string along with a console error.
-func _parse_variables(value: String) -> String:
-	# check for missing }}
-	if value.count('{{') != value.count('}}'):
-		printerr('Failed to parse variables. Missing {{ or }}.')
-		return value
-	
-	# format floats to display properly
-	var formatted_variables := {}
-	for key in variables.keys():
-		if variables[key] is float:
-			formatted_variables[key] = '%0.2f' % variables[key]
-		else:
-			formatted_variables[key] = variables[key]
-	
-	# add invalid variables as '' in formatted_variables
-	for key in _parse_variable_names(value):
-		if not variables.has(key):
-			printerr('Unknown variable ', key, ' in string.')
-			formatted_variables[key] = ''
-	
-	return value.format(formatted_variables, '{{_}}')
-
-
-# Returns a list of all the variables in a string denoted in {{}}.
-func _parse_variable_names(value: String) -> Array:
-	var regex := RegEx.new()
-	regex.compile('{{([^{}]+)}}')
-	var results = regex.search_all(value)
-	results = results.map(func(val): return val.get_string(1))
-	return results
-
 
 # FIXME : Length calculation is borked when the value has [, ] unrelated to any bbcodes.
 # Updates all the [wait] bbcode tags in the given text to include additional info about the text

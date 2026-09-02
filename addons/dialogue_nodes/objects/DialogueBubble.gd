@@ -204,6 +204,8 @@ func _ready() -> void:
 		modulate = Color.TRANSPARENT
 		hide()
 
+	_dialogue_parser.init_process_functions([])
+
 
 func _process(delta) -> void:
 	if Engine.is_editor_hint(): return
