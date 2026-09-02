@@ -28,7 +28,7 @@ characters = Array[ExtResource("1_8f0mk")]([SubResource("Resource_2pu75"), SubRe
 variables = Dictionary[String, Dictionary]({
 "has_globals": {
 "type": 1,
-"value": false
+"value": true
 },
 "visited_dropdowns": {
 "type": 1,
