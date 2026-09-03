@@ -4,12 +4,12 @@ class_name StoryState
 
 signal character_list_updated
 signal variable_list_updated(list: Array[String])
+signal custom_node_list_updated(nodes: Array[String])
 
 @export var characters: Array[Character]
 @export var variables: Dictionary[String, Dictionary]
-
-var _custom_dialog_nodes: Array[String]
-
+@export var custom_dialog_nodes: Array[String]
+@export var custom_text_effects: Array[String]
 
 func add_character(character: Character) -> void:
 	characters.append(character)

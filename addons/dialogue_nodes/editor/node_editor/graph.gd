@@ -8,7 +8,7 @@ signal run_requested(start_node_idx: int)
 ## Replaces unknown custom nodes with informational box
 const ErrorNode := preload('res://addons/dialogue_nodes/nodes/ErrorNode.tscn')
 
-@export var NodeScenes: Array[PackedScene] = [
+const DefaultNodeScenes: Array[PackedScene] = [
 	preload('res://addons/dialogue_nodes/nodes/StartNode.tscn'),
 	preload('res://addons/dialogue_nodes/nodes/DialogueNode.tscn'),
 	preload('res://addons/dialogue_nodes/nodes/CommentNode.tscn'),
@@ -22,6 +22,7 @@ const ErrorNode := preload('res://addons/dialogue_nodes/nodes/ErrorNode.tscn')
 @export var detach_icon: Texture2D = preload('res://addons/dialogue_nodes/icons/ExternalLink.svg')
 
 @onready var popup_menu := $PopupMenu
+@onready var NodeScenes := DefaultNodeScenes.duplicate()
 
 const _duplicate_offset := Vector2(20, 20)
 
@@ -110,8 +111,8 @@ func init_add_menu(add_menu: PopupMenu) -> void:
 	
 	# add entries for nodes in the nodes list
 	for i in range(NodeScenes.size()):
-		var scene_instance := NodeScenes[i].instantiate()
-		var scene_name := scene_instance.name
+		var scene_instance = NodeScenes[i].instantiate()
+		var scene_name: String = scene_instance.name
 		scene_instance.queue_free()
 		add_menu.add_item(scene_name, i)
 
@@ -572,3 +573,15 @@ func _on_graph_elements_unlinked_to_frame_request(element: StringName, frame: St
 	undo_redo.add_undo_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, 'attach_node_to_frame', element, frame)
 	undo_redo.commit_action()
+
+
+func _on_custom_nodes_updated(nodes: Array[String]) -> void:
+	NodeScenes = DefaultNodeScenes.duplicate()
+
+	for path in nodes:
+		NodeScenes.append(load(path))
+	
+	$PopupMenu.clear()
+	for node in NodeScenes:
+		$PopupMenu.add_item(node.get_state().get_node_name(0))
+

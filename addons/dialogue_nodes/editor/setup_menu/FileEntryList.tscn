@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://dydn47uxpvur3"]
+
+[ext_resource type="Texture2D" uid="uid://cj0m8q8hgm0ed" path="res://addons/dialogue_nodes/icons/Add.svg" id="1_1tn1n"]
+[ext_resource type="Script" uid="uid://du5cr03ocs2g5" path="res://addons/dialogue_nodes/editor/setup_menu/fileEntryList.gd" id="1_hw0k3"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_62usk"]
+font_size = 12
+
+[node name="FileEntryList" type="MarginContainer" unique_id=1412185422]
+size_flags_horizontal = 3
+script = ExtResource("1_hw0k3")
+title = null
+description = null
+
+[node name="VBox" type="VBoxContainer" parent="." unique_id=2126067787]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="VBox" unique_id=1077533977]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="Description" type="Label" parent="VBox" unique_id=1952255811]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+label_settings = SubResource("LabelSettings_62usk")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBox" unique_id=2000404918]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Scroller" type="VBoxContainer" parent="VBox/ScrollContainer" unique_id=156698645]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="AddButton" type="Button" parent="VBox" unique_id=1018907894]
+layout_mode = 2
+icon = ExtResource("1_1tn1n")
+icon_alignment = 1
+
+[node name="FileDialog" type="FileDialog" parent="." unique_id=389657042]
+unique_name_in_owner = true
+title = "Open a File"
+file_mode = 0
+
+[connection signal="pressed" from="VBox/AddButton" to="." method="_on_add_button_pressed"]

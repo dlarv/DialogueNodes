@@ -25,6 +25,14 @@ var undo_redo: EditorUndoRedoManager:
 
 func _enter_tree() -> void:
 	$Editor.undo_redo = undo_redo
+	$SetupMenu.undo_redo = undo_redo
+
+
+func _ready():
+	if story_state == null:
+		load_data()
+	$SetupMenu.load_data(story_state.custom_dialog_nodes, story_state.custom_text_effects)
+	story_state.custom_node_list_updated.emit(story_state.custom_dialog_nodes)
 
 
 func save_all_files() -> void:
@@ -104,3 +112,21 @@ static func unsubscribe_to_variables(fn: Callable) -> void:
 
 static func unsubscribe_to_characters(fn: Callable) -> void:
 	story_state.character_list_updated.disconnect(fn)
+
+
+static func subscribe_to_custom_nodes(fn: Callable) -> void:
+	story_state.custom_node_list_updated.connect(fn)
+
+
+static func add_custom_node(path:="") -> void:
+	story_state.custom_dialog_nodes.append(path)
+
+
+static func remove_custom_node(idx: int) -> void:
+	story_state.custom_dialog_nodes.remove_at(idx)
+	story_state.custom_node_list_updated.emit(story_state.custom_dialog_nodes)
+
+
+static func set_custom_node_path(idx: int, path: String) -> void:
+	story_state.custom_dialog_nodes[idx] = path
+	story_state.custom_node_list_updated.emit(story_state.custom_dialog_nodes)

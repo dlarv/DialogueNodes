@@ -7,6 +7,7 @@ const DialogueBoxScene := preload('res://addons/dialogue_nodes/objects/DialogueB
 const DialogueBubbleScene := preload('res://addons/dialogue_nodes/objects/DialogueBubble.gd')
 const DialogueBoxIcon := preload('res://addons/dialogue_nodes/icons/DialogueBox.svg')
 const DialogueBubbleIcon := preload('res://addons/dialogue_nodes/icons/DialogueBubble.svg')
+const BaseDialogueNodeScene := preload("res://addons/dialogue_nodes/nodes/baseDialogueNode.gd")
 
 var editor: Control
 
@@ -34,6 +35,13 @@ func _enter_tree() -> void:
 		DialogueBubbleScene,
 		DialogueBubbleIcon
 	)
+	add_custom_type(
+		'BaseDialogueNode',
+		'GraphNode',
+		BaseDialogueNodeScene,
+		DialogueBoxIcon
+	)
+
 	
 	# add_autoload_singleton("StoryManager", "res://addons/dialogue_nodes/objects/StoryManager.tscn")
 	print_debug('Plugin Enabled')
