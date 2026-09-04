@@ -229,7 +229,7 @@ func _ready() -> void:
 			_wait_effect.wait_finished.connect(_on_wait_finished)
 			break
 	
-	_dialogue_parser.init_process_functions([])
+	_dialogue_parser.init_process_functions(StoryManager.custom_node_functions)
 	hide()
 
 

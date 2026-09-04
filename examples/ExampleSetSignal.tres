@@ -1,0 +1,143 @@
+[gd_resource type="Resource" script_class="DialogueData" format=3 uid="uid://duhodpp2genms"]
+
+[ext_resource type="Script" uid="uid://eit47g61t72a" path="res://addons/dialogue_nodes/objects/DialogueData.gd" id="1_jupk7"]
+
+[resource]
+script = ExtResource("1_jupk7")
+starts = {
+"START": &"0_1"
+}
+nodes = {
+&"0_1": {
+"link": &"1_1",
+"offset": Vector2(-140, 160),
+"start_id": "START"
+},
+&"1_1": {
+"dialogue": "Want to help me test my SetSignal node?",
+"offset": Vector2(110.64166, 87.84499),
+"options": {
+0: {
+"condition": Array[Dictionary]([]),
+"link": &"1_3",
+"text": "Yes"
+},
+1: {
+"condition": Array[Dictionary]([]),
+"link": &"1_2",
+"text": "No"
+}
+},
+"size": Vector2(300.00003, 347.99997),
+"speaker": 2,
+"sprite": 0
+},
+&"1_2": {
+"dialogue": "Aw, bye then",
+"offset": Vector2(480, 340),
+"options": {
+0: {
+"condition": Array[Dictionary]([]),
+"link": "END",
+"text": ""
+}
+},
+"size": Vector2(300.00024, 278.00006),
+"speaker": 2,
+"sprite": 1
+},
+&"1_3": {
+"dialogue": "A SetSignal node is exactly what it sounds like: its a set and signal node smashed together.",
+"offset": Vector2(480, 20),
+"options": {
+0: {
+"condition": Array[Dictionary]([]),
+"link": &"1_4",
+"text": ""
+}
+},
+"size": Vector2(300.00012, 278.00006),
+"speaker": 2,
+"sprite": 0
+},
+&"1_4": {
+"dialogue": "It can be used to communicate with the outside world by listening to a signal, then reading from the variable.",
+"offset": Vector2(820, 20),
+"options": {
+0: {
+"condition": Array[Dictionary]([]),
+"link": &"9_1",
+"text": ""
+}
+},
+"size": Vector2(300.00012, 278.00006),
+"speaker": 2,
+"sprite": 0
+},
+&"1_5": {
+"dialogue": "\"Was the set successful?\"",
+"offset": Vector2(1540, 20),
+"options": {
+0: {
+"condition": Array[Dictionary]([]),
+"link": &"5_1",
+"text": ""
+}
+},
+"size": Vector2(300.00012, 243.00006),
+"speaker": 2,
+"sprite": 0
+},
+&"1_6": {
+"dialogue": "{{set_success}}",
+"offset": Vector2(2220, -80),
+"options": {
+0: {
+"condition": Array[Dictionary]([]),
+"link": "END",
+"text": ""
+}
+},
+"size": Vector2(300, 243.00009),
+"speaker": 2,
+"sprite": 0
+},
+&"1_7": {
+"dialogue": "{{set_success}}",
+"offset": Vector2(2240, 240),
+"options": {
+0: {
+"condition": Array[Dictionary]([]),
+"link": "END",
+"text": ""
+}
+},
+"size": Vector2(300, 278.00012),
+"speaker": 2,
+"sprite": 1
+},
+&"5_1": {
+"condition": Array[Dictionary]([{
+"operator": 0,
+"value1": "set_success",
+"value2": "yee"
+}]),
+"false": &"1_7",
+"offset": Vector2(1880, 80),
+"true": &"1_6"
+},
+&"9_1": {
+"link": &"1_5",
+"offset": Vector2(1206.398, 129.98111),
+"signal_value": "explode",
+"type": 0,
+"value": "yee",
+"variable": "set_success"
+}
+}
+variables = Dictionary[String, Dictionary]({
+"set_success": {
+"type": 4,
+"value": "nah"
+}
+})

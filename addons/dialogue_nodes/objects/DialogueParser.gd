@@ -162,7 +162,7 @@ func _process_dialogue(_parser: DialogueParser, dict: Dictionary) -> void:
 	var option_texts: Array[String] = []
 	_option_links.clear()
 	for option in dict.options.values():
-		if option.condition.is_empty() or _check_condition(option.condition) or skip_options_condition_checks:
+		if option.condition.is_empty() or check_condition(option.condition) or skip_options_condition_checks:
 			option_texts.append(parse_variables(option.text))
 			_option_links.append(option.link)
 	if option_texts.size() == 0:
@@ -212,7 +212,7 @@ func parse_variables(value: String) -> String:
 			formatted_variables[key] = variables[key]
 	
 	# add invalid variables as '' in formatted_variables
-	for key in _parse_variable_names(value):
+	for key in parse_variable_names(value):
 		if not variables.has(key):
 			printerr('Unknown variable ', key, ' in string.')
 			formatted_variables[key] = ''
@@ -221,7 +221,7 @@ func parse_variables(value: String) -> String:
 
 
 # Returns a list of all the variables in a string denoted in {{}}.
-func _parse_variable_names(value: String) -> Array:
+func parse_variable_names(value: String) -> Array:
 	var regex := RegEx.new()
 	regex.compile('{{([^{}]+)}}')
 	var results = regex.search_all(value)
@@ -229,7 +229,7 @@ func _parse_variable_names(value: String) -> Array:
 	return results
 
 
-func _check_condition(conditions: Array) -> bool:
+func check_condition(conditions: Array) -> bool:
 	var result := true
 	var combiner := 1
 	

@@ -4,24 +4,37 @@ extends Node
 
 @export var characters: Array[Character]:
 	get:
-		if not _story_state:
+		if len(characters) == 0:
 			load_data()
-		return _story_state.characters
+		return characters
 
 @export var variables: Dictionary[String, Dictionary]:
 	get:
-		if not _story_state:
+		if len(variables) == 0:
 			load_data()
-		return _story_state.variables
+		return variables 
 
-var _story_state: StoryState
+@export var custom_node_functions: Array[Callable]:
+	get:
+		if len(custom_node_functions):
+			load_data()
+		return custom_node_functions
+
 
 func _enter_tree() -> void:
 	load_data()
 
 
 func load_data() -> void:
-	_story_state = ResourceLoader.load("res://story_state.tres")
+	var story_state: StoryState = ResourceLoader.load("res://story_state.tres")
+	variables = story_state.variables
+	characters = story_state.characters
+
+	custom_node_functions = []
+	for path in story_state.custom_dialog_nodes:
+		var node: BaseDialogueNode = load(path).instantiate()
+		custom_node_functions.append(node.process)
+
 
 
 # ## Takes mixed local and global vars and updates global var values

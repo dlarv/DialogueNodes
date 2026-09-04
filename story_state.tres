@@ -35,4 +35,5 @@ variables = Dictionary[String, Dictionary]({
 "value": false
 }
 })
+custom_dialog_nodes = Array[String](["res://SetSignalNode.tscn"])
 metadata/_custom_type_script = "uid://p2xk5plmxiiy"
