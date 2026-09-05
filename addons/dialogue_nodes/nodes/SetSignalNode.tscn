@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://cia86vm8cdt4m"]
 
-[ext_resource type="Script" uid="uid://dtigcnn6tttt2" path="res://setSignalNode.gd" id="1_3psdi"]
+[ext_resource type="Script" uid="uid://dtigcnn6tttt2" path="res://addons/dialogue_nodes/nodes/setSignalNode.gd" id="1_3psdi"]
 [ext_resource type="PackedScene" uid="uid://choa2kbovexdq" path="res://addons/dialogue_nodes/nodes/sub_nodes/variable_dropdown.tscn" id="2_5lkjg"]
+[ext_resource type="PackedScene" uid="uid://bkvpmyaqedi53" path="res://addons/dialogue_nodes/nodes/sub_nodes/SignalSelector.tscn" id="3_qifos"]
 
 [node name="SetSignalNode" type="GraphNode" unique_id=1403924581]
 offset_right = 194.0
@@ -43,15 +44,6 @@ slot/3/right_type = 0
 slot/3/right_color = Color(1, 1, 1, 1)
 slot/3/right_icon = null
 slot/3/draw_stylebox = true
-slot/4/left_enabled = false
-slot/4/left_type = 0
-slot/4/left_color = Color(1, 1, 1, 1)
-slot/4/left_icon = null
-slot/4/right_enabled = false
-slot/4/right_type = 0
-slot/4/right_color = Color(1, 1, 1, 1)
-slot/4/right_icon = null
-slot/4/draw_stylebox = true
 script = ExtResource("1_3psdi")
 
 [node name="Label1" type="Label" parent="." unique_id=2125084336]
@@ -95,29 +87,8 @@ placeholder_text = "Value"
 layout_mode = 2
 text = "Signal"
 
-[node name="SignalDropdown" type="OptionButton" parent="." unique_id=1184029854]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-selected = 0
-item_count = 6
-popup/item_0/text = "BATTLE_STARTED"
-popup/item_0/id = 0
-popup/item_1/text = "PLAY_CUTSCENE"
-popup/item_1/id = 1
-popup/item_2/text = "MENU_OPENED"
-popup/item_2/id = 2
-popup/item_3/text = "DIALOG_ENDED"
-popup/item_3/id = 3
-popup/item_4/text = "ADD_ALLY"
-popup/item_4/id = 4
-popup/item_5/text = "REMOVE_ALLY"
-popup/item_5/id = 5
-
-[node name="SignalValue" type="LineEdit" parent="." unique_id=1873378547]
+[node name="SignalSelector" parent="." unique_id=1936050999 instance=ExtResource("3_qifos")]
 unique_name_in_owner = true
 layout_mode = 2
 
 [connection signal="item_selected" from="BoxContainer/Type" to="." method="_on_type_selected"]
-[connection signal="item_selected" from="SignalDropdown" to="." method="_on_option_button_item_selected"]

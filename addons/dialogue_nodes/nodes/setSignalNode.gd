@@ -10,12 +10,13 @@ func _ready() -> void:
 	_register_timer(%Value, "text_changed", _on_variable_changed)
 	%Variable.undo_redo = undo_redo
 
-	_register_timer(%SignalValue, "text_changed", _on_signal_value_text_changed)
+	%SignalSelector.undo_redo = undo_redo
 
 
 func _to_dict(graph: GraphEdit) -> Dictionary:
 	var dict := {}
 	var connections: Array = graph.get_connections(name)
+	dict['link'] = connections[0]['to_node'] if connections.size() > 0 else 'END'
 	
 	# Set
 	dict['variable'] = %Variable.curr_variable
@@ -24,8 +25,7 @@ func _to_dict(graph: GraphEdit) -> Dictionary:
 	dict['link'] = connections[0]['to_node'] if connections.size() > 0 else 'END'
 
 	# Signal
-	dict['signal_value'] = $SignalValue.text
-	dict['link'] = connections[0]['to_node'] if connections.size() > 0 else 'END'
+	dict['signal_value'] = %SignalSelector.to_dict()
 	
 	return dict
 
@@ -42,13 +42,7 @@ func _from_dict(dict: Dictionary) -> Array[String]:
 
 
 	# Signal Value
-	# To preserve backwards compatibility
-	if dict.has('signalValue'):
-		$SignalValue.text = dict['signalValue']
-	elif dict.has('signal_value'):
-		$SignalValue.text =  dict['signal_value']
-
-	last_signal_value = $SignalDropdown.text
+	%SignalSelector.from_dict(dict['signal_value'])
 	
 	return [dict['link']]
 
@@ -88,37 +82,24 @@ func _on_variable_changed() -> void:
 func _on_variables_updated(variables_list: Array[String]) -> void:
 	%Variable.update_variables(variables_list)
 
+#
+# func set_signal(new_value: String) -> void:
+# 	if $SignalValue.text != new_value:
+# 		$SignalValue.text = new_value
+# 	last_signal_value = new_value
+#
+#
+# func _on_signal_value_changed() -> void:
+# 	if not undo_redo:
+# 		set_value($SignalValue.text)
+#
+# 	undo_redo.create_action('Set signal SignalValue')
+# 	undo_redo.add_do_method(self, 'set_value', $SignalValue.text)
+# 	undo_redo.add_do_method(self, '_on_modified')
+# 	undo_redo.add_undo_method(self, '_on_modified')
+# 	undo_redo.add_undo_method(self, 'set_value', last_value)
+# 	undo_redo.commit_action()
 
-func set_signal(new_value: Variant) -> void:
-	if new_value is String:
-		%SignalValue.text = new_value
-	elif $SignalDropdown.selected != new_value:
-		$SignalDropdown.selected = new_value
-	last_signal_value = new_value
-
-
-func _on_signal_value_changed() -> void:
-	if not undo_redo:
-		set_signal($SignalDropdown.selected)
-		return
-	
-	undo_redo.create_action('Set signal SignalValue')
-	undo_redo.add_do_method(self, 'set_signal', $SignalDropdown.selected)
-	undo_redo.add_do_method(self, '_on_modified')
-	undo_redo.add_undo_method(self, '_on_modified')
-	undo_redo.add_undo_method(self, 'set_signal', last_signal_value)
-	undo_redo.commit_action()
-
-
-func _on_signal_value_text_changed() -> void:
-	if not undo_redo:
-		return
-	undo_redo.create_action('Set signal SignalValue')
-	undo_redo.add_do_method(self, 'set_signal', $SignalValue.text)
-	undo_redo.add_do_method(self, '_on_modified')
-	undo_redo.add_undo_method(self, '_on_modified')
-	undo_redo.add_undo_method(self, 'set_signal', last_signal_value)
-	undo_redo.commit_action()
 
 
 static func process(parser: DialogueParser, dict: Dictionary):
