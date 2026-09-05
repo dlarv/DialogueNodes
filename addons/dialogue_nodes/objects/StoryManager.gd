@@ -1,5 +1,6 @@
 @tool
 extends Node
+class_name BaseStoryManager
 
 @export var characters: Array[Character]:
 	get:

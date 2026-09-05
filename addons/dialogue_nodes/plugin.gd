@@ -44,7 +44,9 @@ func _enter_tree() -> void:
 	)
 
 	
-	add_autoload_singleton("StoryManager", "res://addons/dialogue_nodes/objects/StoryManager.tscn")
+	if not ProjectSettings.has_setting("autoload/StoryManager"):
+		add_autoload_singleton("StoryManager", "res://addons/dialogue_nodes/objects/StoryManager.tscn")
+		print_debug("Added default StoryManager singleton")
 	_init_settings_menu()
 
 	print_debug('Plugin Enabled')
@@ -137,3 +139,5 @@ func _init_settings_menu() -> void:
 	})
 
 	ProjectSettings.set_restart_if_changed(custom_effect_path, true)
+
+
