@@ -82,27 +82,14 @@ func _on_variable_changed() -> void:
 func _on_variables_updated(variables_list: Array[String]) -> void:
 	%Variable.update_variables(variables_list)
 
-#
-# func set_signal(new_value: String) -> void:
-# 	if $SignalValue.text != new_value:
-# 		$SignalValue.text = new_value
-# 	last_signal_value = new_value
-#
-#
-# func _on_signal_value_changed() -> void:
-# 	if not undo_redo:
-# 		set_value($SignalValue.text)
-#
-# 	undo_redo.create_action('Set signal SignalValue')
-# 	undo_redo.add_do_method(self, 'set_value', $SignalValue.text)
-# 	undo_redo.add_do_method(self, '_on_modified')
-# 	undo_redo.add_undo_method(self, '_on_modified')
-# 	undo_redo.add_undo_method(self, 'set_value', last_value)
-# 	undo_redo.commit_action()
-
-
 
 static func process(parser: DialogueParser, dict: Dictionary):
+	_process_set(parser, dict)
+	_process_signal(parser, dict)
+	parser.proceed(dict.link)
+
+
+static func _process_set(parser: DialogueParser, dict: Dictionary):
 	var variables := parser.variables
 	if not variables.has(dict.variable):
 		printerr('Variable ', dict.variable, ' not found in variables list')
@@ -117,7 +104,7 @@ static func process(parser: DialogueParser, dict: Dictionary):
 	var operator = dict.type
 	
 	# set datatype of value
-	match typeof(variables[dict.variable]):
+	match typeof(variables[dict.variable]): 
 		TYPE_STRING:
 			value = str(value)
 
@@ -153,5 +140,11 @@ static func process(parser: DialogueParser, dict: Dictionary):
 			variables[dict.variable] /= value
 	
 	parser.variable_changed.emit(dict.variable, variables[dict.variable])
-	parser.dialogue_signal.emit(dict.signal_value)
-	parser.proceed(dict.link)
+
+
+static func _process_signal(parser: DialogueParser, dict: Dictionary):
+	var key: Variant = dict.signal_value.value
+	if dict.signal_value.use_enum:
+		key = StoryManager.get_signal_from_key(dict.signal_value.value)
+
+	parser.dialogue_signal.emit(key)

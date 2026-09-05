@@ -28,7 +28,7 @@ nodes = {
 "text": "No"
 }
 },
-"size": Vector2(300, 348.00006),
+"size": Vector2(300, 347.99966),
 "speaker": 2,
 "sprite": 0
 },
@@ -42,7 +42,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300.00037, 278.0003),
+"size": Vector2(300.00043, 278.00024),
 "speaker": 2,
 "sprite": 1
 },
@@ -56,7 +56,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300.00024, 278.00006),
+"size": Vector2(300.0003, 278.00006),
 "speaker": 2,
 "sprite": 0
 },
@@ -79,52 +79,27 @@ nodes = {
 "offset": Vector2(1540, 20),
 "options": {
 0: {
-"condition": Array[Dictionary]([]),
-"link": &"5_1",
-"text": ""
-}
-},
-"size": Vector2(300.00024, 278),
-"speaker": 2,
-"sprite": 0
-},
-&"1_6": {
-"dialogue": "{{set_success}}",
-"offset": Vector2(2220, -80),
-"options": {
-0: {
-"condition": Array[Dictionary]([]),
-"link": "END",
-"text": ""
-}
-},
-"size": Vector2(300.0005, 278),
-"speaker": 2,
-"sprite": 0
-},
-&"1_7": {
-"dialogue": "{{set_success}}",
-"offset": Vector2(2240, 240),
-"options": {
-0: {
-"condition": Array[Dictionary]([]),
-"link": "END",
-"text": ""
-}
-},
-"size": Vector2(300.00073, 278.0004),
-"speaker": 2,
-"sprite": 1
-},
-&"5_1": {
 "condition": Array[Dictionary]([{
 "operator": 0,
 "value1": "set_success",
 "value2": "yee"
 }]),
-"false": &"1_7",
-"offset": Vector2(1880, 80),
-"true": &"1_6"
+"link": "END",
+"text": "Yes"
+},
+1: {
+"condition": Array[Dictionary]([{
+"operator": 0,
+"value1": "set_success",
+"value2": "nah"
+}]),
+"link": "END",
+"text": "Nah"
+}
+},
+"size": Vector2(300.00012, 313),
+"speaker": 2,
+"sprite": 0
 },
 &"9_1": {
 "link": &"1_5",
