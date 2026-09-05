@@ -163,6 +163,8 @@ func _enter_tree() -> void:
 			remove_child(child)
 			child.queue_free()
 	
+	custom_effects = StoryManager.custom_text_effects
+
 	var margin_container = MarginContainer.new()
 	add_child(margin_container)
 	margin_container.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -223,7 +225,6 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
-	custom_effects = StoryManager.custom_text_effects
 	for effect in custom_effects:
 		if effect is RichTextWait:
 			_wait_effect = effect
