@@ -122,3 +122,18 @@ func _init_settings_menu() -> void:
 	})
 
 	ProjectSettings.set_restart_if_changed(custom_node_path, true)
+
+	# Get Custom Text Effects
+	var custom_effect_path := "%s/custom_text_effects" % SETTING_PATH_ROOT
+
+	if not ProjectSettings.has_setting(custom_effect_path):
+		ProjectSettings.set_setting(custom_effect_path, [])
+
+	ProjectSettings.add_property_info({
+		"name": custom_effect_path,
+		"type": TYPE_ARRAY,
+		"hint": PropertyHint.PROPERTY_HINT_TYPE_STRING,
+		"hint_string": "%d/%d:" % [ TYPE_STRING, PropertyHint.PROPERTY_HINT_FILE ]
+	})
+
+	ProjectSettings.set_restart_if_changed(custom_effect_path, true)

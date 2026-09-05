@@ -223,6 +223,7 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
+	custom_effects = StoryManager.custom_text_effects
 	for effect in custom_effects:
 		if effect is RichTextWait:
 			_wait_effect = effect
@@ -230,6 +231,7 @@ func _ready() -> void:
 			break
 	
 	_dialogue_parser.init_process_functions(StoryManager.custom_node_functions)
+	
 	hide()
 
 

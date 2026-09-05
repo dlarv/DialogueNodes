@@ -7,8 +7,6 @@ signal variable_list_updated(list: Array[String])
 
 @export var characters: Array[Character]
 @export var variables: Dictionary[String, Dictionary]
-@export var custom_dialog_nodes: Array[String]
-@export var custom_text_effects: Array[String]
 
 
 func get_variable_list() -> Array[String]:
@@ -31,7 +29,21 @@ func get_custom_nodes() -> Array[PackedScene]:
 		var node := load(path)
 		if node is PackedScene:
 			if not node.instantiate() is BaseDialogueNode:
-				push_error("CustomNode(%s) does not inherit BaseDialogueNode! Skipping...")
+				push_error("CustomNode(%s) does not inherit BaseDialogueNode! Skipping..." % node)
 				continue
 			output.append(node)
+	return output
+
+
+func get_custom_text_effects() -> Array[RichTextEffect]:
+	if not ProjectSettings.has_setting("application/story_manager/custom_text_effects"):
+		return []
+
+	var output: Array[RichTextEffect] = []
+	for path in ProjectSettings.get_setting("application/story_manager/custom_text_effects"):
+		var node: RichTextEffect = ResourceLoader.load(path).new()
+		if not node is RichTextEffect:
+			push_error("CustomTextEffect(%s) does not inherit RichTextEffect! Skipping..." % node)
+			continue
+		output.append(node)
 	return output

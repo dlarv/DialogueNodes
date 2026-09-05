@@ -11,13 +11,13 @@
 [ext_resource type="Resource" uid="uid://cbu4k4hs8fk5s" path="res://examples/ExampleVariables.tres" id="8_4fu3f"]
 [ext_resource type="Script" uid="uid://b1pjspi1h8amj" path="res://addons/dialogue_nodes/objects/DialogueBox.gd" id="9_s4y1y"]
 [ext_resource type="Resource" uid="uid://b6bki2h32l6i3" path="res://examples/ExampleFork.tres" id="10_2mtm5"]
-[ext_resource type="Script" uid="uid://m31i3axecagx" path="res://addons/dialogue_nodes/objects/bbcodeWait.gd" id="10_wwm1y"]
 [ext_resource type="Resource" uid="uid://bio6clng2q0ur" path="res://examples/ExampleVariableDropdowns.tres" id="11_48mo8"]
-[ext_resource type="Script" uid="uid://blmdt7v8bd0nl" path="res://addons/dialogue_nodes/objects/bbcodeGhost.gd" id="11_iuh66"]
-[ext_resource type="Script" uid="uid://bsoctnc26xumr" path="res://addons/dialogue_nodes/objects/bbcodeMatrix.gd" id="12_cnev0"]
 [ext_resource type="Resource" uid="uid://cxsbh8tnd8q4m" path="res://examples/ExampleGlobals.tres" id="12_yesu5"]
 [ext_resource type="Resource" uid="uid://bl4j4vwmeks8q" path="res://examples/ExampleMulitpleSprites.tres" id="13_qnmy6"]
 [ext_resource type="Resource" uid="uid://duhodpp2genms" path="res://examples/ExampleSetSignal.tres" id="14_cw8ua"]
+[ext_resource type="Script" uid="uid://m31i3axecagx" path="res://addons/dialogue_nodes/objects/bbcodeWait.gd" id="16_cw8ua"]
+[ext_resource type="Script" uid="uid://blmdt7v8bd0nl" path="res://addons/dialogue_nodes/objects/bbcodeGhost.gd" id="17_glu8m"]
+[ext_resource type="Script" uid="uid://bsoctnc26xumr" path="res://addons/dialogue_nodes/objects/bbcodeMatrix.gd" id="18_hmbuc"]
 
 [sub_resource type="Curve" id="1"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.67805, 0.0, 0, 0]
@@ -27,14 +27,14 @@ point_count = 2
 offsets = PackedFloat32Array(0, 0.332268, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1)
 
-[sub_resource type="RichTextEffect" id="RichTextEffect_wmns8"]
-script = ExtResource("10_wwm1y")
+[sub_resource type="RichTextEffect" id="RichTextEffect_cw8ua"]
+script = ExtResource("16_cw8ua")
 
-[sub_resource type="RichTextEffect" id="RichTextEffect_jqe1g"]
-script = ExtResource("11_iuh66")
+[sub_resource type="RichTextEffect" id="RichTextEffect_glu8m"]
+script = ExtResource("17_glu8m")
 
-[sub_resource type="RichTextEffect" id="RichTextEffect_j1cit"]
-script = ExtResource("12_cnev0")
+[sub_resource type="RichTextEffect" id="RichTextEffect_hmbuc"]
+script = ExtResource("18_hmbuc")
 
 [node name="Demo" type="Control" unique_id=1995597851]
 texture_filter = 1
@@ -130,7 +130,7 @@ grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("9_s4y1y")
 start_id = "START"
-custom_effects = Array[RichTextEffect]([SubResource("RichTextEffect_wmns8"), SubResource("RichTextEffect_jqe1g"), SubResource("RichTextEffect_j1cit")])
+custom_effects = Array[RichTextEffect]([SubResource("RichTextEffect_cw8ua"), SubResource("RichTextEffect_glu8m"), SubResource("RichTextEffect_hmbuc")])
 
 [connection signal="item_selected" from="DemoSelector" to="." method="_on_demo_selected"]
 [connection signal="pressed" from="StartButton" to="." method="_on_Button_pressed"]
