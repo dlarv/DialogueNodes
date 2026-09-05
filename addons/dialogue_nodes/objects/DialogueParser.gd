@@ -78,6 +78,7 @@ func init_process_functions(custom: Array[Callable]) -> void:
 		_process_nest,
 		load("%s/forkNode.gd" % root).process,
 		func(): pass, # graph frame
+		load("%s/setSignalNode.gd" % root).process,
 	]
 
 	_process_functions += custom
