@@ -17,7 +17,8 @@ const DefaultNodeScenes: Array[PackedScene] = [
 	preload('res://addons/dialogue_nodes/nodes/ConditionNode.tscn'),
 	preload('res://addons/dialogue_nodes/nodes/NestNode.tscn'),
 	preload('res://addons/dialogue_nodes/nodes/ForkNode.tscn'),
-	preload('res://addons/dialogue_nodes/nodes/GraphFrame.tscn')
+	preload('res://addons/dialogue_nodes/nodes/GraphFrame.tscn'),
+	preload('res://addons/dialogue_nodes/nodes/SetSignalNode.tscn')
 ]
 @export var detach_icon: Texture2D = preload('res://addons/dialogue_nodes/icons/ExternalLink.svg')
 

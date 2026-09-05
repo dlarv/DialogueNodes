@@ -36,13 +36,13 @@ func save_all_files() -> void:
 
 
 static func save_data() -> void:
-	ResourceSaver.save(story_state, "res://story_state.tres")
+	# ResourceSaver.save(story_state, "res://story_state.tres")
 	story_state.character_list_updated.emit()
 	story_state.variable_list_updated.emit(story_state.variables.keys())
 
 
 static func load_data() -> void:
-	story_state = ResourceLoader.load("res://story_state.tres", "StoryState")
+	story_state = StoryState.load_story_state()
 	story_state.character_list_updated.emit()
 	story_state.variable_list_updated.emit(story_state.variables.keys())
 

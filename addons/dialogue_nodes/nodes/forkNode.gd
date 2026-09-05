@@ -172,4 +172,4 @@ static func process(parser: DialogueParser, dict: Dictionary):
 		if parser.check_condition(forks[i].condition):
 			result = forks[i].link
 			break
-	parser.roceed(result)
+	parser.proceed(result)

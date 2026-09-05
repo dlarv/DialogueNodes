@@ -147,4 +147,4 @@ static func _process_signal(parser: DialogueParser, dict: Dictionary):
 	if dict.signal_value.use_enum:
 		key = StoryManager.get_signal_from_key(dict.signal_value.value)
 
-	parser.dialogue_signal.emit(key)
+	parser.dialogue_signal.emit(key, dict.link)

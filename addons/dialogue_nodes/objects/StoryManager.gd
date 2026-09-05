@@ -5,13 +5,13 @@ class_name BaseStoryManager
 ## When inheriting from this script, declaring this enum will allow you to use these values inside of signal nodes
 # enum DialogSignal {}
 
-@export var characters: Array[Character]:
+var characters: Array[Character]:
 	get:
 		if len(characters) == 0:
 			load_data()
 		return characters
 
-@export var variables: Dictionary[String, Dictionary]:
+var variables: Dictionary[String, Dictionary]:
 	get:
 		if len(variables) == 0:
 			load_data()
@@ -35,7 +35,7 @@ func _enter_tree() -> void:
 
 
 func load_data() -> void:
-	var story_state: StoryState = ResourceLoader.load("res://story_state.tres")
+	var story_state := StoryState.load_story_state()
 	variables = story_state.variables
 	characters = story_state.characters
 

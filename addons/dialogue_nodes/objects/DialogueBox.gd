@@ -14,13 +14,14 @@ signal dialogue_processed(speaker: Variant, dialogue: String, options: Array[Str
 signal option_selected(idx: int)
 ## Triggered when a SignalNode is encountered while processing the dialogue.
 ## Passes a [param value] of type [String] that is defined in the SignalNode in the dialogue tree.
-signal dialogue_signal(value: String)
+signal dialogue_signal(value: Variant)
 ## Triggered when a variable value is changed.
 ## Passes the [param variable_name] along with it's [param value]
 signal variable_changed(variable_name: String, value)
 ## Triggered when a dialogue tree has ended processing and reached the end of the dialogue.
 ## The [DialogueBox] may hide based on the [member hide_on_dialogue_end] property.
 signal dialogue_ended
+signal event_finished
 
 
 @export_group('Data')
@@ -148,6 +149,7 @@ var speaker_label: Label
 var dialogue_label: RichTextLabel
 ## Contains all the option buttons. The currently displayed options are visible while the rest are hidden. This value is automatically set while running a dialogue tree.
 var options_container: BoxContainer
+var auto_proceed := true
 
 # [param DialogueParser] used for parsing the dialogue [member data].[br]
 # NOTE: Using [param DialogueParser] as a child instead of extending from it, because [DialogueBox] needs to extend from [Panel].
@@ -330,8 +332,13 @@ func _on_option_selected(idx: int) -> void:
 	option_selected.emit(idx)
 
 
-func _on_dialogue_signal(value: String) -> void:
+func _on_dialogue_signal(value: Variant, next_node:="") -> void:
 	dialogue_signal.emit(value)
+	# Dlarv: Wait for event to finish, if necessary.
+	if not auto_proceed:
+		await event_finished
+	_dialogue_parser._proceed(next_node)
+
 
 
 func _on_variable_changed(variable_name: String, value) -> void:
@@ -347,3 +354,11 @@ func _on_wait_finished() -> void:
 	options_container.show()
 	if Engine.is_editor_hint(): return
 	options_container.get_child(0).grab_focus()
+
+
+func _on_event_finished() -> void:
+	event_finished.emit()
+
+
+func show_text(msg: String) -> void:
+	_dialogue_parser.show_text(msg)
