@@ -2,6 +2,9 @@
 extends Node
 class_name BaseStoryManager
 
+## When inheriting from this script, declaring this enum will allow you to use these values inside of signal nodes
+# enum DialogSignal {}
+
 @export var characters: Array[Character]:
 	get:
 		if len(characters) == 0:
@@ -48,3 +51,11 @@ func update_variables(data: Dictionary) -> void:
 	for key in data:
 		if variables.has(key):
 			variables[key].value = data[key]
+
+
+func get_valid_signals() -> Array:
+	return []
+
+
+func get_signal_from_key(key: String) -> Variant: 
+	return key
