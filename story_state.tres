@@ -36,4 +36,5 @@ variables = Dictionary[String, Dictionary]({
 }
 })
 custom_dialog_nodes = Array[String](["res://SetSignalNode.tscn"])
+custom_text_effects = Array[String](["res://addons/dialogue_nodes/objects/bbcodeGhost.gd"])
 metadata/_custom_type_script = "uid://p2xk5plmxiiy"

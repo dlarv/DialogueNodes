@@ -17,7 +17,9 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 config/name="DialogueNodes"
 run/main_scene="res://examples/Demo1.tscn"
 config/features=PackedStringArray("4.6")
-config/icon="res://icon.svg"
+config/icon="uid://cbbv8guohvgwe"
+story_manager/story_state_path="uid://ddppllyhj2gwy"
+story_manager/custom_nodes=["uid://cia86vm8cdt4m"]
 
 [autoload]
 

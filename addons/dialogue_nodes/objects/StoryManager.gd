@@ -1,6 +1,5 @@
 @tool
 extends Node
-#
 
 @export var characters: Array[Character]:
 	get:
@@ -14,12 +13,13 @@ extends Node
 			load_data()
 		return variables 
 
-@export var custom_node_functions: Array[Callable]:
+var custom_node_functions: Array[Callable]:
 	get:
 		if len(custom_node_functions):
 			load_data()
 		return custom_node_functions
 
+var custom_text_effects: Array[RichTextEffect]
 
 func _enter_tree() -> void:
 	load_data()
@@ -31,10 +31,8 @@ func load_data() -> void:
 	characters = story_state.characters
 
 	custom_node_functions = []
-	for path in story_state.custom_dialog_nodes:
-		var node: BaseDialogueNode = load(path).instantiate()
-		custom_node_functions.append(node.process)
-
+	for node in story_state.get_custom_nodes():
+		custom_node_functions.append(node.instantiate().process)
 
 
 # ## Takes mixed local and global vars and updates global var values

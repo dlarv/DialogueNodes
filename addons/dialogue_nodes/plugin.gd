@@ -8,6 +8,7 @@ const DialogueBubbleScene := preload('res://addons/dialogue_nodes/objects/Dialog
 const DialogueBoxIcon := preload('res://addons/dialogue_nodes/icons/DialogueBox.svg')
 const DialogueBubbleIcon := preload('res://addons/dialogue_nodes/icons/DialogueBubble.svg')
 const BaseDialogueNodeScene := preload("res://addons/dialogue_nodes/nodes/baseDialogueNode.gd")
+const SETTING_PATH_ROOT := "application/story_manager"
 
 var editor: Control
 
@@ -43,7 +44,9 @@ func _enter_tree() -> void:
 	)
 
 	
-	# add_autoload_singleton("StoryManager", "res://addons/dialogue_nodes/objects/StoryManager.tscn")
+	add_autoload_singleton("StoryManager", "res://addons/dialogue_nodes/objects/StoryManager.tscn")
+	_init_settings_menu()
+
 	print_debug('Plugin Enabled')
 
 
@@ -87,3 +90,35 @@ func _edit(object) -> void:
 func _save_external_data() -> void:
 	if is_instance_valid(editor):
 		editor.files.save_all()
+
+
+func _init_settings_menu() -> void:
+	# Get StoryState path
+	var story_state_path := "%s/story_state_path" % SETTING_PATH_ROOT
+	var initial_state_path := &"res://story_state.tres"
+
+	if not ProjectSettings.has_setting(story_state_path):
+		ProjectSettings.set_setting(story_state_path, initial_state_path)
+
+	ProjectSettings.set_initial_value(story_state_path, initial_state_path)
+
+	ProjectSettings.add_property_info({
+		"name": story_state_path,
+		"type": TYPE_STRING,
+		"hint": PropertyHint.PROPERTY_HINT_FILE,
+	})
+
+	# Get Custom Nodes
+	var custom_node_path := "%s/custom_nodes" % SETTING_PATH_ROOT
+
+	if not ProjectSettings.has_setting(custom_node_path):
+		ProjectSettings.set_setting(custom_node_path, [])
+
+	ProjectSettings.add_property_info({
+		"name": custom_node_path,
+		"type": TYPE_ARRAY,
+		"hint": PropertyHint.PROPERTY_HINT_TYPE_STRING,
+		"hint_string": "%d/%d:" % [ TYPE_STRING, PropertyHint.PROPERTY_HINT_FILE ]
+	})
+
+	ProjectSettings.set_restart_if_changed(custom_node_path, true)

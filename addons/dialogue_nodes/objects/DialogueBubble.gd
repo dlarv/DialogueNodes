@@ -204,7 +204,7 @@ func _ready() -> void:
 		modulate = Color.TRANSPARENT
 		hide()
 
-	_dialogue_parser.init_process_functions([])
+	_dialogue_parser.init_process_functions(StoryManager.custom_node_functions)
 
 
 func _process(delta) -> void:

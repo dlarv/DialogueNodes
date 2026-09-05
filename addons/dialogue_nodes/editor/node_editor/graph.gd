@@ -575,11 +575,10 @@ func _on_graph_elements_unlinked_to_frame_request(element: StringName, frame: St
 	undo_redo.commit_action()
 
 
-func _on_custom_nodes_updated(nodes: Array[String]) -> void:
+func update_custom_nodes(nodes: Array[PackedScene]) -> void:
 	NodeScenes = DefaultNodeScenes.duplicate()
 
-	for path in nodes:
-		NodeScenes.append(load(path))
+	NodeScenes += nodes
 	
 	$PopupMenu.clear()
 	for node in NodeScenes:

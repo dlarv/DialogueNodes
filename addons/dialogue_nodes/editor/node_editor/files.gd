@@ -55,8 +55,9 @@ func create_entry(file_name: String, path: String, data: DialogueData) -> void:
 		add_child(graph)
 		graph.undo_redo = editor.undo_redo
 		graph.modified.connect(_on_data_modified)
-		StoryEditor.subscribe_to_custom_nodes(graph._on_custom_nodes_updated)
-		graph._on_custom_nodes_updated(StoryEditor.story_state.custom_dialog_nodes)
+		graph.update_custom_nodes(StoryEditor.get_custom_node_paths())
+		# StoryEditor.subscribe_to_custom_nodes(graph._on_custom_nodes_updated)
+		# graph._on_custom_nodes_updated(StoryEditor.story_state.custom_dialog_nodes)
 		graph.load_data(data)
 		remove_child(graph)
 		metadata['graph'] = graph

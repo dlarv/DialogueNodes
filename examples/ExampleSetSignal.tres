@@ -28,7 +28,7 @@ nodes = {
 "text": "No"
 }
 },
-"size": Vector2(300.00003, 347.99997),
+"size": Vector2(300, 348.00006),
 "speaker": 2,
 "sprite": 0
 },
@@ -42,7 +42,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300.00024, 278.00006),
+"size": Vector2(300.0003, 278.00024),
 "speaker": 2,
 "sprite": 1
 },
@@ -56,7 +56,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300.00012, 278.00006),
+"size": Vector2(300.00018, 278.00006),
 "speaker": 2,
 "sprite": 0
 },
@@ -70,7 +70,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300.00012, 278.00006),
+"size": Vector2(300.00024, 278.00006),
 "speaker": 2,
 "sprite": 0
 },
@@ -84,7 +84,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300.00012, 243.00006),
+"size": Vector2(300.00024, 278),
 "speaker": 2,
 "sprite": 0
 },
@@ -98,7 +98,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 243.00009),
+"size": Vector2(300.00037, 278),
 "speaker": 2,
 "sprite": 0
 },
@@ -112,7 +112,7 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 278.00012),
+"size": Vector2(300.00037, 278.0002),
 "speaker": 2,
 "sprite": 1
 },
