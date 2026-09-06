@@ -1,16 +1,16 @@
 @tool
-extends HBoxContainer
+extends Control
 
 signal modified
 signal delete_requested(node: BoxContainer)
 signal name_updated(new_name: String, old_name: String)
 
-@onready var var_name := $Name
-@onready var type := $Type
-@onready var string_value := $StringValue
-@onready var int_value := $IntValue
-@onready var float_value := $FloatValue
-@onready var bool_value := $BoolValue
+@onready var var_name := %Name
+@onready var type := %Type
+@onready var string_value := %StringValue
+@onready var int_value := %IntValue
+@onready var float_value := %FloatValue
+@onready var bool_value := %BoolValue
 
 const types := [TYPE_STRING, TYPE_INT, TYPE_FLOAT, TYPE_BOOL]
 var undo_redo: EditorUndoRedoManager
@@ -118,11 +118,11 @@ func _on_name_changed(new_text: String) -> void:
 
 func _on_name_timer_timeout() -> void:
 	if not undo_redo:
-		set_var_name($Name.text)
+		set_var_name(%Name.text)
 		return
 	
 	undo_redo.create_action('Set variable name')
-	undo_redo.add_do_method(self, 'set_var_name', $Name.text)
+	undo_redo.add_do_method(self, 'set_var_name', %Name.text)
 	undo_redo.add_do_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, 'set_var_name', last_set_name)
