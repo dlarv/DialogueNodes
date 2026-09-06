@@ -337,7 +337,7 @@ func _on_dialogue_signal(value: Variant, next_node:="") -> void:
 	# Dlarv: Wait for event to finish, if necessary.
 	if not auto_proceed:
 		await event_finished
-	_dialogue_parser._proceed(next_node)
+	_dialogue_parser.proceed(next_node)
 
 
 
