@@ -75,7 +75,6 @@ func set_value(new_value) -> void:
 	]
 
 
-
 func set_type(new_idx: int) -> void:
 	if last_shown_input:
 		last_shown_input.hide()

@@ -111,9 +111,8 @@ func _on_add_button_pressed() -> void:
 	undo_redo.commit_action()
 
 
-func _on_delete_requested(variable: BoxContainer) -> void:
+func _on_delete_requested(variable: Control) -> void:
 	if not undo_redo:
-		#variable.queue_free()
 		remove_variable(variable.get_index())
 		return
 	
