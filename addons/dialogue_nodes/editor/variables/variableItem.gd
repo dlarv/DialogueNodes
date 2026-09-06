@@ -104,6 +104,7 @@ func get_data() -> Dictionary:
 
 
 func load_data(new_name: String, data: Dictionary) -> void:
+	print_stack()
 	set_var_name(new_name)
 	type.select(types.find(data['type']))
 	set_type(types.find(data['type']))

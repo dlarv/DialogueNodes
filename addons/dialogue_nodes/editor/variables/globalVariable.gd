@@ -9,7 +9,7 @@ func _ready() -> void:
 
 
 func load_data() -> void:
-	$Variables.load_data(StoryEditor.variables, false)
+	$Variables.load_data(StoryEditor.variables, true)
 
 
 func save_data() -> void:
