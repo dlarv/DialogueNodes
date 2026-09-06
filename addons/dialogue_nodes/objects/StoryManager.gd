@@ -5,6 +5,9 @@ class_name BaseStoryManager
 ## When inheriting from this script, declaring this enum will allow you to use these values inside of signal nodes
 # enum DialogSignal {}
 
+signal event_started
+signal event_finished
+
 var characters: Array[Character]:
 	get:
 		if len(characters) == 0:
@@ -29,6 +32,7 @@ var custom_text_effects: Array[RichTextEffect]:
 			load_data()
 		return custom_text_effects
 	
+var event_variables: Dictionary[String, Variant]
 
 func _enter_tree() -> void:
 	load_data()
@@ -63,15 +67,36 @@ func get_signal_from_key(key: String) -> Variant:
 
 func get_variable(key: String) -> Variant:
 	if variables.has(key):
-		return variables[key]
+		return variables[key].value
 	else:
 		push_warning("Story Variable(%s) not found!")
 		return null
 
 
-func set_variable(key: String, value: Variant) -> void:
+func set_variable(key: String, value: Variant) -> bool:
 	if variables.has(key):
-		variables[key] = value
-	else:
-		push_warning("Story Variable(%s) not found!")
+		variables[key].value = value
+		return true
+	push_warning("Story Variable(%s) not found!")
+	return false
 
+
+## DialogueParser creates its own copy of variables while processing dialog.
+## This method can be used to inject new values into this separate copy when event ends.
+## This also calls set_variable.
+func set_event_variable(key: String, value: Variant) -> void:
+	if set_variable(key, value):
+		event_variables[key] = value
+
+
+## Events can be used to temporarily pass control from Dialog world to external world.
+## e.g. combat in middle of dialog, cutscenes, etc
+## When external world is finished processing, it is responsible for calling this method to return control back to Dialog world.
+func end_event() -> void:
+	event_finished.emit()
+
+
+func get_event_variables() -> Dictionary[String, Variant]:
+	var output := event_variables
+	event_variables = {}
+	return output

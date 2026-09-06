@@ -15,12 +15,13 @@ signal dialogue_processed(speaker: Variant, dialogue: String, options: Array[Str
 signal option_selected(idx: int)
 ## Triggered when a SignalNode is encountered while processing the dialogue.
 ## Passes a [param value] defined in the SignalNode in the tree.
-signal dialogue_signal(value: Variant, next: String)
+signal dialogue_signal(value: Variant)
 ## Triggered when a variable value is changed.
 ## Passes the [param variable_name] along with it's [param value]
 signal variable_changed(variable_name: String, value)
 ## Triggered when a dialogue tree has ended processing and reached the end of the dialogue.
 signal dialogue_ended
+signal event_started(extra_data: Variant)
 
 ## Contains the [param DialogueData] resource created using the Dialogue Nodes editor. It may contain nested [param DialogueData] when processing a [param NestNode].[br]
 ## Note: Only use [member load_data] or [member set_data] to set its value.
@@ -39,6 +40,7 @@ var _option_links := []
 var _data: Array[DialogueData] = []
 var _nest_links: Array[String] = []
 var _process_functions: Array[Callable]
+var _next_node_post_event := ""
 
 
 ## Loads the [param DialogueData] resource from the given [param path]. The loaded resource can be accessed using [member data].
@@ -92,6 +94,10 @@ func start(start_id: String) -> void:
 	if not data.starts.has(start_id):
 		printerr('Start ID ', start_id, ' not found in dialogue data!')
 		return
+
+	#DLARV: Make sure dialog is using most up to date variables
+	for var_name in StoryManager.variables:
+		variables[var_name] = StoryManager.variables[var_name].value
 	
 	_running = true
 	if _nest_links.size() == 0:
@@ -352,3 +358,20 @@ func show_text(msg: String) -> void:
 	dialogue_started.emit("MISC")
 	_process_dialogue(self, data)
 
+
+func start_event(next_node: String, extra_data: Variant=null) -> void:
+	_next_node_post_event = next_node
+	event_started.emit(extra_data)
+
+
+func end_event() -> void:
+	if _next_node_post_event == "": return
+
+	var link := _next_node_post_event
+	_next_node_post_event = ""
+
+	var event_variables: Dictionary[String, Variant] = StoryManager.get_event_variables()
+	for key in event_variables:
+		variables[key] = event_variables[key]
+
+	proceed(link)

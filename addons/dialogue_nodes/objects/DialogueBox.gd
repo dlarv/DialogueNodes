@@ -21,6 +21,7 @@ signal variable_changed(variable_name: String, value)
 ## Triggered when a dialogue tree has ended processing and reached the end of the dialogue.
 ## The [DialogueBox] may hide based on the [member hide_on_dialogue_end] property.
 signal dialogue_ended
+signal event_started(extra_data: Variant)
 signal event_finished
 
 
@@ -149,7 +150,7 @@ var speaker_label: Label
 var dialogue_label: RichTextLabel
 ## Contains all the option buttons. The currently displayed options are visible while the rest are hidden. This value is automatically set while running a dialogue tree.
 var options_container: BoxContainer
-var auto_proceed := true
+
 
 # [param DialogueParser] used for parsing the dialogue [member data].[br]
 # NOTE: Using [param DialogueParser] as a child instead of extending from it, because [DialogueBox] needs to extend from [Panel].
@@ -164,7 +165,6 @@ func _enter_tree() -> void:
 		for child in get_children():
 			remove_child(child)
 			child.queue_free()
-	
 	custom_effects = StoryManager.custom_text_effects
 
 	var margin_container = MarginContainer.new()
@@ -224,6 +224,7 @@ func _enter_tree() -> void:
 	_dialogue_parser.dialogue_signal.connect(_on_dialogue_signal)
 	_dialogue_parser.variable_changed.connect(_on_variable_changed)
 	_dialogue_parser.dialogue_ended.connect(_on_dialogue_ended)
+	_dialogue_parser.event_started.connect(_on_event_started)
 
 
 func _ready() -> void:
@@ -233,6 +234,7 @@ func _ready() -> void:
 			_wait_effect.wait_finished.connect(_on_wait_finished)
 			break
 	
+	StoryManager.event_finished.connect(_on_event_finished)
 	_dialogue_parser.init_process_functions(StoryManager.custom_node_functions)
 	
 	hide()
@@ -332,13 +334,8 @@ func _on_option_selected(idx: int) -> void:
 	option_selected.emit(idx)
 
 
-func _on_dialogue_signal(value: Variant, next_node:="") -> void:
+func _on_dialogue_signal(value: Variant) -> void:
 	dialogue_signal.emit(value)
-	# Dlarv: Wait for event to finish, if necessary.
-	if not auto_proceed:
-		await event_finished
-	_dialogue_parser.proceed(next_node)
-
 
 
 func _on_variable_changed(variable_name: String, value) -> void:
@@ -356,8 +353,13 @@ func _on_wait_finished() -> void:
 	options_container.get_child(0).grab_focus()
 
 
+func _on_event_started(extra_data: Variant=null) -> void:
+	event_started.emit(extra_data)
+
+
 func _on_event_finished() -> void:
 	event_finished.emit()
+	_dialogue_parser.end_event()
 
 
 func show_text(msg: String) -> void:

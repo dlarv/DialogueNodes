@@ -24,6 +24,7 @@ self_modulate = Color(0.072842635, 0.072842635, 0.072842635, 1)
 offset_right = 220.0
 offset_bottom = 31.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_awbdl")
+script = ExtResource("1_o70cd")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=339296620]
 layout_mode = 2
@@ -34,7 +35,6 @@ theme_override_constants/margin_bottom = 4
 
 [node name="HBox" type="HBoxContainer" parent="MarginContainer" unique_id=135710195]
 layout_mode = 2
-script = ExtResource("1_o70cd")
 
 [node name="Name" type="LineEdit" parent="MarginContainer/HBox" unique_id=124276510]
 unique_name_in_owner = true

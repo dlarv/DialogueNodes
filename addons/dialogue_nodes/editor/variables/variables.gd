@@ -18,7 +18,7 @@ func get_data() -> Dictionary[String, Dictionary]:
 	var dict: Dictionary[String, Dictionary] = {}
 	
 	for child in var_container.get_children():
-		if child is HBoxContainer:
+		if child.has_method("get_var_name"):
 			var var_name: String = child.get_var_name()
 			if var_name != '':
 				dict[var_name] = child.get_data()

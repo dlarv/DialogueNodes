@@ -26,6 +26,7 @@ func _to_dict(graph: GraphEdit) -> Dictionary:
 
 	# Signal
 	dict['signal_value'] = %SignalSelector.to_dict()
+	dict['auto_proceed'] = %CheckBox.button_pressed
 	
 	return dict
 
@@ -43,6 +44,12 @@ func _from_dict(dict: Dictionary) -> Array[String]:
 
 	# Signal Value
 	%SignalSelector.from_dict(dict['signal_value'])
+	
+	# Preserve backwards compatibility
+	if dict.has("auto_proceed"):
+		%CheckBox.set_pressed_no_signal(dict['auto_proceed'])
+	else:
+		%CheckBox.set_pressed_no_signal(true)
 	
 	return [dict['link']]
 
@@ -147,4 +154,8 @@ static func _process_signal(parser: DialogueParser, dict: Dictionary):
 	if dict.signal_value.use_enum:
 		key = StoryManager.get_signal_from_key(dict.signal_value.value)
 
-	parser.dialogue_signal.emit(key, dict.link)
+	parser.dialogue_signal.emit(key)
+	if dict.auto_proceed:
+		parser.proceed(dict.link)
+	else:
+		parser.start_event(dict.link)
