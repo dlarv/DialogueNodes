@@ -59,3 +59,19 @@ func get_valid_signals() -> Array:
 
 func get_signal_from_key(key: String) -> Variant: 
 	return key
+
+
+func get_variable(key: String) -> Variant:
+	if variables.has(key):
+		return variables[key]
+	else:
+		push_warning("Story Variable(%s) not found!")
+		return null
+
+
+func set_variable(key: String, value: Variant) -> void:
+	if variables.has(key):
+		variables[key] = value
+	else:
+		push_warning("Story Variable(%s) not found!")
+
