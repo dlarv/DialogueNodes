@@ -20,6 +20,7 @@ config/features=PackedStringArray("4.6")
 config/icon="uid://cbbv8guohvgwe"
 story_manager/story_state_path="uid://ddppllyhj2gwy"
 story_manager/custom_text_effects=["uid://m31i3axecagx", "uid://blmdt7v8bd0nl", "uid://bsoctnc26xumr"]
+story_manager/custom_nodes=[]
 
 [autoload]
 
