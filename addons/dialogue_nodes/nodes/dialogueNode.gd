@@ -232,10 +232,8 @@ func _on_custom_speaker_changed() -> void:
 	undo_redo.commit_action()
 
 
-# DLARV: Change to use param
-func _on_characters_updated() -> void:
+func _on_characters_updated(character_list: Array[Character]) -> void:
 	%Speaker.clear()
-	var character_list := StoryEditor.characters
 	
 	for character in character_list:
 		%Speaker.add_item(character.name)
@@ -247,6 +245,9 @@ func _on_characters_updated() -> void:
 	else:
 		%Speaker.select(-1)
 
+
+func subscribe_to_characters() -> bool: return true
+func subscribe_to_variables() -> bool: return true
 
 func _on_speaker_selected(idx: int) -> void:
 	if not undo_redo: 

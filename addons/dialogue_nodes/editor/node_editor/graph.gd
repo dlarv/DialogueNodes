@@ -167,13 +167,13 @@ func connect_node_signals(node: GraphElement) -> void:
 		node.disconnection_from_request.connect(_on_disconnection_from_request)
 		node.connection_shift_request.connect(_on_connection_shift_request)
 
-		if node.has_method("_on_variables_updated"):
+		if node.subscribe_to_variables():
 			variables_updated.connect(node._on_variables_updated)
 			node._on_variables_updated(last_variable_list + StoryEditor.get_variable_list())
 
-		if node.has_method("_on_characters_updated"):
+		if node.subscribe_to_characters():
 			StoryEditor.subscribe_to_characters(node._on_characters_updated)
-			node._on_characters_updated()
+			node._on_characters_updated(StoryEditor.characters)
 
 	# Start node
 	if id == 0:
@@ -188,14 +188,14 @@ func disconnect_node_signals(node: GraphElement) -> void:
 	node.disconnection_from_request.disconnect(_on_disconnection_from_request)
 	node.connection_shift_request.disconnect(_on_connection_shift_request)
 
-	if node.has_method("_on_variables_updated"):
-		variables_updated.disconnect(node._on_variables_updated)
-	if node.has_method("_on_characters_updated"):
-		StoryEditor.unsubscribe_to_characters(node._on_characters_updated)
-
 	# Start node
 	if id == 0:
 		node.run_requested.disconnect(_on_run_requested.bind(node))
+
+	if node.subscribe_to_variables():
+		variables_updated.disconnect(node._on_variables_updated)
+	if node.subscribe_to_characters():
+		StoryEditor.unsubscribe_to_characters(node._on_characters_updated)
 
 
 func show_add_menu(pos: Vector2) -> void:

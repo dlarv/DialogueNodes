@@ -16,11 +16,14 @@ var undo_redo: EditorUndoRedoManager
 
 @abstract func _from_dict(dict: Dictionary) -> Array[String]
 @abstract func _to_dict(graph: GraphEdit) -> Dictionary
-## If node needs access to variable list, define this function in its script.
-#func _on_variables_updated(variables_list: Array[String]) -> void: pass
-## If node needs access to character list, define this function in its script.
-#func _on_characters_updated(character_list: Array[Character]) -> void: pass
 
+func _on_characters_updated(character_list: Array[Character]) -> void: pass
+func _on_variables_updated(variables_list: Array[String]) -> void: pass
+
+# If node needs access to character list, override this method to return true
+func subscribe_to_characters() -> bool: return false
+# If node needs access to variable list, override this method to return true
+func subscribe_to_variables() -> bool: return false
 
 func _on_modified() -> void:
 	modified.emit()
