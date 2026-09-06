@@ -39,7 +39,8 @@ func load_data(dict: Dictionary, no_signal:=false) -> void:
 func add_variable(new_name:= '', data:= {'type': TYPE_STRING, 'value': ''}, no_signal:=false) -> HBoxContainer:
 	var new_variable := variable_item_scene.instantiate()
 	var_container.add_child(new_variable, true)
-	
+
+	new_variable.undo_redo = undo_redo
 	new_variable.load_data(new_name, data)
 	new_variable.undo_redo = undo_redo
 	new_variable.modified.connect(_on_modified)

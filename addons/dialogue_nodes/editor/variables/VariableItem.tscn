@@ -96,12 +96,12 @@ one_shot = true
 wait_time = 0.5
 one_shot = true
 
-[connection signal="text_changed" from="MarginContainer/HBox/Name" to="MarginContainer/HBox" method="_on_name_changed"]
-[connection signal="item_selected" from="MarginContainer/HBox/Type" to="MarginContainer/HBox" method="_on_type_changed"]
-[connection signal="text_changed" from="MarginContainer/HBox/StringValue" to="MarginContainer/HBox" method="_on_value_changed"]
-[connection signal="value_changed" from="MarginContainer/HBox/IntValue" to="MarginContainer/HBox" method="_on_value_changed"]
-[connection signal="value_changed" from="MarginContainer/HBox/FloatValue" to="MarginContainer/HBox" method="_on_value_changed"]
-[connection signal="toggled" from="MarginContainer/HBox/BoolValue" to="MarginContainer/HBox" method="_on_value_changed"]
+[connection signal="text_changed" from="MarginContainer/HBox/Name" to="." method="_on_name_changed"]
+[connection signal="item_selected" from="MarginContainer/HBox/Type" to="." method="_on_type_changed"]
+[connection signal="text_changed" from="MarginContainer/HBox/StringValue" to="." method="_on_value_changed"]
+[connection signal="value_changed" from="MarginContainer/HBox/IntValue" to="." method="_on_value_changed"]
+[connection signal="value_changed" from="MarginContainer/HBox/FloatValue" to="." method="_on_value_changed"]
+[connection signal="toggled" from="MarginContainer/HBox/BoolValue" to="." method="_on_value_changed"]
 [connection signal="pressed" from="MarginContainer/HBox/DeleteButton" to="." method="_on_delete_pressed"]
-[connection signal="timeout" from="NameTimer" to="MarginContainer/HBox" method="_on_name_timer_timeout"]
-[connection signal="timeout" from="ValueTimer" to="MarginContainer/HBox" method="_on_value_timer_timeout"]
+[connection signal="timeout" from="NameTimer" to="." method="_on_name_timer_timeout"]
+[connection signal="timeout" from="ValueTimer" to="." method="_on_value_timer_timeout"]

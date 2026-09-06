@@ -126,7 +126,7 @@ func _on_name_timer_timeout() -> void:
 	undo_redo.add_undo_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, 'set_var_name', last_set_name)
 	undo_redo.commit_action()
-	pass # Replace with function body.
+
 
 func _on_type_changed(new_idx: int) -> void:
 	if not undo_redo:
