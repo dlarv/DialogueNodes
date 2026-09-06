@@ -49,7 +49,7 @@ func add_variable(new_name:= '', data:= {'type': TYPE_STRING, 'value': ''}, no_s
 	
 	variable_list.append(new_name)
 
-	if no_signal:
+	if not no_signal:
 		variable_list_updated.emit(variable_list)
 		variable_added.emit(new_name, data)
 		modified.emit()

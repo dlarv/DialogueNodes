@@ -9,28 +9,12 @@ func _ready() -> void:
 
 
 func load_data() -> void:
-	$Variables.load_data(StoryEditor.variables, true)
+	$Variables.load_data(StoryEditor.variables, false)
 
 
 func save_data() -> void:
 	StoryEditor.update_variables($Variables.get_data())
 	StoryEditor.save_data()
-	# %SaveButton.text = "Save"
-	#
-	# # Determines whether scene should be opened or closed after saving sequence
-	# var _already_opened := PATH in EditorInterface.get_open_scenes()
-	# StoryManager.variables = $Variables.get_data()
-	#
-	# var scene := PackedScene.new()
-	# scene.pack(StoryManager)
-	# ResourceSaver.save(scene, PATH)
-	#
-	# # even though we know if it was open, we don't know if its active, hence this line
-	# EditorInterface.open_scene_from_path(PATH)
-	# # Scene will not officially save until it is closed and opened again.
-	# EditorInterface.close_scene()
-	# if _already_opened:
-	# 	EditorInterface.open_scene_from_path(PATH)
 
 
 func _on_variables_variable_added(name: String, _data: Dictionary) -> void:

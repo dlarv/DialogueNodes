@@ -36,7 +36,6 @@ func save_all_files() -> void:
 
 
 static func save_data() -> void:
-	# ResourceSaver.save(story_state, "res://story_state.tres")
 	story_state.character_list_updated.emit()
 	story_state.variable_list_updated.emit(story_state.variables.keys())
 
@@ -59,9 +58,6 @@ static func remove_character(character: Character) -> void:
 
 
 static func new_variable(key: String) -> void:
-	if story_state.variables.has(key):
-		push_error("Could not add var. '%s' already exists" % key)
-		return
 	story_state.variables[key] = {}
 	story_state.variable_list_updated.emit(get_variable_list())
 
