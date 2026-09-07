@@ -36,25 +36,25 @@ func save_all_files() -> void:
 
 
 static func save_data() -> void:
-	story_state.character_list_updated.emit()
+	story_state.character_list_updated.emit(characters)
 	story_state.variable_list_updated.emit(story_state.variables.keys())
 
 
 static func load_data() -> void:
 	story_state = StoryState.load_story_state()
-	story_state.character_list_updated.emit()
+	story_state.character_list_updated.emit(characters)
 	story_state.variable_list_updated.emit(story_state.variables.keys())
 
 
 static func add_character(character: Character) -> void:
 	story_state.characters.append(character)
-	story_state.character_list_updated.emit()
+	story_state.character_list_updated.emit(characters)
 
 
 static func remove_character(character: Character) -> void:
 	var idx: int = story_state.characters.find(character)
 	story_state.characters.remove_at(idx)
-	story_state.character_list_updated.emit()
+	story_state.character_list_updated.emit(characters)
 
 
 static func new_variable(key: String) -> void:

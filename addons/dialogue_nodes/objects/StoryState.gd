@@ -2,7 +2,7 @@
 extends Resource
 class_name StoryState
 
-signal character_list_updated
+signal character_list_updated(list: Array[Character])
 signal variable_list_updated(list: Array[String])
 
 @export var characters: Array[Character]

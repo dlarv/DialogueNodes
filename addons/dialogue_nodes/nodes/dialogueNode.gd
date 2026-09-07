@@ -6,9 +6,6 @@ signal character_list_requested(dialogue_node: GraphNode)
 @export var max_options := 4
 
 var last_size := size
-var last_custom_speaker := ''
-var cur_speaker := -1
-var cur_sprite := -1
 var last_dialogue := ''
 var OptionScene := preload('res://addons/dialogue_nodes/nodes/sub_nodes/DialogueNodeOption.tscn')
 var options: Array = []
@@ -16,12 +13,9 @@ var empty_option: BoxContainer
 var first_option_index := -1
 var base_color: Color = Color.WHITE
 
-var _character: Character = null
-
-
 func _ready() -> void:
 	_register_timer(%Dialogue, "text_changed", _on_dialogue_text_changed, %TimerParent)
-	_register_timer(%CustomSpeaker, "text_changed", _on_custom_speaker_changed, %TimerParent)
+	%CharacterSelector.undo_redo = undo_redo
 
 	options.clear()
 	for idx in range(get_child_count() - 1, -1, -1):
@@ -33,23 +27,13 @@ func _ready() -> void:
 	update_slots()
 	reset_size()
 
-	%SpriteSelector.item_selected.connect(func(idx: int) -> void:
-		if _character == null: return
-		%SpriteTextureRect.texture = _character.get_sprite_image(idx)
-	)
-
 
 func _to_dict(graph: GraphEdit) -> Dictionary:
 	var dict := {}
 	var empty_condition: Array[Dictionary] = []
-	
-	if %CustomSpeaker.visible:
-		%CustomSpeaker.text = %CustomSpeaker.text.replace('{', '').replace('}', '')
-		dict['speaker'] = %CustomSpeaker.text
-	elif %Speaker.visible:
-		var speaker_idx: int = %Speaker.selected
-		dict['speaker'] = speaker_idx
-		dict['sprite'] = %SpriteSelector.selected
+
+	dict['speaker'] = %CharacterSelector.get_speaker()
+	dict['sprite'] = %CharacterSelector.get_sprite()
 	
 	dict['dialogue'] = %Dialogue.text
 	dict['size'] = size
@@ -90,24 +74,8 @@ func _from_dict(dict: Dictionary) -> Array[String]:
 	var next_nodes: Array[String] = []
 	
 	# set values
-	if dict['speaker'] is String:
-		%CustomSpeaker.text = dict['speaker']
-		last_custom_speaker = %CustomSpeaker.text
-	elif dict['speaker'] is int:
-		cur_speaker = dict['speaker']
-		%Speaker.selected = cur_speaker
-		_select_speaker(cur_speaker)
+	%CharacterSelector.from_dict(dict)
 
-		if dict.has('sprite'):
-			cur_sprite = dict['sprite']
-		else:
-			cur_sprite = 0
-		%SpriteSelector.selected = cur_sprite
-		_select_sprite(cur_sprite)
-
-
-		%CharacterToggle.set_pressed_no_signal(true)
-		toggle_speaker_input(true)
 	%Dialogue.text = dict['dialogue']
 	%DialogueExpanded.text = %Dialogue.text
 	last_dialogue = %Dialogue.text
@@ -149,19 +117,6 @@ func _from_dict(dict: Dictionary) -> Array[String]:
 		last_size = size
 	
 	return next_nodes
-
-
-func set_custom_speaker(new_custom_speaker: String) -> void:
-	if %CustomSpeaker.text != new_custom_speaker:
-		%CustomSpeaker.text = new_custom_speaker
-	last_custom_speaker = %CustomSpeaker.text
-
-
-func toggle_speaker_input(use_speaker_list: bool) -> void:
-	%CustomSpeaker.visible = not use_speaker_list
-	%Speaker.visible = use_speaker_list
-	%SpriteSelector.visible = use_speaker_list
-	%SpriteTextureRect.visible = use_speaker_list
 
 
 func set_dialogue_text(new_text: String) -> void:
@@ -219,102 +174,12 @@ func update_slots() -> void:
 		set_slot(option.get_index(), false, 0, base_color, enabled, 0, base_color)
 
 
-func _on_custom_speaker_changed() -> void:
-	if not undo_redo: 
-		set_custom_speaker(%CustomSpeaker.text)
-		return
-	
-	undo_redo.create_action('Set custom Speaker')
-	undo_redo.add_do_method(self, 'set_custom_speaker', %CustomSpeaker.text)
-	undo_redo.add_do_method(self, '_on_modified')
-	undo_redo.add_undo_method(self, '_on_modified')
-	undo_redo.add_undo_method(self, 'set_custom_speaker', last_custom_speaker)
-	undo_redo.commit_action()
-
-
 func _on_characters_updated(character_list: Array[Character]) -> void:
-	%Speaker.clear()
-	
-	for character in character_list:
-		%Speaker.add_item(character.name)
-	
-	if character_list.size() > 0:
-		if cur_speaker > character_list.size():
-			cur_speaker = 0
-		%Speaker.select(cur_speaker)
-	else:
-		%Speaker.select(-1)
+	%CharacterSelector.update_characters(character_list)
 
 
 func subscribe_to_characters() -> bool: return true
 func subscribe_to_variables() -> bool: return true
-
-func _on_speaker_selected(idx: int) -> void:
-	if not undo_redo: 
-		_select_speaker(idx)
-		return
-	
-	undo_redo.create_action('Set Speaker')
-	undo_redo.add_do_method(self, '_select_speaker', idx)
-	undo_redo.add_do_method(%Speaker, 'select', idx)
-	undo_redo.add_do_method(self, '_on_modified')
-	undo_redo.add_undo_method(self, '_on_modified')
-	undo_redo.add_undo_method(self, '_select_speaker', cur_speaker)
-	undo_redo.add_undo_method(%Speaker, 'select', cur_speaker)
-	undo_redo.commit_action()
-
-
-func _select_speaker(idx: int) -> void:
-	if _character != null:
-		_character.sprite_list_updated.disconnect(_on_sprite_list_updated)
-	cur_speaker = idx
-
-	_character = StoryEditor.characters[idx]
-	_on_sprite_list_updated()
-
-	_character.sprite_list_updated.connect(_on_sprite_list_updated)
-
-
-func _on_sprite_list_updated() -> void:
-	%SpriteSelector.clear()
-	for i in _character.get_sprite_count():
-		%SpriteSelector.add_item(_character.get_sprite_name(i))
-	
-	if cur_sprite:
-		%SpriteSelector.selected = cur_sprite
-
-
-func _on_speaker_toggled(toggled_on: bool) -> void:
-	if not undo_redo: return
-	
-	undo_redo.create_action('Toggle character list')
-	undo_redo.add_do_method(%CharacterToggle, 'set_pressed_no_signal', toggled_on)
-	undo_redo.add_do_method(self, 'toggle_speaker_input', toggled_on)
-	undo_redo.add_do_method(self, '_on_modified')
-	undo_redo.add_undo_method(self, '_on_modified')
-	undo_redo.add_undo_method(self, 'toggle_speaker_input', not toggled_on)
-	undo_redo.add_undo_method(%CharacterToggle, 'set_pressed_no_signal', not toggled_on)
-	undo_redo.commit_action()
-
-
-func _on_sprite_selector_item_selected(idx: int) -> void:
-	if not undo_redo:
-		_select_sprite(idx)
-		return
-
-	undo_redo.create_action('Set Sprite')
-	undo_redo.add_do_method(self, '_select_sprite', idx)
-	undo_redo.add_do_method(%SpriteSelector, 'select', idx)
-	undo_redo.add_do_method(self, '_on_modified')
-	undo_redo.add_undo_method(self, '_on_modified')
-	undo_redo.add_undo_method(self, '_select_speaker', cur_sprite)
-	undo_redo.add_undo_method(%SpriteSelector, 'select', cur_sprite)
-	undo_redo.commit_action()
-	
-
-func _select_sprite(idx: int) -> void:
-	cur_sprite = idx
-	%SpriteTextureRect.texture = _character.get_sprite_image(idx)
 
 
 func _on_dialogue_text_changed() -> void:
@@ -444,5 +309,4 @@ func _on_resize_end(new_size: Vector2) -> void:
 	undo_redo.add_undo_property(self, 'last_size', last_size)
 	undo_redo.add_undo_method(self, 'set_size', last_size)
 	undo_redo.commit_action()
-
 

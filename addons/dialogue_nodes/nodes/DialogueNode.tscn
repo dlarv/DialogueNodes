@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b60fa8vcjuoo6"]
 
 [ext_resource type="Script" uid="uid://cs4f7dmkcuyqk" path="res://addons/dialogue_nodes/nodes/dialogueNode.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://dla76qr5vqp1r" path="res://addons/dialogue_nodes/icons/Character.svg" id="2_n0qww"]
+[ext_resource type="PackedScene" uid="uid://dxrfhxuhml68r" path="res://addons/dialogue_nodes/nodes/sub_nodes/CharacterSelector.tscn" id="2_7m1e2"]
 [ext_resource type="Texture2D" uid="uid://dps8mwnnuc5nm" path="res://addons/dialogue_nodes/icons/DistractionFree.svg" id="4_tpc70"]
 [ext_resource type="PackedScene" uid="uid://blp6ulybtwgcj" path="res://addons/dialogue_nodes/nodes/sub_nodes/DialogueNodeOption.tscn" id="4_y6bt4"]
 
@@ -86,46 +86,9 @@ text = "Speaker"
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1074078207]
-layout_mode = 2
-
-[node name="SpeakerContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=920496564]
-layout_mode = 2
-
-[node name="CustomSpeaker" type="LineEdit" parent="VBoxContainer/SpeakerContainer" unique_id=1649543897]
+[node name="CharacterSelector" parent="." unique_id=1472164990 instance=ExtResource("2_7m1e2")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Speaker" type="OptionButton" parent="VBoxContainer/SpeakerContainer" unique_id=373292955]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-fit_to_longest_item = false
-
-[node name="CharacterToggle" type="Button" parent="VBoxContainer/SpeakerContainer" unique_id=1131418771]
-unique_name_in_owner = true
-layout_mode = 2
-toggle_mode = true
-icon = ExtResource("2_n0qww")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=576297596]
-layout_mode = 2
-
-[node name="SpriteTextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer" unique_id=47720786]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-expand_mode = 1
-
-[node name="SpriteSelector" type="OptionButton" parent="VBoxContainer/HBoxContainer" unique_id=1364997725]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-fit_to_longest_item = false
 
 [node name="DialogueLabel" type="Label" parent="." unique_id=74173988]
 layout_mode = 2
@@ -185,9 +148,6 @@ text = "Close"
 layout_mode = 2
 
 [connection signal="resize_end" from="." to="." method="_on_resize_end"]
-[connection signal="item_selected" from="VBoxContainer/SpeakerContainer/Speaker" to="." method="_on_speaker_selected"]
-[connection signal="toggled" from="VBoxContainer/SpeakerContainer/CharacterToggle" to="." method="_on_speaker_toggled"]
-[connection signal="item_selected" from="VBoxContainer/HBoxContainer/SpriteSelector" to="." method="_on_sprite_selector_item_selected"]
 [connection signal="pressed" from="DialogueContainer/ExpandButton" to="." method="_on_expand_button_pressed"]
 [connection signal="text_changed" from="DialogueContainer/DialoguePanel/VBoxContainer/DialogueExpanded" to="." method="_on_dialogue_text_changed"]
 [connection signal="pressed" from="DialogueContainer/DialoguePanel/VBoxContainer/CenterContainer/CloseButton" to="." method="_on_close_button_pressed"]
