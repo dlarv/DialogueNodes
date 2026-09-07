@@ -165,7 +165,14 @@ func _enter_tree() -> void:
 		for child in get_children():
 			remove_child(child)
 			child.queue_free()
-	custom_effects = StoryManager.custom_text_effects
+
+	custom_effects = [
+		RichTextWait.new(),
+		RichTextGhost.new(),
+		RichTextMatrix.new()
+	]
+
+	custom_effects += StoryManager.custom_text_effects
 
 	var margin_container = MarginContainer.new()
 	add_child(margin_container)
@@ -233,8 +240,11 @@ func _ready() -> void:
 			_wait_effect = effect
 			_wait_effect.wait_finished.connect(_on_wait_finished)
 			break
-	
+
+	dialogue_signal.connect(StoryManager._on_dialogue_signal.bind(self))
+	event_started.connect(StoryManager.start_event)
 	StoryManager.event_finished.connect(_on_event_finished)
+
 	_dialogue_parser.init_process_functions(StoryManager.custom_node_functions)
 	
 	hide()

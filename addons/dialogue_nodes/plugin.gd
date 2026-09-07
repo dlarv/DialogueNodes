@@ -129,15 +129,10 @@ func _init_settings_menu() -> void:
 	var custom_effect_path := "%s/custom_text_effects" % SETTING_PATH_ROOT
 
 	var path := "res://addons/dialogue_nodes/objects"
-	var initial_value := [
-			"%s/bbcodeWait.gd" % path,
-			"%s/bbcodeGhost.gd" % path,
-			"%s/bbcodeMatrix.gd" % path,
-		]
 	if not ProjectSettings.has_setting(custom_effect_path):
-		ProjectSettings.set_setting(custom_effect_path, initial_value)
+		ProjectSettings.set_setting(custom_effect_path, [])
 
-	ProjectSettings.set_initial_value(custom_effect_path, initial_value)
+	ProjectSettings.set_initial_value(custom_effect_path, [])
 
 	ProjectSettings.add_property_info({
 		"name": custom_effect_path,
