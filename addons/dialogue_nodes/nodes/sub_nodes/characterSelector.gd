@@ -18,7 +18,7 @@ func _ready() -> void:
 
 func get_sprite() -> int:
 	if %CustomSpeaker.visible:
-		return 0
+		return -1
 	else:
 		return %SpriteSelector.selected
 
@@ -62,6 +62,7 @@ func toggle_speaker_input(use_speaker_list: bool) -> void:
 	%Speaker.visible = use_speaker_list
 	%SpriteSelector.visible = use_speaker_list
 	%SpriteTextureRect.visible = use_speaker_list
+	_try_hide_sprite_selector()
 
 
 func _on_custom_speaker_changed() -> void:
@@ -71,8 +72,6 @@ func _on_custom_speaker_changed() -> void:
 	
 	undo_redo.create_action('Set custom Speaker')
 	undo_redo.add_do_method(self, 'set_custom_speaker', %CustomSpeaker.text)
-	undo_redo.add_do_method(self, '_on_modified')
-	undo_redo.add_undo_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, 'set_custom_speaker', last_custom_speaker)
 	undo_redo.commit_action()
 
@@ -90,6 +89,8 @@ func update_characters(character_list: Array[Character]) -> void:
 	else:
 		%Speaker.select(-1)
 
+	_try_hide_sprite_selector()
+
 
 func _on_speaker_selected(idx: int) -> void:
 	if not undo_redo: 
@@ -99,8 +100,6 @@ func _on_speaker_selected(idx: int) -> void:
 	undo_redo.create_action('Set Speaker')
 	undo_redo.add_do_method(self, '_select_speaker', idx)
 	undo_redo.add_do_method(%Speaker, 'select', idx)
-	undo_redo.add_do_method(self, '_on_modified')
-	undo_redo.add_undo_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, '_select_speaker', cur_speaker)
 	undo_redo.add_undo_method(%Speaker, 'select', cur_speaker)
 	undo_redo.commit_action()
@@ -115,6 +114,7 @@ func _select_speaker(idx: int) -> void:
 	_on_sprite_list_updated()
 
 	_character.sprite_list_updated.connect(_on_sprite_list_updated)
+	_try_hide_sprite_selector()
 
 
 func _on_sprite_list_updated() -> void:
@@ -125,6 +125,8 @@ func _on_sprite_list_updated() -> void:
 	if cur_sprite:
 		%SpriteSelector.selected = cur_sprite
 
+	_try_hide_sprite_selector()
+
 
 func _on_speaker_toggled(toggled_on: bool) -> void:
 	if not undo_redo: return
@@ -132,8 +134,6 @@ func _on_speaker_toggled(toggled_on: bool) -> void:
 	undo_redo.create_action('Toggle character list')
 	undo_redo.add_do_method(%CharacterToggle, 'set_pressed_no_signal', toggled_on)
 	undo_redo.add_do_method(self, 'toggle_speaker_input', toggled_on)
-	undo_redo.add_do_method(self, '_on_modified')
-	undo_redo.add_undo_method(self, '_on_modified')
 	undo_redo.add_undo_method(self, 'toggle_speaker_input', not toggled_on)
 	undo_redo.add_undo_method(%CharacterToggle, 'set_pressed_no_signal', not toggled_on)
 	undo_redo.commit_action()
@@ -160,3 +160,11 @@ func _select_sprite(idx: int) -> void:
 func _on_custom_speaker_text_changed(new_text: String) -> void:
 	$CustomSpeakerTimer.stop()
 	$CustomSpeakerTimer.start()
+
+
+func _try_hide_sprite_selector() -> void:
+	var correct_mode: bool = not %CustomSpeaker.visible
+	var has_sprites := _character != null and _character.get_sprite_count()
+
+	%SpriteSelector.visible = correct_mode and has_sprites
+	%SpriteTextureRect.visible = correct_mode and has_sprites

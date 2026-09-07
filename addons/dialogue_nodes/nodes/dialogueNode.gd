@@ -15,6 +15,7 @@ var base_color: Color = Color.WHITE
 
 func _ready() -> void:
 	_register_timer(%Dialogue, "text_changed", _on_dialogue_text_changed, %TimerParent)
+
 	%CharacterSelector.undo_redo = undo_redo
 
 	options.clear()

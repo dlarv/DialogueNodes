@@ -25,7 +25,8 @@ nodes = {
 }
 },
 "size": Vector2(300, 276.00006),
-"speaker": "Gerfg"
+"speaker": "Gerfg",
+"sprite": -1
 },
 &"1_2": {
 "dialogue": "So you can create CharacterList resources containing an array of Character resources and use it in your dialogues.",
@@ -33,11 +34,11 @@ nodes = {
 "options": {
 0: {
 "condition": Array[Dictionary]([]),
-"link": "END",
+"link": &"1_3",
 "text": ""
 }
 },
-"size": Vector2(300, 275.00006),
+"size": Vector2(300, 278),
 "speaker": 0,
 "sprite": -1
 },
@@ -51,9 +52,8 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300.00024, 275.00006),
+"size": Vector2(300.00024, 278),
 "speaker": 1,
 "sprite": 0
 }
 }
-strays = Array[String](["1_3"])
