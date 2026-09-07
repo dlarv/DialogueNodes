@@ -37,8 +37,7 @@ func _register_timer(node: Control, signal_name: String, fn: Callable, parent_ov
 	if parent_override == null:
 		add_child(timer)
 	else:
-		# parent_override.add_child(timer)
-		pass
+		parent_override.add_child(timer)
 
 	var timer_func := func(_a=0,_b=0,_c=0) -> void: 
 		timer.stop()
