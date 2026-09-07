@@ -108,7 +108,8 @@ func start(start_id: String) -> void:
 ## Stops processing the dialogue tree.
 func stop() -> void:
 	_running = false
-	StoryManager.update_variables(variables)
+	# DLARV TODO: this may not actually be needed, as there is already a signal which storymanager can listen to
+	#StoryManager.update_variables(variables)
 	dialogue_ended.emit()
 	# This way, user can do `await dialogue_box.dialogue_signal` in their code and it'll work even
 	# if there is no other signal emitted
@@ -370,8 +371,7 @@ func end_event() -> void:
 	var link := _next_node_post_event
 	_next_node_post_event = ""
 
-	var event_variables: Dictionary[String, Variant] = StoryManager.get_event_variables()
-	for key in event_variables:
-		variables[key] = event_variables[key]
+	for key in StoryManager.variables:
+		variables.set(key, StoryManager.get_variable(key))
 
 	proceed(link)

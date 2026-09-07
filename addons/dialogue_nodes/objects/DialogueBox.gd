@@ -244,6 +244,7 @@ func _ready() -> void:
 	dialogue_signal.connect(StoryManager._on_dialogue_signal.bind(self))
 	event_started.connect(StoryManager.start_event)
 	StoryManager.event_finished.connect(_on_event_finished)
+	variable_changed.connect(StoryManager.set_variable)
 
 	_dialogue_parser.init_process_functions(StoryManager.custom_node_functions)
 	

@@ -19,7 +19,8 @@ var variables: Dictionary[String, Dictionary]:
 	get:
 		if len(variables) == 0:
 			load_data()
-		return variables 
+		return variables
+
 
 var custom_node_functions: Array[Callable]:
 	get:
@@ -74,20 +75,13 @@ func get_variable(key: String) -> Variant:
 		return null
 
 
-func set_variable(key: String, value: Variant) -> bool:
+func set_variable(key: String, value: Variant, suppress_warning:=false) -> bool:
 	if variables.has(key):
-		variables[key].value = value
+		variables[key].set("value", value)
 		return true
-	push_warning("Story Variable(%s) not found!")
+	if not suppress_warning:
+		push_warning("Story Variable(%s) not found!")
 	return false
-
-
-## DialogueParser creates its own copy of variables while processing dialog.
-## This method can be used to inject new values into this separate copy when event ends.
-## This also calls set_variable.
-func set_event_variable(key: String, value: Variant) -> void:
-	if set_variable(key, value):
-		event_variables[key] = value
 
 
 func start_event(data: Variant) -> void: pass
@@ -98,12 +92,6 @@ func start_event(data: Variant) -> void: pass
 ## When external world is finished processing, it is responsible for calling this method to return control back to Dialog world.
 func end_event() -> void:
 	event_finished.emit()
-
-
-func get_event_variables() -> Dictionary[String, Variant]:
-	var output := event_variables
-	event_variables = {}
-	return output
 
 
 func _on_dialogue_signal(value: Variant, box: DialogueBox) -> void:

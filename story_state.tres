@@ -30,6 +30,14 @@ variables = Dictionary[String, Dictionary]({
 "type": 1,
 "value": true
 },
+"points": {
+"type": 2,
+"value": 0
+},
+"timer_length": {
+"type": 2,
+"value": 0
+},
 "visited_dropdowns": {
 "type": 1,
 "value": false

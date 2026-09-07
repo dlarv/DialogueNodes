@@ -96,7 +96,6 @@ func subscribe_to_variables() -> bool: return true
 static func process(parser: DialogueParser, dict: Dictionary):
 	_process_set(parser, dict)
 	_process_signal(parser, dict)
-	parser.proceed(dict.link)
 
 
 static func _process_set(parser: DialogueParser, dict: Dictionary):
