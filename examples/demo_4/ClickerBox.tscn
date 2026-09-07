@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://byqeu427c5ahw"]
+
+[ext_resource type="Script" uid="uid://rwvihveyfjif" path="res://examples/demo_4/clickerBox.gd" id="1_5vqcw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_12e88"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_12e88"]
+material = SubResource("StandardMaterial3D_12e88")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_12e88"]
+
+[node name="Box1" type="MeshInstance3D" unique_id=103350077]
+mesh = SubResource("BoxMesh_12e88")
+script = ExtResource("1_5vqcw")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1800813278]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=356391444]
+shape = SubResource("BoxShape3D_12e88")
+
+[connection signal="input_event" from="Area3D" to="." method="_on_area_3d_input_event"]

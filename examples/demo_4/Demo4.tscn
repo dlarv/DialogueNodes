@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://cxgbqpl5x2od2"]
+
+[ext_resource type="Script" uid="uid://b1pjspi1h8amj" path="res://addons/dialogue_nodes/objects/DialogueBox.gd" id="1_004r2"]
+[ext_resource type="PackedScene" uid="uid://byqeu427c5ahw" path="res://examples/demo_4/ClickerBox.tscn" id="1_8rx26"]
+[ext_resource type="Script" uid="uid://brbdh0n8aclo6" path="res://examples/demo_4/demo4.gd" id="1_ak5fw"]
+[ext_resource type="Script" uid="uid://m31i3axecagx" path="res://addons/dialogue_nodes/objects/bbcodeWait.gd" id="2_8rx26"]
+[ext_resource type="Script" uid="uid://blmdt7v8bd0nl" path="res://addons/dialogue_nodes/objects/bbcodeGhost.gd" id="3_ak5fw"]
+[ext_resource type="Resource" uid="uid://badbd7v6qh4xw" path="res://examples/demo_4/demo4.tres" id="4_6epqp"]
+[ext_resource type="Script" uid="uid://bsoctnc26xumr" path="res://addons/dialogue_nodes/objects/bbcodeMatrix.gd" id="4_jqn25"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_12e88"]
+size = Vector2(20, 20)
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_jqn25"]
+script = ExtResource("2_8rx26")
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_6epqp"]
+script = ExtResource("3_ak5fw")
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_ukgg0"]
+script = ExtResource("4_jqn25")
+
+[node name="Demo4" type="Node3D" unique_id=1031345159]
+script = ExtResource("1_ak5fw")
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=1828627717]
+mesh = SubResource("PlaneMesh_12e88")
+
+[node name="Box1" parent="." unique_id=103350077 instance=ExtResource("1_8rx26")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=414465821]
+transform = Transform3D(1, 0, 0, 0, 0.87487346, 0.48435166, 0, -0.48435166, 0.87487346, 0, 1.9159074, 2.6309578)
+
+[node name="DialogueBox" type="Panel" parent="." unique_id=2137011810]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -500.0
+offset_top = -272.0
+offset_right = 500.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("1_004r2")
+data = ExtResource("4_6epqp")
+start_id = "START"
+custom_effects = Array[RichTextEffect]([SubResource("RichTextEffect_jqn25"), SubResource("RichTextEffect_6epqp"), SubResource("RichTextEffect_ukgg0")])
+
+[node name="Timer" type="Timer" parent="." unique_id=1813566545]
+one_shot = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=598241164]
+transform = Transform3D(1, 0, 0, 0, 0.5806745, 0.8141358, 0, -0.8141358, 0.5806745, 0, 4.004125, 0)
+
+[connection signal="clicked" from="Box1" to="." method="_on_box_1_clicked"]
+[connection signal="dialogue_signal" from="DialogueBox" to="." method="_on_dialogue_box_dialogue_signal"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
