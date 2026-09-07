@@ -23,8 +23,9 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
-"speaker": -1
+"size": Vector2(300, 245.99998),
+"speaker": 0,
+"sprite": -1
 },
 &"1_10": {
 "dialogue": "[wait speed=5]Uhh...[/wait]",
@@ -36,8 +37,9 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
-"speaker": -1
+"size": Vector2(300.0006, 245.99998),
+"speaker": 0,
+"sprite": -1
 },
 &"1_11": {
 "dialogue": "What the f--",
@@ -49,8 +51,9 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
-"speaker": -1
+"size": Vector2(300.00024, 245.99998),
+"speaker": 0,
+"sprite": -1
 },
 &"1_12": {
 "dialogue": "...and it just went away like that.",
@@ -62,8 +65,9 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
-"speaker": -1
+"size": Vector2(300, 278),
+"speaker": "Clara",
+"sprite": -1
 },
 &"1_13": {
 "dialogue": "So weird...",
@@ -75,8 +79,9 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
-"speaker": -1
+"size": Vector2(300, 245.99998),
+"speaker": 0,
+"sprite": -1
 },
 &"1_14": {
 "dialogue": "[wait speed=5]Wha...[/wait]",
@@ -88,8 +93,9 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
-"speaker": -1
+"size": Vector2(300, 245.99998),
+"speaker": 0,
+"sprite": -1
 },
 &"1_15": {
 "dialogue": "Yeah, I mea--",
@@ -101,8 +107,9 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
-"speaker": -1
+"size": Vector2(300, 245.99998),
+"speaker": 0,
+"sprite": -1
 },
 &"1_2": {
 "dialogue": "Hey Greg.",
@@ -114,8 +121,9 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
-"speaker": -1
+"size": Vector2(300, 278),
+"speaker": "Clara",
+"sprite": -1
 },
 &"1_3": {
 "dialogue": "What's up?",
@@ -127,8 +135,9 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
-"speaker": -1
+"size": Vector2(300, 278),
+"speaker": "Clara",
+"sprite": -1
 },
 &"1_4": {
 "dialogue": "What a peaceful day, right?",
@@ -140,8 +149,9 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
-"speaker": -1
+"size": Vector2(300.00024, 245.99998),
+"speaker": 0,
+"sprite": -1
 },
 &"1_5": {
 "dialogue": "I know, right?!",
@@ -153,8 +163,9 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
-"speaker": -1
+"size": Vector2(300, 278),
+"speaker": "Clara",
+"sprite": -1
 },
 &"1_6": {
 "dialogue": "I sure hope nothing weird happens...",
@@ -166,8 +177,9 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
-"speaker": -1
+"size": Vector2(300, 278),
+"speaker": "Clara",
+"sprite": -1
 },
 &"1_7": {
 "dialogue": "[shake]What is that?![/shake]",
@@ -179,8 +191,9 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
-"speaker": -1
+"size": Vector2(300.00037, 278),
+"speaker": "Clara",
+"sprite": -1
 },
 &"1_8": {
 "dialogue": "[wave]waponka dooby lum lum![/wave]",
@@ -192,8 +205,9 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
-"speaker": -1
+"size": Vector2(300, 278),
+"speaker": "Binkle Doodle",
+"sprite": -1
 },
 &"1_9": {
 "dialogue": "bunga cowa!",
@@ -205,18 +219,26 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
-"speaker": -1
+"size": Vector2(300, 278),
+"speaker": "Binkle Doodle",
+"sprite": -1
 },
 &"3_1": {
+"auto_proceed": true,
 "link": &"1_15",
 "offset": Vector2(2280, 200),
-"signalValue": "doodle_in"
+"signal_value": {
+"use_enum": false,
+"value": "doodle_in"
+}
 },
 &"3_2": {
+"auto_proceed": true,
 "link": &"1_11",
 "offset": Vector2(4560, 200),
-"signalValue": "doodle_out"
+"signal_value": {
+"use_enum": false,
+"value": "doodle_out"
 }
 }
-characters = "res://examples/Characters.tres"
+}

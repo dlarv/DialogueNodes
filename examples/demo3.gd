@@ -24,12 +24,16 @@ func _physics_process(_delta):
 
 
 func _on_dialogue_processed(speaker, _dialogue, _options):
-	if (speaker is String and speaker == 'Greg') or (speaker is Character and speaker.name == 'Greg'):
-		bubble.follow_node = greg
-	elif speaker is Character and speaker.name == 'Clara':
-		bubble.follow_node = clara
-	elif speaker is Character and speaker.name == 'Binkle Doodle':
-		bubble.follow_node = binkle
+	var speaker_name: String
+	if speaker is String:
+		speaker_name = speaker
+	else:
+		speaker_name = speaker.name
+
+	match speaker_name:
+		"Greg": bubble.follow_node = greg
+		"Clara": bubble.follow_node = clara
+		"Binkle Doodle": bubble.follow_node = binkle
 	
 	if tween: tween.kill()
 	tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)

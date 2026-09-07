@@ -22,6 +22,8 @@ signal dialogue_signal(value: String)
 signal variable_changed(variable_name: String, value)
 ## Triggered when a dialogue tree has ended processing and reached the end of the dialogue.
 signal dialogue_ended
+signal event_started(extra_data: Variant)
+signal event_finished
 
 @export_group('Data')
 ## Contains the [param DialogueData] resource created using the Dialogue Nodes editor.
@@ -136,8 +138,14 @@ func _enter_tree() -> void:
 			remove_child(child)
 			child.queue_free()
 
-	custom_effects = StoryManager.custom_text_effects
-	
+	custom_effects = [
+		RichTextWait.new(),
+		RichTextGhost.new(),
+		RichTextMatrix.new()
+	]
+
+	custom_effects += StoryManager.custom_text_effects
+
 	if Engine.is_editor_hint():
 		bbcode_enabled = true
 		fit_content = true
@@ -181,7 +189,7 @@ func _enter_tree() -> void:
 	
 	_dialogue_parser = DialogueParser.new()
 	add_child(_dialogue_parser)
-	_dialogue_parser.data = data
+	_dialogue_parser.set_data(data)
 	variables = _dialogue_parser.variables
 	characters = _dialogue_parser.characters
 	skip_options_condition_checks = skip_options_condition_checks
@@ -192,6 +200,7 @@ func _enter_tree() -> void:
 	_dialogue_parser.dialogue_signal.connect(_on_dialogue_signal)
 	_dialogue_parser.variable_changed.connect(_on_variable_changed)
 	_dialogue_parser.dialogue_ended.connect(_on_dialogue_ended)
+	_dialogue_parser.event_started.connect(_on_event_started)
 
 
 func _ready() -> void:
@@ -205,6 +214,10 @@ func _ready() -> void:
 		scale = Vector2.ZERO
 		modulate = Color.TRANSPARENT
 		hide()
+
+	dialogue_signal.connect(StoryManager._on_dialogue_signal.bind(self))
+	event_started.connect(StoryManager.start_event)
+	StoryManager.event_finished.connect(_on_event_finished)
 
 	_dialogue_parser.init_process_functions(StoryManager.custom_node_functions)
 
@@ -369,3 +382,12 @@ func _on_wait_finished() -> void:
 	options_container.show()
 	options_container.get_child(0).show()
 	options_container.get_child(0).grab_focus()
+
+
+func _on_event_started(extra_data: Variant=null) -> void:
+	event_started.emit(extra_data)
+
+
+func _on_event_finished() -> void:
+	event_finished.emit()
+	_dialogue_parser.end_event()
