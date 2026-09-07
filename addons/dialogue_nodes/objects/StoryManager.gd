@@ -5,8 +5,9 @@ class_name BaseStoryManager
 ## When inheriting from this script, declaring this enum will allow you to use these values inside of signal nodes
 # enum DialogSignal {}
 
-signal event_started
+signal event_started(data: Variant)
 signal event_finished
+signal dialogue_signal(value: Variant, box: DialogueBox)
 
 var characters: Array[Character]:
 	get:
@@ -50,7 +51,7 @@ func load_data() -> void:
 	custom_text_effects = story_state.get_custom_text_effects()
 
 
-# ## Takes mixed local and global vars and updates global var values
+## Takes mixed local and global vars and updates global var values
 func update_variables(data: Dictionary) -> void:
 	for key in data:
 		if variables.has(key):
@@ -89,6 +90,9 @@ func set_event_variable(key: String, value: Variant) -> void:
 		event_variables[key] = value
 
 
+func start_event(data: Variant) -> void: pass
+
+
 ## Events can be used to temporarily pass control from Dialog world to external world.
 ## e.g. combat in middle of dialog, cutscenes, etc
 ## When external world is finished processing, it is responsible for calling this method to return control back to Dialog world.
@@ -100,3 +104,7 @@ func get_event_variables() -> Dictionary[String, Variant]:
 	var output := event_variables
 	event_variables = {}
 	return output
+
+
+func _on_dialogue_signal(value: Variant, box: DialogueBox) -> void:
+	dialogue_signal.emit(value, box)
