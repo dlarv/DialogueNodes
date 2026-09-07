@@ -23,8 +23,9 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300, 240),
-"speaker": -1
+"size": Vector2(300, 274),
+"speaker": 0,
+"sprite": -1
 },
 &"1_2": {
 "dialogue": "This is an example of setting up audio to play when a dialogue is playing.",
@@ -36,8 +37,9 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300.00006, 240),
-"speaker": -1
+"size": Vector2(300.00006, 274),
+"speaker": 0,
+"sprite": -1
 },
 &"1_3": {
 "dialogue": "[wait]Funny thing is, you don't have to do anything in the dialogue editor.[/wait][br]
@@ -50,8 +52,9 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300.00006, 241),
-"speaker": -1
+"size": Vector2(300, 274),
+"speaker": 0,
+"sprite": -1
 },
 &"1_4": {
 "dialogue": "[wait speed=4]Also...[/wait][wait time=2] you can mess around with the wait speed and time and the sound plays accordingly![/wait]",
@@ -63,8 +66,8 @@ nodes = {
 "text": ""
 }
 },
-"size": Vector2(300.00012, 241),
-"speaker": -1
+"size": Vector2(300.00012, 274),
+"speaker": 0,
+"sprite": -1
 }
 }
-characters = "res://examples/Characters.tres"
